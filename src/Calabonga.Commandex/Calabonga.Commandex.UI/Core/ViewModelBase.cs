@@ -8,5 +8,8 @@ public abstract partial class ViewModelBase : ObservableObject
     private string _title = null!;
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsNotBusy))]
     private bool _isBusy;
+
+    public bool IsNotBusy => !IsBusy;
 }

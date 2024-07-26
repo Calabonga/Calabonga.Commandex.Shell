@@ -1,8 +1,13 @@
 ﻿using System.Windows;
+using Calabonga.Commandex.MicrosoftSqlDbConnection;
+using Calabonga.Commandex.PostgreSqlDbConnection;
+using Calabonga.Commandex.UI.Core.Dialogs;
 using Calabonga.Commandex.UI.Core.Dialogs.Base;
 using Calabonga.Commandex.UI.Core.Services;
 using Calabonga.Commandex.UI.ViewModels;
 using Calabonga.Commandex.UI.Views;
+using Calabonga.Wpf.AppDefinitions;
+using DotNetEnv;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Calabonga.Commandex.UI
@@ -14,6 +19,8 @@ namespace Calabonga.Commandex.UI
     {
         public App()
         {
+            Env.Load(".env", LoadOptions.TraversePath());
+
             Services = ConfigureServices();
         }
 
@@ -34,10 +41,17 @@ namespace Calabonga.Commandex.UI
         {
             var services = new ServiceCollection();
 
+            services.AddLogging();
             services.AddSingleton<ShellWindowViewModel>();
             services.AddSingleton<ShellWindow>();
+
+            services.AddSingleton<ModulesInfoDialog>();
+            services.AddSingleton<ModulesInfoDialogViewModel>();
+
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<IVersionService, VersionService>();
+
+            services.AddDefinitions(typeof(PostgreSqlDbConnectionEntry), typeof(MicrosoftSqlDbConnectionEntry));
 
             return services.BuildServiceProvider();
         }
@@ -50,8 +64,14 @@ namespace Calabonga.Commandex.UI
 
             var shell = Services.GetService<ShellWindow>();
             var shellViewModel = Services.GetService<ShellWindowViewModel>();
-            shell!.Show();
+
+            if (shellViewModel is null || shell is null)
+            {
+                return;
+            }
+
             shell.DataContext = shellViewModel;
+            shell.Show();
         }
     }
 

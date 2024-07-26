@@ -1,15 +1,14 @@
 ﻿using System.Windows;
 
-namespace Calabonga.Commandex.UI.Core.Dialogs.Base
+namespace Calabonga.Commandex.UI.Core.Dialogs.Base;
+
+/// <summary>
+/// Interaction logic for DialogWindow.xaml
+/// </summary>
+public partial class DialogWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for DialogWindow.xaml
-    /// </summary>
-    public partial class DialogWindow : Window
+    public DialogWindow()
     {
-        public DialogWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

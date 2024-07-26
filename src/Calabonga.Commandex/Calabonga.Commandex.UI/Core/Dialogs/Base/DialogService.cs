@@ -5,56 +5,46 @@ namespace Calabonga.Commandex.UI.Core.Dialogs.Base;
 
 public class DialogService : IDialogService
 {
-    public void ShowDialog<TView, TViewModel>(Action<TViewModel> callback) where TView : IDialogView
+    public void ShowDialog<TView, TViewModel>(Action<TViewModel> onClosingDialogCallback)
+        where TView : IDialogView
+        where TViewModel : IDialogResult
     {
-        var dialog = new DialogWindow();
-
         EventHandler closeEventHandler = null!;
 
+        var dialog = new DialogWindow();
+
         var handler = closeEventHandler;
-        closeEventHandler = (s, e) =>
+        closeEventHandler = (sender, _) =>
         {
-            var view = ((DialogWindow)s!).Content as IDialogView;
-            var viewModel = (TViewModel)view?.ViewModel!;
-            callback(viewModel);
+            var window = (DialogWindow)sender!;
+            var userControl = (UserControl)window.Content;
+            var viewModel = ((TViewModel)userControl.DataContext);
+            onClosingDialogCallback(viewModel);
             dialog.Closed -= handler;
         };
 
         dialog.Closed += closeEventHandler;
 
-        var viewModel = Activator.CreateInstance(typeof(TViewModel));
-        var view = Activator.CreateInstance(typeof(TView));
-        ((UserControl)view!).DataContext = viewModel;
-        dialog.Content = view;
+        var control = App.Current.Services.GetService(typeof(TView));
+        ((UserControl)control!).DataContext = App.Current.Services.GetService(typeof(TViewModel));
+        dialog.Content = control;
 
         dialog.ShowDialog();
     }
 
-    public void ShowDialog(string message, LogLevel type)
+    public void ShowNotification(string message)
     {
-        var dialog = new DialogWindow();
+        ShowDialog(message, LogLevel.Notification);
+    }
 
-        EventHandler closeEventHandler = null!;
+    public void ShowWarning(string message)
+    {
+        ShowDialog(message, LogLevel.Warning);
+    }
 
-        var handler = closeEventHandler;
-        closeEventHandler = (s, e) =>
-        {
-            dialog.Closed -= handler;
-        };
-
-        dialog.Closed += closeEventHandler;
-
-        var viewModel = new NotificationDialogViewModel { Title = message };
-        var view = new NotificationDialog
-        {
-            DataContext = viewModel
-        };
-
-        dialog.Title = GetTitle(type);
-        dialog.Foreground = GetSolidColor(type);
-        dialog.Content = view;
-
-        dialog.ShowDialog();
+    public void ShowError(string message)
+    {
+        ShowDialog(message, LogLevel.Error);
     }
 
     private Brush GetSolidColor(LogLevel type)
@@ -77,5 +67,36 @@ public class DialogService : IDialogService
             LogLevel.Error => "Ошибка",
             _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
         };
+    }
+
+    private void ShowDialog(string message, LogLevel type)
+    {
+        var dialog = new DialogWindow();
+
+        EventHandler closeEventHandler = null!;
+
+        var handler = closeEventHandler;
+        closeEventHandler = (s, e) =>
+        {
+            dialog.Closed -= handler;
+        };
+
+        dialog.Closed += closeEventHandler;
+
+        var control = new NotificationDialog
+        {
+            DataContext = new NotificationDialogViewModel
+            {
+                Title = message
+            }
+        };
+
+        dialog.Content = control;
+
+        dialog.Title = GetTitle(type);
+        dialog.Foreground = GetSolidColor(type);
+        dialog.Content = control;
+
+        dialog.ShowDialog();
     }
 }

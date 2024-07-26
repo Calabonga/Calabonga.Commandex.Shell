@@ -2,7 +2,11 @@
 
 public interface IDialogService
 {
-    void ShowDialog<TView, TViewModel>(Action<TViewModel> callback) where TView : IDialogView;
+    void ShowDialog<TView, TViewModel>(Action<TViewModel> onClosingDialogCallback) where TView : IDialogView where TViewModel : IDialogResult;
 
-    void ShowDialog(string message, LogLevel type);
+    void ShowNotification(string message);
+
+    void ShowWarning(string message);
+
+    void ShowError(string message);
 }

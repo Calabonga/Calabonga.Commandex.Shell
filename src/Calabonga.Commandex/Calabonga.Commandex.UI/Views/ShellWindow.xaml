@@ -5,10 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:Calabonga.Commandex.UI.ViewModels"
         mc:Ignorable="d"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         d:DataContext="{d:DesignInstance Type=viewModels:ShellWindowViewModel}"
         WindowStartupLocation="CenterScreen"
-        Title="{Binding Title}" Height="768" Width="1024"
-        >
+        Title="{Binding Title}" Height="768" Width="1024">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadTreeCommand, Mode=OneWay}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -18,9 +25,16 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TreeView VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="8" Grid.Column="0" Grid.Row="0"/>
+        <TreeView VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="8" Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Tree}">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Items}">
+                    <TextBlock Text="{Binding Name}"></TextBlock>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
         <StackPanel Grid.Column="1" Grid.Row="0" Margin="0,8,8,8">
             <Button Content="About" Command="{Binding ShowAboutCommand}" MinWidth="150" />
+            <Button Content="Modules Info" Command="{Binding ShowModulesCommand}" MinWidth="150" />
         </StackPanel>
     </Grid>
 </Window>

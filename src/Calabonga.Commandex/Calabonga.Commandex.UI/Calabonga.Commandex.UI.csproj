@@ -9,18 +9,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Calabonga.AspNetCore.AppDefinitions" Version="2.4.3" />
     <PackageReference Include="CommunityToolkit.Common" Version="8.2.2" />
     <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.2.2" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="DotNetEnv" Version="3.0.0" />
     <PackageReference Include="GitInfo" Version="3.3.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <ProjectReference Include="..\..\..\..\Calabonga.Wpf.AppDefinitions\Calabonga.Wpf.AppDefinitions\Calabonga.Wpf.AppDefinitions.csproj" />
+    <ProjectReference Include="..\Calabonga.Commandex.Contracts\Calabonga.Commandex.Contracts.csproj" />
+    <ProjectReference Include="..\Calabonga.Commandex.DbConnections\Calabonga.Commandex.MicrosoftSqlDbConnection.csproj" />
+    <ProjectReference Include="..\Calabonga.Commandex.PostgreSqlDbConnection\Calabonga.Commandex.PostgreSqlDbConnection.csproj" />
   </ItemGroup>
 
 </Project>

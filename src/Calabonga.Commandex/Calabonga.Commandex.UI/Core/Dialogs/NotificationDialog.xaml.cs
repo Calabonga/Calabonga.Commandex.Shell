@@ -14,8 +14,6 @@ namespace Calabonga.Commandex.UI.Core.Dialogs
             InitializeComponent();
         }
 
-        public IDialogResult Result { get; set; } = new OkDialogResult();
-
         public object ViewModel => DataContext;
 
         private void OnButtonOkClicked(object sender, RoutedEventArgs e)

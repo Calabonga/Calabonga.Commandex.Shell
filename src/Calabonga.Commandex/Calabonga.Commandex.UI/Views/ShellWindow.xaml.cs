@@ -11,5 +11,6 @@ namespace Calabonga.Commandex.UI.Views
         {
             InitializeComponent();
         }
+
     }
 }
