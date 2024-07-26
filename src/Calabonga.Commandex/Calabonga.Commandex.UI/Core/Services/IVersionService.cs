@@ -11,7 +11,7 @@ public class VersionService : IVersionService
 {
     public VersionService()
     {
-        Version = ThisAssembly.Git.BaseTag;
+        Version = $"{ThisAssembly.Git.SemVer.Major}.{ThisAssembly.Git.SemVer.Minor}.{ThisAssembly.Git.SemVer.Patch}";
         Branch = ThisAssembly.Git.Branch;
         Commit = ThisAssembly.Git.Commit;
     }
