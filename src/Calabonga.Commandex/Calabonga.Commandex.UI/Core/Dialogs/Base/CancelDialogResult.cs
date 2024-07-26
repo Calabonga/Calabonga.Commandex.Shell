@@ -1,4 +1,4 @@
-﻿namespace Calabonga.Commandex.UI.Core.Dialogs;
+﻿namespace Calabonga.Commandex.UI.Core.Dialogs.Base;
 
 public class CancelDialogResult : IDialogResult
 {

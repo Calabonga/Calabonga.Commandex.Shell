@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using Calabonga.Commandex.UI.Core.Dialogs;
+using Calabonga.Commandex.UI.Core.Dialogs.Base;
 using Calabonga.Commandex.UI.Core.Services;
 using Calabonga.Commandex.UI.ViewModels;
 using Calabonga.Commandex.UI.Views;
