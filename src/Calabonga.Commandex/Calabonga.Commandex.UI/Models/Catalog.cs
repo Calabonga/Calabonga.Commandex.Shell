@@ -7,7 +7,7 @@ public class TreeItem : ItemBase
 
 public class GroupTreeItem : ItemBase
 {
-    public TreeItem? TreeItem { get; set; }
+    public TreeItem? ParentItem { get; set; }
 
     public List<TreeItem> Items { get; set; } = new();
 }

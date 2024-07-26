@@ -1,8 +1,11 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
+using Calabonga.Commandex.Contracts;
 using Calabonga.Commandex.MicrosoftSqlDbConnection;
 using Calabonga.Commandex.PostgreSqlDbConnection;
 using Calabonga.Commandex.UI.Core.Dialogs;
 using Calabonga.Commandex.UI.Core.Dialogs.Base;
+using Calabonga.Commandex.UI.Core.Engine;
 using Calabonga.Commandex.UI.Core.Services;
 using Calabonga.Commandex.UI.ViewModels;
 using Calabonga.Commandex.UI.Views;
@@ -52,6 +55,10 @@ namespace Calabonga.Commandex.UI
             services.AddSingleton<IVersionService, VersionService>();
 
             services.AddDefinitions(typeof(PostgreSqlDbConnectionEntry), typeof(MicrosoftSqlDbConnectionEntry));
+
+
+            CommandexActionManager.FindActions(services, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Actions"));
+
 
             return services.BuildServiceProvider();
         }

@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
+using Calabonga.Commandex.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Calabonga.Commandex.UI.Core.Dialogs.Base;

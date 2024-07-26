@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calabonga.Commandex.Postgre
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{BC010056-68DE-4B7B-8AFD-21A948AF333F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommandexActions", "CommandexActions", "{E5F17F02-0790-472D-A484-0A6C92E20143}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calabonga.Commandex.ExhibitActions", "Calabonga.Commandex.ExhibitActions\Calabonga.Commandex.ExhibitActions.csproj", "{221D1CD4-FB8C-4DBB-8146-EF5EB799CAC0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +45,10 @@ Global
 		{E374C21E-B2B7-40F8-9A4A-C2DD770D3EBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E374C21E-B2B7-40F8-9A4A-C2DD770D3EBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E374C21E-B2B7-40F8-9A4A-C2DD770D3EBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{221D1CD4-FB8C-4DBB-8146-EF5EB799CAC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{221D1CD4-FB8C-4DBB-8146-EF5EB799CAC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{221D1CD4-FB8C-4DBB-8146-EF5EB799CAC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{221D1CD4-FB8C-4DBB-8146-EF5EB799CAC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +56,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{5DC252DA-0ECF-42F8-9A15-AD095A3B1C39} = {BC010056-68DE-4B7B-8AFD-21A948AF333F}
 		{E374C21E-B2B7-40F8-9A4A-C2DD770D3EBF} = {BC010056-68DE-4B7B-8AFD-21A948AF333F}
+		{221D1CD4-FB8C-4DBB-8146-EF5EB799CAC0} = {E5F17F02-0790-472D-A484-0A6C92E20143}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66AF8131-B86C-4BA1-A58F-21CE72203A4E}

@@ -1,4 +1,4 @@
-﻿namespace Calabonga.Commandex.UI.Core.Dialogs.Base;
+﻿namespace Calabonga.Commandex.Contracts;
 
 public interface IDialogService
 {

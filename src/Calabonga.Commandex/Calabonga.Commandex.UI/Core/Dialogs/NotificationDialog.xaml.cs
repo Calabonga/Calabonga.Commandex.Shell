@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using Calabonga.Commandex.UI.Core.Dialogs.Base;
+using Calabonga.Commandex.Contracts;
 
 namespace Calabonga.Commandex.UI.Core.Dialogs
 {
