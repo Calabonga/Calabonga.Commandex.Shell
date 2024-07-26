@@ -19,6 +19,8 @@ public partial class ModulesInfoDialogViewModel : ViewModelBase, IDialogResult
     [ObservableProperty]
     private ObservableCollection<string> _modules;
 
+    public string DialogTitle => Title;
+
     public bool Ok => _modules.Any();
 
     private void GetModules()

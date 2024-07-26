@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Calabonga.Commandex.UI.Core.Dialogs.Base;
 
@@ -25,10 +26,11 @@ public class DialogService : IDialogService
 
         dialog.Closed += closeEventHandler;
 
-        var control = App.Current.Services.GetService(typeof(TView));
-        ((UserControl)control!).DataContext = App.Current.Services.GetService(typeof(TViewModel));
+        var control = App.Current.Services.GetRequiredService(typeof(TView));
+        var viewModel = App.Current.Services.GetRequiredService(typeof(TViewModel));
+        ((UserControl)control!).DataContext = viewModel;
         dialog.Content = control;
-
+        dialog.Title = ((IDialogResult)viewModel).DialogTitle;
         dialog.ShowDialog();
     }
 

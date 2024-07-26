@@ -7,7 +7,7 @@
              MinHeight="450" MinWidth="650">
     <UserControl.Resources>
         <Style x:Key="Header" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="FontSize" Value="24"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
