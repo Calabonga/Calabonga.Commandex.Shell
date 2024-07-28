@@ -7,23 +7,25 @@ using Calabonga.Commandex.UI.Core.Services;
 using Calabonga.Commandex.UI.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace Calabonga.Commandex.UI.ViewModels;
 
 public partial class ShellWindowViewModel : ViewModelBase
 {
+    private readonly IEnumerable<ICommandexAction> _actions;
     private readonly ILogger<ShellWindowViewModel> _logger;
     private readonly IDialogService _dialogService;
 
     public ShellWindowViewModel(
+        IEnumerable<ICommandexAction> actions,
         ILogger<ShellWindowViewModel> logger,
         IDialogService dialogService,
         IVersionService versionService)
     {
         Version = $"{versionService.Version} ({versionService.Branch}:{versionService.Commit})";
         Title = $"Command Executor {Version}";
+        _actions = actions;
         _logger = logger;
         _dialogService = dialogService;
     }
@@ -32,12 +34,41 @@ public partial class ShellWindowViewModel : ViewModelBase
     private string _version;
 
     [ObservableProperty]
-    private ObservableCollection<GroupTreeItem> _tree;
+    [NotifyCanExecuteChangedFor(nameof(ExecuteActionCommand))]
+    private ActionItem? _selectedAction;
+
+    [ObservableProperty]
+    private ObservableCollection<ActionItem> _actionList;
+
+    private bool CanExecuteAction => SelectedAction is not null;
+
+    [RelayCommand(CanExecute = nameof(CanExecuteAction))]
+    private async Task ExecuteActionAsync()
+    {
+        var cancellationTokenSource = new CancellationTokenSource();
+
+        // _dialogService.ShowDialog<ActionExecuteDialog, ActionExecuteDialogViewModel>(result => { });
+
+        var action = _actions.FirstOrDefault(x => x.TypeName == SelectedAction!.TypeName);
+
+
+        if (action is null)
+        {
+            _logger.LogError("Action not found");
+            return;
+        }
+
+        _logger.LogDebug("Action found: {ActionName}", action.TypeName);
+
+
+        await action.ExecuteAsync(cancellationTokenSource.Token);
+
+    }
 
     [RelayCommand]
     private void ShowModules()
     {
-        _dialogService.ShowDialog<ModulesInfoDialog, ModulesInfoDialogViewModel>(result => { });
+        _dialogService.ShowDialog<ModulesInfoDialog, ModulesInfoDialogViewModel>(_ => { });
     }
 
     [RelayCommand]
@@ -49,17 +80,12 @@ public partial class ShellWindowViewModel : ViewModelBase
     [RelayCommand]
     private void LoadTree()
     {
-        var actions = App.Current.Services.GetServices<IAction>();
-        var enumerable = actions as IAction[] ?? actions.ToArray();
+        IsBusy = true;
 
-        var group = new GroupTreeItem()
-        {
-            Name = "Чужие API",
-            Items = enumerable.Select(x => new TreeItem() { Name = x.DisplayName }).ToList()
-        };
+        var actionsList = _actions.Select(x => new ActionItem(x.TypeName, x.DisplayName, x.Description)).ToList();
+        actionsList.AddRange(ActionsHelper.GetFakeActions());
+        ActionList = new ObservableCollection<ActionItem>(actionsList);
 
-
-        Tree = enumerable.Any() ? new ObservableCollection<GroupTreeItem>([group])
-            : new ObservableCollection<GroupTreeItem>(TreeHelper.GetFakeTree());
+        IsBusy = false;
     }
 }

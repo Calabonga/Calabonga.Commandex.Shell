@@ -1,26 +1,33 @@
-﻿using System.Net.Http.Json;
-using System.Text.Encodings.Web;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Calabonga.Commandex.Contracts;
 
 namespace Calabonga.Commandex.ExhibitActions;
 
-public class LoadExhibitCommandexAction : ICommandexAction
+public class LoadExhibitCommandexAction : ICommandexAction<Exhibit?>
 {
+    private readonly ExhibitRequest _request;
     private readonly HttpClient _client;
-    public LoadExhibitCommandexAction()
+    public LoadExhibitCommandexAction(ExhibitRequest request)
     {
+        _request = request;
         _client = new HttpClient();
-        _client.BaseAddress = new Uri("https://api.calabonga.com/api3/v3");
+        _client.BaseAddress = new Uri("https://api.calabonga.com");
     }
 
-    public async Task ExecuteAsync()
+    public async Task<Exhibit?> ExecuteAsync(CancellationToken cancellationToken)
     {
-        var result = await _client.GetFromJsonAsync<Exhibit>("/random", new JsonSerializerOptions { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping });
+        if (!_request.IsActive)
+        {
+            return null;
+        }
 
+        var response = await _client.GetAsync("/api3/v3/random", cancellationToken);
+        response.EnsureSuccessStatusCode();
+        var content = await response.Content.ReadAsStringAsync(cancellationToken);
+        return JsonSerializer.Deserialize<Exhibit>(content, JsonSerializerOptionsExt.Cyrillic);
     }
 
-    public string Name => GetType().Name;
+    public string TypeName => GetType().Name;
 
     public string DisplayName => "Получение экспоната из Музея Юмора";
 

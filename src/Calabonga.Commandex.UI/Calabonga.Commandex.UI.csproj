@@ -18,18 +18,16 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="8.0.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Calabonga.Commandex.Contracts\Calabonga.Commandex.Contracts.csproj" />
     <ProjectReference Include="..\Calabonga.Commandex.DbConnections\Calabonga.Commandex.MicrosoftSqlDbConnection.csproj" />
     <ProjectReference Include="..\Calabonga.Commandex.PostgreSqlDbConnection\Calabonga.Commandex.PostgreSqlDbConnection.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Actions\" />
   </ItemGroup>
 
   <ItemGroup>

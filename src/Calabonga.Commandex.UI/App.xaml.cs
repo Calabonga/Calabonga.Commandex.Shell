@@ -12,6 +12,8 @@ using Calabonga.Commandex.UI.Views;
 using Calabonga.Wpf.AppDefinitions;
 using DotNetEnv;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Calabonga.Commandex.UI
 {
@@ -20,11 +22,24 @@ namespace Calabonga.Commandex.UI
     /// </summary>
     public partial class App : Application
     {
+
         public App()
         {
-            Env.Load(".env", LoadOptions.TraversePath());
 
-            Services = ConfigureServices();
+            try
+            {
+                Env.Load(".env", LoadOptions.TraversePath());
+
+                Services = ConfigureServices();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Something went wrong");
+            }
+            finally
+            {
+                Log.CloseAndFlushAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+            }
         }
 
         /// <summary>
@@ -44,7 +59,15 @@ namespace Calabonga.Commandex.UI
         {
             var services = new ServiceCollection();
 
-            services.AddLogging();
+            services.AddLogging(builder =>
+            {
+                var loggerConfiguration = new LoggerConfiguration()
+                    .WriteTo.File("/logs/log-.log", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true, shared: true);
+                builder.ClearProviders();
+                builder.AddDebug();
+                builder.AddSerilog(loggerConfiguration.CreateLogger());
+            });
+
             services.AddSingleton<ShellWindowViewModel>();
             services.AddSingleton<ShellWindow>();
 
@@ -56,9 +79,8 @@ namespace Calabonga.Commandex.UI
 
             services.AddDefinitions(typeof(PostgreSqlDbConnectionEntry), typeof(MicrosoftSqlDbConnectionEntry));
 
-
-            CommandexActionManager.FindActions(services, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Actions"));
-
+            var actionsFromDlls = CommandexActions.FindActions(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Actions"));
+            services.AddDefinitions(actionsFromDlls);
 
             return services.BuildServiceProvider();
         }

@@ -1,18 +1,26 @@
 ﻿namespace Calabonga.Commandex.UI.Models;
 
-public class TreeItem : ItemBase
+/// <summary>
+/// // Calabonga: Summary required (Catalog 2024-07-28 05:25)
+/// </summary>
+public sealed class ActionItem : ItemBase
 {
-
+    public ActionItem(string type, string name, string description)
+    {
+        TypeName = type;
+        Name = name;
+        Description = description;
+    }
 }
 
-public class GroupTreeItem : ItemBase
+/// <summary>
+/// // Calabonga: Summary required (Catalog 2024-07-28 05:25)
+/// </summary>
+public abstract class ItemBase
 {
-    public TreeItem? ParentItem { get; set; }
+    public string Description { get; set; } = null!;
 
-    public List<TreeItem> Items { get; set; } = new();
-}
+    public string Name { get; set; } = null!;
 
-public class ItemBase
-{
-    public string Name { get; set; }
+    public string TypeName { get; set; } = null!;
 }

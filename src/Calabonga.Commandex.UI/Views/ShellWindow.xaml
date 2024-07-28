@@ -25,14 +25,22 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TreeView VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="8" Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Tree}">
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Items}">
-                    <TextBlock Text="{Binding Name}"></TextBlock>
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
+
+        <ListView ItemsSource="{Binding ActionList}" SelectedItem="{Binding SelectedAction, Mode=TwoWay}"
+                  Margin="8" Grid.Column="0" Grid.Row="0">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="18"/>
+                        <TextBlock Text="{Binding TypeName}" FontSize="15"/>
+                        <TextBlock Text="{Binding Description}" FontSize="11"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
         <StackPanel Grid.Column="1" Grid.Row="0" Margin="0,8,8,8">
+            <Button Content="Открыть" Command="{Binding ExecuteActionCommand}" MinWidth="150" />
             <Button Content="About" Command="{Binding ShowAboutCommand}" MinWidth="150" />
             <Button Content="Modules Info" Command="{Binding ShowModulesCommand}" MinWidth="150" />
         </StackPanel>

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Calabonga.Wpf.AppDefinitions\Calabonga.Wpf.AppDefinitions\Calabonga.Wpf.AppDefinitions.csproj" />
     <ProjectReference Include="..\Calabonga.Commandex.Contracts\Calabonga.Commandex.Contracts.csproj" />
   </ItemGroup>
 
