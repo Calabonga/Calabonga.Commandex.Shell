@@ -2,7 +2,7 @@
 using Calabonga.Wpf.AppDefinitions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Calabonga.Commandex.QuizActions;
+namespace Calabonga.Commandex.QuizAction;
 
 public class QuizActionDefinition : AppDefinition
 {

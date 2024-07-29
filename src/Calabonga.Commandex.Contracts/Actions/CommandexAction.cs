@@ -15,7 +15,7 @@ public abstract class CommandexAction<TDialogView, TDialogResult> : ICommandexAc
 
     public bool HasResult => Result is not null;
 
-    public abstract string TypeName { get; }
+    public string TypeName => GetType().Name;
 
     public abstract string DisplayName { get; }
 

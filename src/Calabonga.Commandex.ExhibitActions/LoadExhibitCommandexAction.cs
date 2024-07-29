@@ -2,7 +2,7 @@
 using Calabonga.Commandex.Contracts;
 using Calabonga.Commandex.Contracts.Actions;
 
-namespace Calabonga.Commandex.ExhibitActions;
+namespace Calabonga.Commandex.ExhibitAction;
 
 public class LoadExhibitCommandexAction : EmptyCommandexAction<Exhibit?>
 {
@@ -22,7 +22,7 @@ public class LoadExhibitCommandexAction : EmptyCommandexAction<Exhibit?>
 
     protected override Exhibit? Result { get; set; }
 
-    public override string TypeName => GetType().Name;
+
 
     public override string DisplayName => "Получение экспоната из Музея Юмора";
 

@@ -1,13 +1,11 @@
 ﻿using Calabonga.Commandex.Contracts;
 using Calabonga.Commandex.Contracts.Actions;
 
-namespace Calabonga.Commandex.QuizActions;
+namespace Calabonga.Commandex.QuizAction;
 
 public class QuizCommandexAction : CommandexAction<QuizDialogView, QuizDialogResult>
 {
     public QuizCommandexAction(IDialogService dialogService) : base(dialogService) { }
-
-    public override string TypeName => GetType().Name;
 
     public override string DisplayName => "Опросник";
 

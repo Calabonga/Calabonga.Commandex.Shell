@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using Calabonga.Commandex.Contracts;
-using Calabonga.Commandex.UI.Core.Dialogs.Base;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Calabonga.Commandex.UI.Core.Dialogs;
@@ -20,8 +19,6 @@ public partial class ModulesInfoDialogViewModel : ViewModelBase, IDialogResult
     private ObservableCollection<string> _modules;
 
     public string DialogTitle => Title;
-
-    public bool Ok => _modules.Any();
 
     private void GetModules()
     {

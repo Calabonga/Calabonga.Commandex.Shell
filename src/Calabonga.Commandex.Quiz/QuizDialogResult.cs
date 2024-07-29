@@ -4,7 +4,7 @@ using Calabonga.Commandex.Contracts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace Calabonga.Commandex.QuizActions;
+namespace Calabonga.Commandex.QuizAction;
 
 public partial class QuizDialogResult : ViewModelBase, IDialogResult
 {
@@ -17,8 +17,6 @@ public partial class QuizDialogResult : ViewModelBase, IDialogResult
     }
 
     public string DialogTitle => "Quiz Title";
-
-    public bool Ok => true;
 
     [ObservableProperty]
     private Question? _question;

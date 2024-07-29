@@ -6,9 +6,9 @@
 /// <typeparam name="TResult"></typeparam>
 public abstract class EmptyCommandexAction<TResult> : ICommandexAction
 {
-    public bool HasResult => Result is not null;
+    public string TypeName => GetType().Name;
 
-    public abstract string TypeName { get; }
+    public bool HasResult => Result is not null;
 
     public abstract string DisplayName { get; }
 

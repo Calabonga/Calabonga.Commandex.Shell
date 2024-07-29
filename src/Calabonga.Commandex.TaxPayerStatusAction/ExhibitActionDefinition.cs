@@ -2,9 +2,9 @@
 using Calabonga.Wpf.AppDefinitions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Calabonga.Commandex.ExhibitAction;
+namespace Calabonga.Commandex.TaxPayerStatusAction;
 
-public class ExhibitActionDefinition : AppDefinition
+public class TaxPayerStatusActionDefinition : AppDefinition
 {
     /// <summary>
     /// Configure services for current application
@@ -12,6 +12,8 @@ public class ExhibitActionDefinition : AppDefinition
     /// <param name="services">instance of <see cref="IServiceCollection"/></param>
     public override void ConfigureServices(IServiceCollection services)
     {
-        services.AddScoped<ICommandexAction, LoadExhibitCommandexAction>();
+        services.AddScoped<TaxPayerDialogView>();
+        services.AddScoped<TaxPayerDialogResult>();
+        services.AddScoped<ICommandexAction, TaxPayerCommandexAction>();
     }
 }

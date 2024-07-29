@@ -1,4 +1,4 @@
-﻿namespace Calabonga.Commandex.ExhibitActions;
+﻿namespace Calabonga.Commandex.ExhibitAction;
 
 public class Exhibit
 {

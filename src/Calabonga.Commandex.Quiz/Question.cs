@@ -1,4 +1,4 @@
-﻿namespace Calabonga.Commandex.QuizActions;
+﻿namespace Calabonga.Commandex.QuizAction;
 
 public class Question
 {

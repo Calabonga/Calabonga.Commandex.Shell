@@ -55,9 +55,11 @@ public partial class ShellWindowViewModel : ViewModelBase
 
         await action.ShowDialogAsync();
 
-        var message = ActionsReport.CreateReport(action);
-
-        _dialogService.ShowNotification(message);
+        if (action.HasResult)
+        {
+            var message = ActionsReport.CreateReport(action);
+            _dialogService.ShowNotification(message);
+        }
     }
 
     [RelayCommand]
