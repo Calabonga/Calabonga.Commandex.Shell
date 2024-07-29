@@ -1,7 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using Calabonga.Commandex.Contracts;
+using Calabonga.Commandex.Contracts.Actions;
 using Calabonga.Commandex.UI.Core.Dialogs;
-using Calabonga.Commandex.UI.Core.Helpers;
+using Calabonga.Commandex.UI.Core.Engine;
+
 using Calabonga.Commandex.UI.Core.Services;
 using Calabonga.Commandex.UI.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -44,10 +46,6 @@ public partial class ShellWindowViewModel : ViewModelBase
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
     private async Task ExecuteActionAsync()
     {
-        var cancellationTokenSource = new CancellationTokenSource();
-
-        // _dialogService.ShowDialog<ActionExecuteDialog, ActionExecuteDialogViewModel>(result => { });
-
         var action = _actions.FirstOrDefault(x => x.TypeName == SelectedAction!.TypeName);
         if (action is null)
         {
@@ -55,18 +53,11 @@ public partial class ShellWindowViewModel : ViewModelBase
             return;
         }
 
+        await action.ShowDialogAsync();
 
-        var a = action.DisplayName;
-        action.ShowDialog();
+        var message = ActionsReport.CreateReport(action);
 
-        //_dialogService.ShowDialog(action, result =>
-        //{
-
-
-        //});
-
-        // await action.ExecuteAsync(cancellationTokenSource.Token);
-
+        _dialogService.ShowNotification(message);
     }
 
     [RelayCommand]
@@ -87,7 +78,6 @@ public partial class ShellWindowViewModel : ViewModelBase
         IsBusy = true;
 
         var actionsList = _actions.Select(x => new ActionItem(x.TypeName, x.Version, x.DisplayName, x.Description)).ToList();
-        actionsList.AddRange(ActionsHelper.GetFakeActions());
         ActionList = new ObservableCollection<ActionItem>(actionsList);
 
         IsBusy = false;

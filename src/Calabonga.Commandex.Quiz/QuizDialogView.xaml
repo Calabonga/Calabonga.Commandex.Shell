@@ -16,7 +16,7 @@
             <i:InvokeCommandAction Command="{Binding LoadQuestionCommand, Mode=OneWay}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>

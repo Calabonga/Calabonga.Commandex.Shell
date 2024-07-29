@@ -1,4 +1,4 @@
-﻿using Calabonga.Commandex.Contracts;
+﻿using Calabonga.Commandex.Contracts.Actions;
 using Calabonga.Wpf.AppDefinitions;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,8 +12,6 @@ public class ExhibitActionDefinition : AppDefinition
     /// <param name="services">instance of <see cref="IServiceCollection"/></param>
     public override void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton(_ => new ExhibitRequest() { IsActive = true });
-        services.AddScoped<ICommandexAction, LoadExhibitCommandexAction2>();
-        // services.AddScoped<ICommandexAction<Exhibit?>, LoadExhibitCommandexAction>();
+        services.AddScoped<ICommandexAction, LoadExhibitCommandexAction>();
     }
 }
