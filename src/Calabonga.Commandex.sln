@@ -11,10 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.Contrac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.PostgreSqlDbConnection", "Calabonga.Commandex.PostgreSqlDbConnection\Calabonga.Commandex.PostgreSqlDbConnection.csproj", "{E374C21E-B2B7-40F8-9A4A-C2DD770D3EBF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{BC010056-68DE-4B7B-8AFD-21A948AF333F}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CommandexActions", "CommandexActions", "{E5F17F02-0790-472D-A484-0A6C92E20143}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.ExhibitAction", "Calabonga.Commandex.ExhibitActions\Calabonga.Commandex.ExhibitAction.csproj", "{221D1CD4-FB8C-4DBB-8146-EF5EB799CAC0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Wpf.AppDefinitions", "..\..\Calabonga.Wpf.AppDefinitions\Calabonga.Wpf.AppDefinitions\Calabonga.Wpf.AppDefinitions.csproj", "{6E6DA2E2-05AD-4BDE-A1CC-02298159832B}"
@@ -64,13 +60,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{5DC252DA-0ECF-42F8-9A15-AD095A3B1C39} = {BC010056-68DE-4B7B-8AFD-21A948AF333F}
-		{E374C21E-B2B7-40F8-9A4A-C2DD770D3EBF} = {BC010056-68DE-4B7B-8AFD-21A948AF333F}
-		{221D1CD4-FB8C-4DBB-8146-EF5EB799CAC0} = {E5F17F02-0790-472D-A484-0A6C92E20143}
-		{47377E11-38E4-4F52-9812-ECADDC842B36} = {E5F17F02-0790-472D-A484-0A6C92E20143}
-		{32B3C50A-AB52-4C16-B6DA-73792ECA5914} = {E5F17F02-0790-472D-A484-0A6C92E20143}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66AF8131-B86C-4BA1-A58F-21CE72203A4E}
