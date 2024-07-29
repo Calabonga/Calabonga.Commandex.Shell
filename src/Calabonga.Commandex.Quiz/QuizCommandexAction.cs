@@ -12,10 +12,6 @@ public class QuizCommandexAction : CommandexAction<QuizDialogView, QuizDialogRes
 
     public override string Description => "Загрузчик вопросов для опроса со стороннего сервиса.";
 
-    public override string Version => "v1.0.0-beta-3";
+    public override string Version => "v1.0.0-beta-4";
 
-    protected override void OnResult(QuizDialogResult result)
-    {
-
-    }
 }

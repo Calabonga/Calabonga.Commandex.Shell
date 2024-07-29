@@ -67,6 +67,9 @@ public partial class App : Application
             builder.AddSerilog(loggerConfiguration.CreateLogger());
         });
 
+        services.AddSingleton(typeof(DefaultDialogResult<>));
+        services.AddSingleton<DefaultDialogView>();
+
         services.AddSingleton<ShellWindowViewModel>();
         services.AddSingleton<ShellWindow>();
 
