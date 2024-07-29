@@ -44,6 +44,8 @@
                    Text="{Binding AnswerD}"/>
 
         </Grid>
-        <Button Grid.Row="1" Content="Еще вопрос" Command="{Binding LoadQuestionCommand}"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button MinWidth="150" Content="Еще вопрос" Command="{Binding LoadQuestionCommand}"/>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -9,6 +9,7 @@ namespace Calabonga.Commandex.QuizActions;
 public partial class QuizDialogResult : ViewModelBase, IDialogResult
 {
     private readonly HttpClient _client;
+
     public QuizDialogResult()
     {
         _client = new HttpClient();
