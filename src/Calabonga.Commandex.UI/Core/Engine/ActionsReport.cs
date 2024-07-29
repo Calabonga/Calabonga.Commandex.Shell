@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using Calabonga.Commandex.Contracts;
+using Calabonga.Commandex.Contracts.Actions;
 
 namespace Calabonga.Commandex.UI.Core.Engine;
 

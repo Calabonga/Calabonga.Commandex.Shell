@@ -1,4 +1,4 @@
-﻿namespace Calabonga.Commandex.Contracts;
+﻿namespace Calabonga.Commandex.Contracts.Actions;
 
 public abstract class CommandexAction<TDialogView, TDialogResult> : ICommandexAction
     where TDialogView : IDialogView

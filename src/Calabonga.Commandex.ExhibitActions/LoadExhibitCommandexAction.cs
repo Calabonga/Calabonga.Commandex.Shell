@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using Calabonga.Commandex.Contracts;
+using Calabonga.Commandex.Contracts.Actions;
 
 namespace Calabonga.Commandex.ExhibitActions;
 

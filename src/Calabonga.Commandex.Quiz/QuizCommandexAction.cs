@@ -1,4 +1,5 @@
 ﻿using Calabonga.Commandex.Contracts;
+using Calabonga.Commandex.Contracts.Actions;
 
 namespace Calabonga.Commandex.QuizActions;
 
