@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.Exhibit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Wpf.AppDefinitions", "..\..\Calabonga.Wpf.AppDefinitions\Calabonga.Wpf.AppDefinitions\Calabonga.Wpf.AppDefinitions.csproj", "{6E6DA2E2-05AD-4BDE-A1CC-02298159832B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calabonga.Commandex.QuizActions", "Calabonga.Commandex.Quiz\Calabonga.Commandex.QuizActions.csproj", "{47377E11-38E4-4F52-9812-ECADDC842B36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{6E6DA2E2-05AD-4BDE-A1CC-02298159832B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E6DA2E2-05AD-4BDE-A1CC-02298159832B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E6DA2E2-05AD-4BDE-A1CC-02298159832B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47377E11-38E4-4F52-9812-ECADDC842B36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47377E11-38E4-4F52-9812-ECADDC842B36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47377E11-38E4-4F52-9812-ECADDC842B36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47377E11-38E4-4F52-9812-ECADDC842B36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{5DC252DA-0ECF-42F8-9A15-AD095A3B1C39} = {BC010056-68DE-4B7B-8AFD-21A948AF333F}
 		{E374C21E-B2B7-40F8-9A4A-C2DD770D3EBF} = {BC010056-68DE-4B7B-8AFD-21A948AF333F}
 		{221D1CD4-FB8C-4DBB-8146-EF5EB799CAC0} = {E5F17F02-0790-472D-A484-0A6C92E20143}
+		{47377E11-38E4-4F52-9812-ECADDC842B36} = {E5F17F02-0790-472D-A484-0A6C92E20143}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {66AF8131-B86C-4BA1-A58F-21CE72203A4E}

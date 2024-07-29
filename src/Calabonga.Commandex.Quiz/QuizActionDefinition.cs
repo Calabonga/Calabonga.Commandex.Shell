@@ -2,9 +2,9 @@
 using Calabonga.Wpf.AppDefinitions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Calabonga.Commandex.ExhibitActions;
+namespace Calabonga.Commandex.QuizActions;
 
-public class ExhibitActionDefinition : AppDefinition
+public class QuizActionDefinition : AppDefinition
 {
     /// <summary>
     /// Configure services for current application
@@ -12,8 +12,8 @@ public class ExhibitActionDefinition : AppDefinition
     /// <param name="services">instance of <see cref="IServiceCollection"/></param>
     public override void ConfigureServices(IServiceCollection services)
     {
-        services.AddSingleton(_ => new ExhibitRequest() { IsActive = true });
-        services.AddScoped<ICommandexAction, LoadExhibitCommandexAction2>();
-        // services.AddScoped<ICommandexAction<Exhibit?>, LoadExhibitCommandexAction>();
+        services.AddScoped<QuizDialogView>();
+        services.AddScoped<QuizDialogResult>();
+        services.AddScoped<ICommandexAction, QuizCommandexAction>();
     }
 }

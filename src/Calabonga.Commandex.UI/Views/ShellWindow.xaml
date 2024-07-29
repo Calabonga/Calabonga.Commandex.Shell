@@ -12,7 +12,7 @@
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadTreeCommand, Mode=OneWay}"/>
+            <i:InvokeCommandAction Command="{Binding LoadDataCommand, Mode=OneWay}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
 

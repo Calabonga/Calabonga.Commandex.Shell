@@ -30,7 +30,14 @@ internal static class ActionsFinder
 
             foreach (var fileInfo in files)
             {
-                var modulesTypes = Assembly.LoadFile(fileInfo.FullName).ExportedTypes.Where(Predicate);
+                var s = Assembly.LoadFile(fileInfo.FullName);
+                var modulesTypes = s.ExportedTypes.Where(Predicate).ToList();
+
+                if (!modulesTypes.Any())
+                {
+                    throw new AppDefinitionsNotFoundException($"There are no any AppDefinition found in {fileInfo.FullName}");
+                }
+
                 types.AddRange(modulesTypes);
             }
 

@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using Calabonga.Commandex.Contracts;
-using Calabonga.Commandex.UI.Core;
 using Calabonga.Commandex.UI.Core.Dialogs;
 using Calabonga.Commandex.UI.Core.Helpers;
 using Calabonga.Commandex.UI.Core.Services;
@@ -58,7 +57,7 @@ public partial class ShellWindowViewModel : ViewModelBase
 
 
         var a = action.DisplayName;
-
+        action.ShowDialog();
 
         //_dialogService.ShowDialog(action, result =>
         //{
@@ -83,7 +82,7 @@ public partial class ShellWindowViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void LoadTree()
+    private void LoadData()
     {
         IsBusy = true;
 

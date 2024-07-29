@@ -3,12 +3,12 @@ using Calabonga.Commandex.Contracts;
 
 namespace Calabonga.Commandex.ExhibitActions;
 
-public class LoadExhibitCommandexAction : ICommandexAction<Exhibit?>
+public class LoadExhibitCommandexAction2 : ICommandexAction<Exhibit?>
 {
     private readonly ExhibitRequest _request;
     private readonly HttpClient _client;
 
-    public LoadExhibitCommandexAction(ExhibitRequest request)
+    public LoadExhibitCommandexAction2(ExhibitRequest request)
     {
         _request = request;
         _client = new HttpClient();

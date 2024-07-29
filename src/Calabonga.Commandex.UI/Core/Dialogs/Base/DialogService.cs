@@ -27,8 +27,8 @@ public class DialogService : IDialogService
 
         dialog.Closed += closeEventHandler;
 
-        var control = App.Current.Services.GetRequiredService(typeof(TView));
         var viewModel = App.Current.Services.GetRequiredService(typeof(TViewModel));
+        var control = App.Current.Services.GetRequiredService(typeof(TView));
         ((UserControl)control!).DataContext = viewModel;
         dialog.Content = control;
         dialog.Title = ((IDialogResult)viewModel).DialogTitle;

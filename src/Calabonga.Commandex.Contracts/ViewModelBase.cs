@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace Calabonga.Commandex.UI.Core;
+namespace Calabonga.Commandex.Contracts;
 
 public abstract partial class ViewModelBase : ObservableObject
 {
