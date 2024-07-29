@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Npgsql" Version="8.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Calabonga.Commandex.Contracts\Calabonga.Commandex.Contracts.csproj" />
+    <ProjectReference Include="..\..\Calabonga.Commandex.Contracts\Calabonga.Commandex.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

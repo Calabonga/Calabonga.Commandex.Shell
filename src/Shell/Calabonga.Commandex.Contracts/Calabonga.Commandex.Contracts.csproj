@@ -7,15 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <PackageReference Include="Calabonga.Wpf.AppDefinitions" Version="1.0.0-beta.9" />
 	  <PackageReference Include="CommunityToolkit.Common" Version="8.2.2" />
 	  <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.2.2" />
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
 	  <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />
 	  <PackageReference Include="Calabonga.Results" Version="1.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Calabonga.Wpf.AppDefinitions\Calabonga.Wpf.AppDefinitions\Calabonga.Wpf.AppDefinitions.csproj" />
   </ItemGroup>
 
 </Project>
