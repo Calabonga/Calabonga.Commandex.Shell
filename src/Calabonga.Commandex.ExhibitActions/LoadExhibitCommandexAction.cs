@@ -7,6 +7,7 @@ public class LoadExhibitCommandexAction : ICommandexAction<Exhibit?>
 {
     private readonly ExhibitRequest _request;
     private readonly HttpClient _client;
+
     public LoadExhibitCommandexAction(ExhibitRequest request)
     {
         _request = request;
@@ -26,6 +27,8 @@ public class LoadExhibitCommandexAction : ICommandexAction<Exhibit?>
         var content = await response.Content.ReadAsStringAsync(cancellationToken);
         return JsonSerializer.Deserialize<Exhibit>(content, JsonSerializerOptionsExt.Cyrillic);
     }
+
+    public string Version => "v1.0.0-beta.1";
 
     public string TypeName => GetType().Name;
 

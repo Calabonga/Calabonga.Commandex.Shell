@@ -50,18 +50,23 @@ public partial class ShellWindowViewModel : ViewModelBase
         // _dialogService.ShowDialog<ActionExecuteDialog, ActionExecuteDialogViewModel>(result => { });
 
         var action = _actions.FirstOrDefault(x => x.TypeName == SelectedAction!.TypeName);
-
-
         if (action is null)
         {
             _logger.LogError("Action not found");
             return;
         }
 
-        _logger.LogDebug("Action found: {ActionName}", action.TypeName);
+
+        var a = action.DisplayName;
 
 
-        await action.ExecuteAsync(cancellationTokenSource.Token);
+        //_dialogService.ShowDialog(action, result =>
+        //{
+
+
+        //});
+
+        // await action.ExecuteAsync(cancellationTokenSource.Token);
 
     }
 
@@ -82,7 +87,7 @@ public partial class ShellWindowViewModel : ViewModelBase
     {
         IsBusy = true;
 
-        var actionsList = _actions.Select(x => new ActionItem(x.TypeName, x.DisplayName, x.Description)).ToList();
+        var actionsList = _actions.Select(x => new ActionItem(x.TypeName, x.Version, x.DisplayName, x.Description)).ToList();
         actionsList.AddRange(ActionsHelper.GetFakeActions());
         ActionList = new ObservableCollection<ActionItem>(actionsList);
 

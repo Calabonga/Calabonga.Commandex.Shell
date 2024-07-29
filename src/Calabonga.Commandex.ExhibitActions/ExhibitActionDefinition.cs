@@ -1,5 +1,4 @@
-﻿using Calabonga.Commandex.Contracts;
-using Calabonga.Wpf.AppDefinitions;
+﻿using Calabonga.Wpf.AppDefinitions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Calabonga.Commandex.ExhibitActions;
@@ -13,6 +12,7 @@ public class ExhibitActionDefinition : AppDefinition
     public override void ConfigureServices(IServiceCollection services)
     {
         services.AddSingleton(_ => new ExhibitRequest() { IsActive = true });
-        services.AddScoped<ICommandexAction, LoadExhibitCommandexAction>();
+        //services.AddScoped<ICommandexAction, LoadExhibitCommandexAction>();
+        // services.AddScoped<ICommandexAction<Exhibit?>, LoadExhibitCommandexAction>();
     }
 }

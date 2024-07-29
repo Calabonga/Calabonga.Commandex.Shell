@@ -1,19 +1,15 @@
 ﻿using System.Windows.Controls;
 using Calabonga.Commandex.Contracts;
 
-namespace Calabonga.Commandex.UI.Core.Dialogs
-{
-    /// <summary>
-    /// Interaction logic for ModulesInfoDialog.xaml
-    /// </summary>
-    public partial class ModulesInfoDialog : UserControl, IDialogView
-    {
-        public ModulesInfoDialog()
-        {
-            InitializeComponent();
-        }
+namespace Calabonga.Commandex.UI.Core.Dialogs;
 
-        public IDialogResult Result { get; }
-        public object ViewModel { get; }
+/// <summary>
+/// Interaction logic for ModulesInfoDialog.xaml
+/// </summary>
+public partial class ModulesInfoDialog : UserControl, IDialogView
+{
+    public ModulesInfoDialog()
+    {
+        InitializeComponent();
     }
 }

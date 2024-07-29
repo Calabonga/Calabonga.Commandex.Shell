@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Calabonga.Results" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Calabonga.Wpf.AppDefinitions\Calabonga.Wpf.AppDefinitions\Calabonga.Wpf.AppDefinitions.csproj" />
   </ItemGroup>
 

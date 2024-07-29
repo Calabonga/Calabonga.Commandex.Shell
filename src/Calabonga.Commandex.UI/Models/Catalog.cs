@@ -5,9 +5,10 @@
 /// </summary>
 public sealed class ActionItem : ItemBase
 {
-    public ActionItem(string type, string name, string description)
+    public ActionItem(string type, string version, string name, string description)
     {
         TypeName = type;
+        Version = version;
         Name = name;
         Description = description;
     }
@@ -23,4 +24,6 @@ public abstract class ItemBase
     public string Name { get; set; } = null!;
 
     public string TypeName { get; set; } = null!;
+
+    public string Version { get; set; } = null!;
 }
