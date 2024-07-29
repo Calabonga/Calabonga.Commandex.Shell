@@ -79,8 +79,10 @@ public partial class App : Application
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<IVersionService, VersionService>();
 
-        services.AddDefinitions(typeof(PostgreSqlDbConnectionEntry), typeof(MicrosoftSqlDbConnectionEntry));
-        services.AddDefinitions(ActionsFinder.Find(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Actions")));
+        var types = new List<Type>() { typeof(PostgreSqlDbConnectionEntry), typeof(MicrosoftSqlDbConnectionEntry) };
+        types.AddRange(ActionsFinder.Find(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Actions")).ToList());
+
+        services.AddDefinitions(types.ToArray());
 
         return services.BuildServiceProvider();
     }
