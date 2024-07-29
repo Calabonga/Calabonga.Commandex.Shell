@@ -20,13 +20,13 @@ public abstract class EmptyCommandexAction<TResult> : ICommandexAction
 
     protected abstract TResult? Result { get; set; }
 
-    protected virtual void OnResult(TResult result)
-    {
-        SetResult(result);
-    }
-
     private void SetResult(TResult result)
     {
         Result = result;
+    }
+
+    public object GetResult()
+    {
+        return Result!;
     }
 }

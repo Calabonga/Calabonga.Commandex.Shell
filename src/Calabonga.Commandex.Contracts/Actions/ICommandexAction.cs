@@ -13,4 +13,6 @@ public interface ICommandexAction
     Task ShowDialogAsync();
 
     bool HasResult { get; }
+
+    object GetResult();
 }

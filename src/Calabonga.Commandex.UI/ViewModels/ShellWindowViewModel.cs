@@ -3,7 +3,7 @@ using Calabonga.Commandex.Contracts;
 using Calabonga.Commandex.Contracts.Actions;
 using Calabonga.Commandex.UI.Core.Dialogs;
 using Calabonga.Commandex.UI.Core.Engine;
-using Calabonga.Commandex.UI.Core.Helpers;
+
 using Calabonga.Commandex.UI.Core.Services;
 using Calabonga.Commandex.UI.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -78,7 +78,6 @@ public partial class ShellWindowViewModel : ViewModelBase
         IsBusy = true;
 
         var actionsList = _actions.Select(x => new ActionItem(x.TypeName, x.Version, x.DisplayName, x.Description)).ToList();
-        actionsList.AddRange(ActionsHelper.GetFakeActions());
         ActionList = new ObservableCollection<ActionItem>(actionsList);
 
         IsBusy = false;

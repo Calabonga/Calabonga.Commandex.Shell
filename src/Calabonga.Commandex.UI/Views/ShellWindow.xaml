@@ -27,29 +27,41 @@
         </Grid.RowDefinitions>
 
         <ListView ItemsSource="{Binding ActionList}" SelectedItem="{Binding SelectedAction, Mode=TwoWay}"
-                  Margin="8" Grid.Column="0" Grid.Row="0">
+                  Grid.Column="0" Grid.Row="0"
+                  HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel>
-                        <TextBlock FontWeight="Bold" FontSize="18">
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0}: {1}">
-                                    <Binding Path="Version" />
-                                    <Binding Path="Name" />
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                        <TextBlock Text="{Binding TypeName}" FontSize="15"/>
-                        <TextBlock Text="{Binding Description}" FontSize="11"/>
-                    </StackPanel>
+                    <Border BorderThickness="1" BorderBrush="Gray"
+                        Margin="2" Padding="8">
+                        <StackPanel >
+                            <TextBlock FontWeight="Bold" FontSize="18">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0}: {1}">
+                                        <Binding Path="Version" />
+                                        <Binding Path="Name" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock Text="{Binding TypeName}" FontSize="15"/>
+                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="11"/>
+                        </StackPanel>
+                    </Border>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        
-        <StackPanel Grid.Column="1" Grid.Row="0" Margin="0,8,8,8">
-            <Button Content="Открыть" Command="{Binding ExecuteActionCommand}" MinWidth="150" />
-            <Button Content="About" Command="{Binding ShowAboutCommand}" MinWidth="150" />
-            <Button Content="Modules Info" Command="{Binding ShowModulesCommand}" MinWidth="150" />
-        </StackPanel>
+
+        <Grid Grid.Column="1" Grid.Row="0" >
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Margin="4">
+                <Button Content="Открыть" Command="{Binding ExecuteActionCommand}" MinWidth="150" />
+            </StackPanel>
+            <StackPanel Grid.Row="1" Margin="4">
+                <Button Content="About" Command="{Binding ShowAboutCommand}" MinWidth="150" />
+                <Button Content="Modules Info" Command="{Binding ShowModulesCommand}" MinWidth="150" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

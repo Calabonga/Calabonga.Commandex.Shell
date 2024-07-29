@@ -13,7 +13,7 @@ public class LoadExhibitCommandexAction : EmptyCommandexAction<Exhibit?>
         _client.BaseAddress = new Uri("https://api.calabonga.com");
     }
 
-    public override string Version => "v1.0.0-beta.6";
+    public override string Version => "v1.0.0-beta.7";
 
     public override async Task ShowDialogAsync()
     {
@@ -26,7 +26,7 @@ public class LoadExhibitCommandexAction : EmptyCommandexAction<Exhibit?>
 
     public override string DisplayName => "Получение экспоната из Музея Юмора";
 
-    public override string Description => "Запрос на удаленный API с целью получить экспонат одного из видов: анекдот, история, хокку, фразы и изречение, стишок и другие";
+    public override string Description => "Запрос на удаленный API с целью получить экспонат одного из видов: анекдот, история, хокку, фразы и изречение, стишок и другие. Загруженные данные не отображаются.";
 
     private async Task<Exhibit?> ExecuteAsync()
     {

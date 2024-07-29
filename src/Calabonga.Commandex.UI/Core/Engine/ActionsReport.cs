@@ -1,4 +1,6 @@
 ﻿using System.Text;
+using System.Text.Json;
+using Calabonga.Commandex.Contracts;
 using Calabonga.Commandex.Contracts.Actions;
 
 namespace Calabonga.Commandex.UI.Core.Engine;
@@ -15,6 +17,14 @@ public class ActionsReport
             ? "Есть объект в результате."
             : "Нет объекта в результате.");
 
+        if (action.HasResult)
+        {
+            var res = action.GetResult();
+            var data = JsonSerializer.Serialize(res, JsonSerializerOptionsExt.Cyrillic);
+            stringBuilder.Append(data);
+        }
+
+        stringBuilder.AppendLine();
         stringBuilder.AppendLine("Выполнен успешно.");
         return stringBuilder.ToString();
     }

@@ -39,4 +39,9 @@ public abstract class CommandexAction<TDialogView, TDialogResult> : ICommandexAc
     {
         Result = result;
     }
+
+    public object GetResult()
+    {
+        return Result!;
+    }
 }
