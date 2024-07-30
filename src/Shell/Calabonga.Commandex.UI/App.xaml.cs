@@ -30,7 +30,7 @@ public partial class App : Application
     /// <summary>
     /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.
     /// </summary>
-    public IServiceProvider Services { get; private set; } = null!;
+    public IServiceProvider Services { get; private set; }
 
     /// <summary>
     /// Configures the services for the application.
@@ -112,6 +112,7 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
+        Log.Information("Application shutdown successful");
         Log.CloseAndFlush();
         base.OnExit(e);
     }
