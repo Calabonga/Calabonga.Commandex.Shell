@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Npgsql;
 
-namespace Calabonga.Commandex.PostgreSqlDbConnection;
+namespace Calabonga.Commandex.UI.Plugins.PostgreSql;
 
 public class PostgreSqlDbConnectionFactory : IDbConnectionFactory<NpgsqlConnection>
 {

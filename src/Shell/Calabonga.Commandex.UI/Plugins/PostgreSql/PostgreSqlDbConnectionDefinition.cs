@@ -2,9 +2,9 @@
 using Calabonga.Wpf.AppDefinitions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Calabonga.Commandex.MicrosoftSqlDbConnection;
+namespace Calabonga.Commandex.UI.Plugins.PostgreSql;
 
-public class MicrosoftSqlDbConnectionDefinition : AppDefinition
+public class PostgreSqlDbConnectionDefinition : AppDefinition
 {
     /// <summary>
     /// Configure services for current application
@@ -12,6 +12,6 @@ public class MicrosoftSqlDbConnectionDefinition : AppDefinition
     /// <param name="services">instance of <see cref="IServiceCollection"/></param>
     public override void ConfigureServices(IServiceCollection services)
     {
-        services.AddScoped<IDbConnectionFactory, MsSqlDbConnectionFactory>();
+        services.AddScoped<IDbConnectionFactory, PostgreSqlDbConnectionFactory>();
     }
 }

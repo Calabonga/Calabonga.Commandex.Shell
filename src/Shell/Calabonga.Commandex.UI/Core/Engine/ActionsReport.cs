@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
 using Calabonga.Commandex.Contracts;
-using Calabonga.Commandex.Contracts.Actions;
+using Calabonga.Commandex.Contracts.Commands;
 
 namespace Calabonga.Commandex.UI.Core.Engine;
 

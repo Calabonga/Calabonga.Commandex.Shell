@@ -1,4 +1,4 @@
-﻿namespace Calabonga.Commandex.Contracts.Actions;
+﻿namespace Calabonga.Commandex.Contracts.Commands;
 
 public interface ICommandexAction
 {

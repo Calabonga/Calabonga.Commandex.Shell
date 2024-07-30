@@ -2,7 +2,7 @@
 using Calabonga.Commandex.Contracts;
 using Microsoft.Extensions.Logging;
 
-namespace Calabonga.Commandex.MicrosoftSqlDbConnection
+namespace Calabonga.Commandex.UI.Plugins.MsSql
 {
     public class MsSqlDbConnectionFactory : IDbConnectionFactory<SqlConnection, SqlCredential>
     {

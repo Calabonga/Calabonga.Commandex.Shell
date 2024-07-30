@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Calabonga.Commandex.Contracts;
-using Calabonga.Commandex.Contracts.Actions;
+using Calabonga.Commandex.Contracts.Commands;
 using Calabonga.Commandex.UI.Core.Dialogs;
 using Calabonga.Commandex.UI.Core.Engine;
 

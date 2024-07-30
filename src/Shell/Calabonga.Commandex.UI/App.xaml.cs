@@ -1,8 +1,6 @@
 ﻿using System.IO;
 using System.Windows;
 using Calabonga.Commandex.Contracts;
-using Calabonga.Commandex.MicrosoftSqlDbConnection;
-using Calabonga.Commandex.PostgreSqlDbConnection;
 using Calabonga.Commandex.UI.Core.Dialogs;
 using Calabonga.Commandex.UI.Core.Dialogs.Base;
 using Calabonga.Commandex.UI.Core.Engine;
@@ -79,9 +77,8 @@ public partial class App : Application
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<IVersionService, VersionService>();
 
-        var types = new List<Type>() { typeof(PostgreSqlDbConnectionEntry), typeof(MicrosoftSqlDbConnectionEntry) };
-        types.AddRange(ActionsFinder.Find(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Actions")).ToList());
-
+        var types = new List<Type>() { typeof(App) };
+        types.AddRange(ActionsFinder.Find(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Commands")).ToList());
         services.AddDefinitions(types.ToArray());
 
         return services.BuildServiceProvider();

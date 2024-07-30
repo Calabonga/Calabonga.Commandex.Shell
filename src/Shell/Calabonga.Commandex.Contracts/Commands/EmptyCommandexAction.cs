@@ -1,4 +1,4 @@
-﻿namespace Calabonga.Commandex.Contracts.Actions;
+﻿namespace Calabonga.Commandex.Contracts.Commands;
 
 /// <summary>
 /// // Calabonga: Summary required (EmptyCommandexAction 2024-07-29 09:38)
