@@ -11,6 +11,7 @@ namespace Calabonga.Commandex.UI.Plugins.MsSql
         public MsSqlDbConnectionFactory(ILogger<MsSqlDbConnectionFactory> logger)
         {
             _logger = logger;
+            _logger.LogInformation("[{Name}] registered", GetType().Namespace);
         }
 
         public SqlConnection CreateConnection(string connectionString, SqlCredential? credential)

@@ -1,14 +1,8 @@
 ﻿using System.Windows;
-using Calabonga.Commandex.Contracts;
-using Calabonga.Commandex.UI.Core.Dialogs;
-using Calabonga.Commandex.UI.Core.Dialogs.Base;
 using Calabonga.Commandex.UI.Core.Engine;
-using Calabonga.Commandex.UI.Core.Services;
 using Calabonga.Commandex.UI.ViewModels;
 using Calabonga.Commandex.UI.Views;
-using Calabonga.Wpf.AppDefinitions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Serilog;
 
 namespace Calabonga.Commandex.UI;
@@ -18,29 +12,15 @@ namespace Calabonga.Commandex.UI;
 /// </summary>
 public partial class App : Application
 {
-
     public App()
     {
         Log.Logger = new LoggerConfiguration()
-            .WriteTo.File("/logs/log-.log", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true, shared: true)
+            .MinimumLevel.Verbose()
+            .WriteTo.File("/logs/commandex-.log", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true, shared: true)
             .CreateLogger();
 
-        try
-        {
-            Services = ConfigureServices();
-        }
-        catch (Exception ex)
-        {
-            Log.Error(ex, "Something went wrong");
-        }
-        finally
-        {
-            Log.CloseAndFlushAsync().ConfigureAwait(false).GetAwaiter().GetResult();
-        }
-
+        Services = DependencyContainer.ConfigureServices();
     }
-
-
 
     /// <summary>
     /// Gets the current <see cref="App"/> instance in use
@@ -50,54 +30,22 @@ public partial class App : Application
     /// <summary>
     /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.
     /// </summary>
-    public IServiceProvider Services { get; }
+    public IServiceProvider Services { get; private set; } = null!;
 
     /// <summary>
     /// Configures the services for the application.
     /// </summary>
-    private static IServiceProvider ConfigureServices()
-    {
-        var services = new ServiceCollection();
-
-        services.AddLogging(builder =>
-        {
-            builder.ClearProviders();
-            builder.AddSerilog(Log.Logger);
-        });
-
-        services.AddSingleton(typeof(DefaultDialogResult<>));
-        services.AddSingleton<DefaultDialogView>();
-
-        services.AddSingleton<ShellWindowViewModel>();
-        services.AddSingleton<ShellWindow>();
-
-        services.AddSingleton<ModulesInfoDialog>();
-        services.AddSingleton<ModulesInfoDialogViewModel>();
-
-        services.AddSingleton<IDialogService, DialogService>();
-        services.AddSingleton<IVersionService, VersionService>();
-
-        var types = new List<Type>() { typeof(App) };
-        types.AddRange(CommandsFinder.Find(AppSettings.Default.CommandsPath).ToList());
-        services.AddDefinitions(types.ToArray());
-
-        return services.BuildServiceProvider();
-    }
-
-    protected override void OnActivated(EventArgs e)
-    {
-        base.OnActivated(e);
-        InitializeComponent();
-    }
 
     /// <summary>Raises the <see cref="E:System.Windows.Application.Startup" /> event.</summary>
     /// <param name="e">A <see cref="T:System.Windows.StartupEventArgs" /> that contains the event data.</param>
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+
         SetupExceptionHandling();
 
-        Log.Logger.Information("Application stating...");
+        Log.Logger.Information("Application starting...");
+
         var shell = Services.GetService<ShellWindow>();
         var shellViewModel = Services.GetService<ShellWindowViewModel>();
 
@@ -107,7 +55,11 @@ public partial class App : Application
         }
 
         shell.DataContext = shellViewModel;
+
+        Log.Logger.Information("Application started.");
         shell.Show();
+
+        Log.Logger.Information("Application startup completed.");
     }
 
     /// <summary>
@@ -156,5 +108,11 @@ public partial class App : Application
         {
             Log.Logger.Error(exception, message);
         }
+    }
+
+    protected override void OnExit(ExitEventArgs e)
+    {
+        Log.CloseAndFlush();
+        base.OnExit(e);
     }
 }

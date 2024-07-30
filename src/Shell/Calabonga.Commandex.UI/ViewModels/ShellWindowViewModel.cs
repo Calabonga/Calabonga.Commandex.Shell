@@ -46,25 +46,28 @@ public partial class ShellWindowViewModel : ViewModelBase
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ExecuteActionCommand))]
-    private CommandItem? _selectedAction;
+    private CommandItem? _selectedCommand;
 
-    private bool CanExecuteAction => SelectedAction is not null;
+    private bool CanExecuteAction => SelectedCommand is not null;
 
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
     private async Task ExecuteActionAsync()
     {
-        var action = _commands.FirstOrDefault(x => x.TypeName == SelectedAction!.TypeName);
-        if (action is null)
+        var command = _commands.FirstOrDefault(x => x.TypeName == SelectedCommand!.TypeName);
+        if (command is null)
         {
             _logger.LogError("Action not found");
             return;
         }
 
-        await action.ShowDialogAsync();
+        _logger.LogDebug("Executing {CommandType}", command.TypeName);
 
-        if (action.HasResult)
+        await command.ShowDialogAsync();
+
+        if (command.HasResult)
         {
-            var message = ExecutionReport.CreateReport(action);
+            var message = ExecutionReport.CreateReport(command);
+            _logger.LogInformation("{CommandType} executed with result: {Result}", command.TypeName, message);
             _dialogService.ShowNotification(message);
         }
     }
@@ -111,10 +114,22 @@ public partial class ShellWindowViewModel : ViewModelBase
             .ToList();
 
         ActionList = new ObservableCollection<CommandItem>(actionsList);
+
+        _logger.LogInformation($"Total commands were found: {actionsList.Count}");
     }
 
     partial void OnSearchTermChanged(string? value)
     {
         FindCommands();
+    }
+
+    partial void OnIsFindEnabledChanged(bool value)
+    {
+        _logger.LogInformation("IsFindEnabled {Value}", value);
+    }
+
+    partial void OnSelectedCommandChanged(CommandItem? value)
+    {
+        _logger.LogInformation("SelectedCommand {Name}", value?.TypeName ?? "N/A");
     }
 }

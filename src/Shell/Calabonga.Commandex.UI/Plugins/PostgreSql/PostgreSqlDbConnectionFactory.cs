@@ -11,6 +11,7 @@ public class PostgreSqlDbConnectionFactory : IDbConnectionFactory<NpgsqlConnecti
     public PostgreSqlDbConnectionFactory(ILogger<PostgreSqlDbConnectionFactory> logger)
     {
         _logger = logger;
+        _logger.LogInformation("[{Name}] registered", GetType().Namespace);
     }
 
     public NpgsqlConnection CreateConnection(string connectionString)
