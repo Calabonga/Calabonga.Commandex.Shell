@@ -29,10 +29,14 @@ public class DialogService : IDialogService
 
         var viewModel = App.Current.Services.GetRequiredService(typeof(TViewModel));
         var control = App.Current.Services.GetRequiredService(typeof(TView));
-        ((UserControl)control!).DataContext = viewModel;
-        dialog.Content = control;
+        var userControl = ((UserControl)control);
+        userControl.DataContext = viewModel;
+        dialog.Content = userControl;
         dialog.Title = ((IDialogResult)viewModel).DialogTitle;
+
         dialog.ShowDialog();
+        dialog.InitializeComponent();
+
     }
 
     public void ShowNotification(string message)

@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Reflection;
 using Calabonga.Wpf.AppDefinitions;
+using Serilog;
 
 namespace Calabonga.Commandex.UI.Core.Engine;
 
@@ -45,7 +46,7 @@ internal static class CommandsFinder
         }
         catch (Exception exception)
         {
-            Console.WriteLine(exception);
+            Log.Error(exception, exception.Message);
             throw;
         }
     }

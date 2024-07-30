@@ -10,16 +10,19 @@ using Calabonga.PredicatesBuilder;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using Npgsql;
 
 namespace Calabonga.Commandex.UI.ViewModels;
 
 public partial class ShellWindowViewModel : ViewModelBase
 {
+    private readonly IDbConnectionFactory<NpgsqlConnection> _connectionFactory;
     private readonly IEnumerable<ICommandexCommand> _commands;
     private readonly ILogger<ShellWindowViewModel> _logger;
     private readonly IDialogService _dialogService;
 
     public ShellWindowViewModel(
+        IDbConnectionFactory<NpgsqlConnection> connectionFactory,
         IEnumerable<ICommandexCommand> commands,
         ILogger<ShellWindowViewModel> logger,
         IDialogService dialogService,
@@ -27,6 +30,7 @@ public partial class ShellWindowViewModel : ViewModelBase
     {
         Version = $"{versionService.Version} ({versionService.Branch}:{versionService.Commit})";
         Title = $"Command Executor {Version}";
+        _connectionFactory = connectionFactory;
         _commands = commands;
         _logger = logger;
         _dialogService = dialogService;
@@ -72,8 +76,9 @@ public partial class ShellWindowViewModel : ViewModelBase
         }
     }
 
+
     [RelayCommand]
-    private void ShowModules()
+    private async Task ShowModules()
     {
         _dialogService.ShowDialog<ModulesInfoDialog, ModulesInfoDialogViewModel>(_ => { });
     }
@@ -90,6 +95,7 @@ public partial class ShellWindowViewModel : ViewModelBase
         IsBusy = true;
 
         FindCommands();
+
         IsBusy = false;
     }
 

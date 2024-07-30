@@ -5,5 +5,5 @@
 /// </summary>
 public interface IDialogView
 {
-    object? DataContext { get; }
+
 }

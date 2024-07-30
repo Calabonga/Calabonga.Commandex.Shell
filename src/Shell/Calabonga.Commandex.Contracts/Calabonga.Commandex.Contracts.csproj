@@ -7,7 +7,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Calabonga.Commandex.Contracts</Title>
     <PackageId>Calabonga.Commandex.Contracts</PackageId>
-    <Version>1.0.0-beta.3</Version>
+    <Version>1.0.0-beta.4</Version>
     <Authors>Calabonga</Authors>
     <Company>$(Authors) SOFT</Company>
     <Description>Contracts library for Commandex</Description>

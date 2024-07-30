@@ -11,7 +11,6 @@
   <ItemGroup>
     
     <PackageReference Include="Calabonga.PredicatesBuilder" Version="2.0.1" />
-    
     <PackageReference Include="DotNetEnv" Version="3.0.0" />
     <PackageReference Include="GitInfo" Version="3.3.5">
       <PrivateAssets>all</PrivateAssets>
@@ -27,18 +26,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Calabonga.Commandex.Contracts\Calabonga.Commandex.Contracts.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Commands\Calabonga.Commandex.ExhibitCommand.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Commands\Calabonga.Commandex.QuizCommand.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Commands\Calabonga.Commandex.TaxPayerStatusCommand.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
