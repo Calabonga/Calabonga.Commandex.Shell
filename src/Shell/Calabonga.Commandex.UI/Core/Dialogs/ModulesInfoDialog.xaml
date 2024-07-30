@@ -12,7 +12,6 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
     <StackPanel Visibility="{Binding IsNotBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
-        <TextBlock Text="{Binding Title}" Style="{StaticResource Header}"/>
         <ItemsControl ItemsSource="{Binding Modules}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>

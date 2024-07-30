@@ -5,7 +5,10 @@ using Calabonga.Commandex.Contracts.Commands;
 
 namespace Calabonga.Commandex.UI.Core.Engine;
 
-public class ActionsReport
+/// <summary>
+/// // Calabonga: Summary required (ExecutionReport 2024-07-30 10:13)
+/// </summary>
+public static class ExecutionReport
 {
     public static string CreateReport(ICommandexCommand command)
     {

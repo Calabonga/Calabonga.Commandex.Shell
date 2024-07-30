@@ -9,6 +9,9 @@
         d:DataContext="{d:DesignInstance Type=viewModels:ShellWindowViewModel}"
         WindowStartupLocation="CenterScreen"
         Title="{Binding Title}" MinHeight="768" MinWidth="1024">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -22,12 +25,20 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
+        <Grid Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Margin="4" Visibility="{Binding IsFindEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Фильтрация" Margin="0,0,4,0"/>
+            <TextBox Grid.Column="1" Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
         <ListView ItemsSource="{Binding ActionList}" SelectedItem="{Binding SelectedAction, Mode=TwoWay}"
-                  Grid.Column="0" Grid.Row="0"
+                  Grid.Column="0" Grid.Row="1" Margin="4"
                   HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -49,7 +60,7 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Grid Grid.Column="1" Grid.Row="0" >
+        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" >
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition Height="Auto"/>
@@ -58,6 +69,7 @@
                 <Button Content="Открыть" Command="{Binding ExecuteActionCommand}" MinWidth="150" />
             </StackPanel>
             <StackPanel Grid.Row="1" Margin="4">
+                <CheckBox IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" Content="Включить панель поиска"/>
                 <Button Content="About" Command="{Binding ShowAboutCommand}" MinWidth="150" />
                 <Button Content="Modules Info" Command="{Binding ShowModulesCommand}" MinWidth="150" />
             </StackPanel>

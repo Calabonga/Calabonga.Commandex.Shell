@@ -8,6 +8,8 @@ public abstract class EmptyCommandexCommand<TResult> : ICommandexCommand
 {
     public string TypeName => GetType().Name;
 
+    public abstract string CopyrightInfo { get; }
+
     public bool HasResult => Result is not null;
 
     public abstract string DisplayName { get; }

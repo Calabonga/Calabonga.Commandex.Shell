@@ -2,6 +2,8 @@
 
 public interface ICommandexCommand
 {
+    string CopyrightInfo { get; }
+
     string TypeName { get; }
 
     string DisplayName { get; }

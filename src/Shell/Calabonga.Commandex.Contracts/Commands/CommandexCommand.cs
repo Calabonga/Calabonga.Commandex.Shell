@@ -22,6 +22,8 @@ public abstract class CommandexCommand<TDialogView, TDialogResult> : ICommandexC
 
     public string TypeName => GetType().Name;
 
+    public abstract string CopyrightInfo { get; }
+
     public abstract string DisplayName { get; }
 
     public abstract string Description { get; }

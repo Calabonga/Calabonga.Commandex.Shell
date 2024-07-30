@@ -20,6 +20,8 @@ public class LoadExhibitCommand : EmptyCommandexCommand<Exhibit?>
         Result = await ExecuteAsync();
     }
 
+    public override string CopyrightInfo => "Calabonga SOFT © 2024";
+
     protected override Exhibit? Result { get; set; }
 
     public override string DisplayName => "Получение экспоната из Музея Юмора";

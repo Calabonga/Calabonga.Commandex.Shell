@@ -5,9 +5,9 @@ using Calabonga.Wpf.AppDefinitions;
 namespace Calabonga.Commandex.UI.Core.Engine;
 
 /// <summary>
-/// // Calabonga: Summary required (ActionsFinder 2024-07-29 04:06)
+/// // Calabonga: Summary required (CommandsFinder 2024-07-29 04:06)
 /// </summary>
-internal static class ActionsFinder
+internal static class CommandsFinder
 {
     internal static Type[] Find(string actionsFolderPath)
     {

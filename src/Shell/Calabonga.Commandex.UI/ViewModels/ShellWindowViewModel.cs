@@ -6,6 +6,7 @@ using Calabonga.Commandex.UI.Core.Engine;
 
 using Calabonga.Commandex.UI.Core.Services;
 using Calabonga.Commandex.UI.Models;
+using Calabonga.PredicatesBuilder;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -32,14 +33,20 @@ public partial class ShellWindowViewModel : ViewModelBase
     }
 
     [ObservableProperty]
+    private string? _searchTerm;
+
+    [ObservableProperty]
+    private bool _isFindEnabled = AppSettings.Default.ShowSearchPanelOnStartup;
+
+    [ObservableProperty]
     private string _version;
+
+    [ObservableProperty]
+    private ObservableCollection<CommandItem> _actionList;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ExecuteActionCommand))]
     private CommandItem? _selectedAction;
-
-    [ObservableProperty]
-    private ObservableCollection<CommandItem> _actionList;
 
     private bool CanExecuteAction => SelectedAction is not null;
 
@@ -57,7 +64,7 @@ public partial class ShellWindowViewModel : ViewModelBase
 
         if (action.HasResult)
         {
-            var message = ActionsReport.CreateReport(action);
+            var message = ExecutionReport.CreateReport(action);
             _dialogService.ShowNotification(message);
         }
     }
@@ -79,9 +86,35 @@ public partial class ShellWindowViewModel : ViewModelBase
     {
         IsBusy = true;
 
-        var actionsList = _commands.Select(x => new CommandItem(x.TypeName, x.Version, x.DisplayName, x.Description)).ToList();
-        ActionList = new ObservableCollection<CommandItem>(actionsList);
-
+        FindCommands();
         IsBusy = false;
+    }
+
+    private void FindCommands()
+    {
+        var predicate = PredicateBuilder.True<ICommandexCommand>().And(x => !string.IsNullOrEmpty(x.Version));
+
+        if (!string.IsNullOrEmpty(SearchTerm))
+        {
+            var term = SearchTerm.ToLower();
+            predicate = predicate
+                .And(x => x.DisplayName.ToLower().Contains(term))
+                .Or(x => x.Description.ToLower().Contains(term))
+                .Or(x => x.CopyrightInfo.ToLower().Contains(term))
+                .Or(x => x.TypeName.ToLower().Contains(term))
+                .Or(x => x.Version.ToLower().Contains(term));
+        }
+
+        var actionsList = _commands
+            .Where(predicate.Compile())
+            .Select(x => new CommandItem(x.TypeName, x.Version, x.DisplayName, x.Description))
+            .ToList();
+
+        ActionList = new ObservableCollection<CommandItem>(actionsList);
+    }
+
+    partial void OnSearchTermChanged(string? value)
+    {
+        FindCommands();
     }
 }

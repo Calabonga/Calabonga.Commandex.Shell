@@ -18,8 +18,12 @@ namespace Calabonga.Commandex.UI;
 /// </summary>
 public partial class App : Application
 {
+
     public App()
     {
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.File("/logs/log-.log", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true, shared: true)
+            .CreateLogger();
 
         try
         {
@@ -33,7 +37,10 @@ public partial class App : Application
         {
             Log.CloseAndFlushAsync().ConfigureAwait(false).GetAwaiter().GetResult();
         }
+
     }
+
+
 
     /// <summary>
     /// Gets the current <see cref="App"/> instance in use
@@ -54,11 +61,8 @@ public partial class App : Application
 
         services.AddLogging(builder =>
         {
-            var loggerConfiguration = new LoggerConfiguration()
-                .WriteTo.File("/logs/log-.log", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true, shared: true);
             builder.ClearProviders();
-            builder.AddDebug();
-            builder.AddSerilog(loggerConfiguration.CreateLogger());
+            builder.AddSerilog(Log.Logger);
         });
 
         services.AddSingleton(typeof(DefaultDialogResult<>));
@@ -74,7 +78,7 @@ public partial class App : Application
         services.AddSingleton<IVersionService, VersionService>();
 
         var types = new List<Type>() { typeof(App) };
-        types.AddRange(ActionsFinder.Find(AppSettings.Default.CommandsPath).ToList());
+        types.AddRange(CommandsFinder.Find(AppSettings.Default.CommandsPath).ToList());
         services.AddDefinitions(types.ToArray());
 
         return services.BuildServiceProvider();
@@ -91,7 +95,9 @@ public partial class App : Application
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
+        SetupExceptionHandling();
 
+        Log.Logger.Information("Application stating...");
         var shell = Services.GetService<ShellWindow>();
         var shellViewModel = Services.GetService<ShellWindowViewModel>();
 
@@ -112,5 +118,43 @@ public partial class App : Application
     private void Application_Startup(object sender, StartupEventArgs e)
     {
         InitializeComponent();
+    }
+
+    private void SetupExceptionHandling()
+    {
+        AppDomain.CurrentDomain.UnhandledException += (_, e) =>
+        {
+            LogUnhandledException((Exception)e.ExceptionObject, "AppDomain.CurrentDomain.UnhandledException");
+        };
+
+        DispatcherUnhandledException += (_, e) =>
+        {
+            LogUnhandledException(e.Exception, "Application.Current.DispatcherUnhandledException");
+            e.Handled = true;
+        };
+
+        TaskScheduler.UnobservedTaskException += (_, e) =>
+        {
+            LogUnhandledException(e.Exception, "TaskScheduler.UnobservedTaskException");
+            e.SetObserved();
+        };
+    }
+
+    private void LogUnhandledException(Exception exception, string source)
+    {
+        var message = $"Unhandled exception ({source})";
+        try
+        {
+            var assemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName();
+            message = $"Unhandled exception in {assemblyName.Name} v{assemblyName.Version}";
+        }
+        catch (Exception ex)
+        {
+            Log.Logger.Error(ex, "Exception in LogUnhandledException");
+        }
+        finally
+        {
+            Log.Logger.Error(exception, message);
+        }
     }
 }
