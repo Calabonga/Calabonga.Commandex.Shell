@@ -8,7 +8,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         d:DataContext="{d:DesignInstance Type=viewModels:ShellWindowViewModel}"
         WindowStartupLocation="CenterScreen"
-        Title="{Binding Title}" Height="768" Width="1024">
+        Title="{Binding Title}" MinHeight="768" MinWidth="1024">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -31,17 +31,16 @@
                   HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderThickness="1" BorderBrush="Gray"
-                        Margin="2" Padding="8">
-                        <StackPanel >
-                            <TextBlock FontWeight="Bold" FontSize="18">
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0}: {1}">
-                                        <Binding Path="Version" />
-                                        <Binding Path="Name" />
-                                    </MultiBinding>
-                                </TextBlock.Text>
-                            </TextBlock>
+                    <Border Style="{StaticResource FancyBorder}">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" FontWeight="Bold" FontSize="18" Text="{Binding Name}"/>
+                                <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding Version}"/>
+                            </Grid>
                             <TextBlock Text="{Binding TypeName}" FontSize="15"/>
                             <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="11"/>
                         </StackPanel>

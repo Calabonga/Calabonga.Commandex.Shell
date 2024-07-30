@@ -14,19 +14,19 @@ namespace Calabonga.Commandex.UI.ViewModels;
 
 public partial class ShellWindowViewModel : ViewModelBase
 {
-    private readonly IEnumerable<ICommandexAction> _actions;
+    private readonly IEnumerable<ICommandexCommand> _commands;
     private readonly ILogger<ShellWindowViewModel> _logger;
     private readonly IDialogService _dialogService;
 
     public ShellWindowViewModel(
-        IEnumerable<ICommandexAction> actions,
+        IEnumerable<ICommandexCommand> commands,
         ILogger<ShellWindowViewModel> logger,
         IDialogService dialogService,
         IVersionService versionService)
     {
         Version = $"{versionService.Version} ({versionService.Branch}:{versionService.Commit})";
         Title = $"Command Executor {Version}";
-        _actions = actions;
+        _commands = commands;
         _logger = logger;
         _dialogService = dialogService;
     }
@@ -36,17 +36,17 @@ public partial class ShellWindowViewModel : ViewModelBase
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ExecuteActionCommand))]
-    private ActionItem? _selectedAction;
+    private CommandItem? _selectedAction;
 
     [ObservableProperty]
-    private ObservableCollection<ActionItem> _actionList;
+    private ObservableCollection<CommandItem> _actionList;
 
     private bool CanExecuteAction => SelectedAction is not null;
 
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
     private async Task ExecuteActionAsync()
     {
-        var action = _actions.FirstOrDefault(x => x.TypeName == SelectedAction!.TypeName);
+        var action = _commands.FirstOrDefault(x => x.TypeName == SelectedAction!.TypeName);
         if (action is null)
         {
             _logger.LogError("Action not found");
@@ -79,8 +79,8 @@ public partial class ShellWindowViewModel : ViewModelBase
     {
         IsBusy = true;
 
-        var actionsList = _actions.Select(x => new ActionItem(x.TypeName, x.Version, x.DisplayName, x.Description)).ToList();
-        ActionList = new ObservableCollection<ActionItem>(actionsList);
+        var actionsList = _commands.Select(x => new CommandItem(x.TypeName, x.Version, x.DisplayName, x.Description)).ToList();
+        ActionList = new ObservableCollection<CommandItem>(actionsList);
 
         IsBusy = false;
     }

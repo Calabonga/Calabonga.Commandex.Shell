@@ -28,13 +28,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Commands\Calabonga.Commandex.ExhibitAction.dll">
+    <None Update="Commands\Calabonga.Commandex.ExhibitCommand.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Commands\Calabonga.Commandex.QuizAction.dll">
+    <None Update="Commands\Calabonga.Commandex.QuizCommand.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Commands\Calabonga.Commandex.TaxPayerStatusAction.dll">
+    <None Update="Commands\Calabonga.Commandex.TaxPayerStatusCommand.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -7,19 +7,19 @@ namespace Calabonga.Commandex.UI.Core.Engine;
 
 public class ActionsReport
 {
-    public static string CreateReport(ICommandexAction action)
+    public static string CreateReport(ICommandexCommand command)
     {
-        var stringBuilder = new StringBuilder($"{action.DisplayName} v.{action.Version}");
+        var stringBuilder = new StringBuilder($"{command.DisplayName} v.{command.Version}");
         stringBuilder.AppendLine();
-        stringBuilder.AppendLine(action.Description);
+        stringBuilder.AppendLine(command.Description);
         stringBuilder.AppendLine();
-        stringBuilder.AppendLine(action.HasResult
+        stringBuilder.AppendLine(command.HasResult
             ? "Есть объект в результате."
             : "Нет объекта в результате.");
 
-        if (action.HasResult)
+        if (command.HasResult)
         {
-            var res = action.GetResult();
+            var res = command.GetResult();
             var data = JsonSerializer.Serialize(res, JsonSerializerOptionsExt.Cyrillic);
             stringBuilder.Append(data);
         }

@@ -4,6 +4,16 @@
     <TargetFramework>net8.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Calabonga.Commandex.Contracts</Title>
+    <PackageId>Calabonga.Commandex.Contracts</PackageId>
+    <Version>1.0.0-beta.1</Version>
+    <Authors>Calabonga</Authors>
+    <Company>$(Authors) SOFT</Company>
+    <Description>Contracts library for Commandex</Description>
+    <Copyright>Calabonga SOFT</Copyright>
+    <PackageTags>contracts</PackageTags>
+    <PackageReleaseNotes>First release</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="Calabonga.Commandex.TaxPayerStatusCommand.TaxPayerDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Calabonga.Commandex.TaxPayerStatusCommand"
+             mc:Ignorable="d" 
+             Height="150" Width="300">
+    <UserControl.Resources>
+        <local:BooleanToBackgroundColorConverter x:Key="BooleanToBackgroundColorConverter"/>
+    </UserControl.Resources>
+    <Grid Margin="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="Введите ИНН" />
+        <TextBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="4"
+                 Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
+        <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Padding="4"
+                DataContext="{Binding NalogResponse}"
+                Background="{Binding Status, Converter={StaticResource BooleanToBackgroundColorConverter}}"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <TextBlock Text="{Binding Message}" TextWrapping="Wrap" Foreground="White"/>
+        </Border>
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Right">
+            <Button IsDefault="true" Content="Проверить" Command="{Binding ExecuteCheckCommand}" MinWidth="150" Margin="4"/>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Windows;
+﻿using System.Windows;
 using Calabonga.Commandex.Contracts;
 using Calabonga.Commandex.UI.Core.Dialogs;
 using Calabonga.Commandex.UI.Core.Dialogs.Base;
@@ -8,7 +7,6 @@ using Calabonga.Commandex.UI.Core.Services;
 using Calabonga.Commandex.UI.ViewModels;
 using Calabonga.Commandex.UI.Views;
 using Calabonga.Wpf.AppDefinitions;
-using DotNetEnv;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -25,8 +23,6 @@ public partial class App : Application
 
         try
         {
-            Env.Load(".env", LoadOptions.TraversePath());
-
             Services = ConfigureServices();
         }
         catch (Exception ex)
@@ -78,10 +74,16 @@ public partial class App : Application
         services.AddSingleton<IVersionService, VersionService>();
 
         var types = new List<Type>() { typeof(App) };
-        types.AddRange(ActionsFinder.Find(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Commands")).ToList());
+        types.AddRange(ActionsFinder.Find(AppSettings.Default.CommandsPath).ToList());
         services.AddDefinitions(types.ToArray());
 
         return services.BuildServiceProvider();
+    }
+
+    protected override void OnActivated(EventArgs e)
+    {
+        base.OnActivated(e);
+        InitializeComponent();
     }
 
     /// <summary>Raises the <see cref="E:System.Windows.Application.Startup" /> event.</summary>
@@ -100,5 +102,15 @@ public partial class App : Application
 
         shell.DataContext = shellViewModel;
         shell.Show();
+    }
+
+    /// <summary>
+    ///     Required method to load App.Resources
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void Application_Startup(object sender, StartupEventArgs e)
+    {
+        InitializeComponent();
     }
 }
