@@ -14,7 +14,7 @@
             <b:InvokeCommandAction Command="{Binding LoadMicroservicesCommand}" />
         </b:EventTrigger>
     </b:Interaction.Triggers>
-    <Grid Margin="8" Visibility="{Binding IsNotBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+    <Grid Margin="8" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
@@ -41,8 +41,10 @@
             <PasswordBox Padding="2" Grid.Column="1" Grid.Row="3" PasswordChanged="PasswordBox_PasswordChanged"/>
 
         </Grid>
-        <DataGrid Margin="4" IsReadOnly="True" Grid.Row="1" ItemsSource="{Binding Microservices}" AutoGenerateColumns="True" AlternatingRowBackground="AliceBlue"/>
-        <StackPanel Grid.Row="2" Margin="4">
+        <DataGrid Visibility="{Binding IsNotBusy, Converter={StaticResource BooleanToVisibilityConverter}}"
+                  Margin="4" IsReadOnly="True" Grid.Row="1" ItemsSource="{Binding Microservices}" AutoGenerateColumns="True" AlternatingRowBackground="AliceBlue"/>
+        <StackPanel Grid.Row="2" Margin="4"
+                    Visibility="{Binding IsNotBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Всего найдено: "/>
                 <TextBlock Text="{Binding Microservices.Count}"/>

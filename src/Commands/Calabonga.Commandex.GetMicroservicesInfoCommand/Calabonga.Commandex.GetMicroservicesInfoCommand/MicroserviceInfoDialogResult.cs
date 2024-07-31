@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Security;
 using Calabonga.Commandex.Contracts;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -8,7 +9,7 @@ using Npgsql;
 
 namespace Calabonga.Commandex.GetMicroservicesInfoCommand;
 
-public partial class GetMicroserviceInfoDialogResult : ViewModelBase, IDialogResult
+public partial class GetMicroserviceInfoDialogResult : ViewModelWithValidatorBase, IDialogResult
 {
     private readonly IDbConnectionFactory<NpgsqlConnection> _connectionFactory;
     private readonly IDialogService _dialogService;
@@ -28,15 +29,24 @@ public partial class GetMicroserviceInfoDialogResult : ViewModelBase, IDialogRes
     public string DialogTitle => Title;
 
     [NotifyPropertyChangedFor(nameof(IsValid))]
+    [NotifyDataErrorInfo]
+    [Required]
+    [MinLength(5)]
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(LoadMicroservicesCommand))]
     private string? _host = "localhost";
 
+    [NotifyDataErrorInfo]
+    [Required]
+    [MinLength(5)]
     [NotifyPropertyChangedFor(nameof(IsValid))]
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(LoadMicroservicesCommand))]
     private string? _database = "auth_openiddict";
 
+    [NotifyDataErrorInfo]
+    [Required]
+    [MinLength(5)]
     [NotifyPropertyChangedFor(nameof(IsValid))]
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(LoadMicroservicesCommand))]
