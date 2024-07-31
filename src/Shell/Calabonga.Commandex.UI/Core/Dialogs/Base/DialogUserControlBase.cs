@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
-using Calabonga.Commandex.Contracts;
+using Calabonga.Commandex.Engine;
 
-namespace Calabonga.Commandex.UI.Core.Dialogs.Base;
+namespace Calabonga.Commandex.Shell.Core.Dialogs.Base;
 
 public class DialogUserControlBase : UserControl, IDialogView
 {

@@ -1,9 +1,9 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
-using Calabonga.Commandex.Contracts;
+using Calabonga.Commandex.Engine;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Calabonga.Commandex.UI.Core.Dialogs.Base;
+namespace Calabonga.Commandex.Shell.Core.Dialogs.Base;
 
 public class DialogService : IDialogService
 {

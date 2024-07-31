@@ -1,14 +1,14 @@
-﻿using Calabonga.Commandex.Contracts;
-using Calabonga.Commandex.UI.Core.Dialogs.Base;
-using Calabonga.Commandex.UI.Core.Services;
-using Calabonga.Commandex.UI.ViewModels;
-using Calabonga.Commandex.UI.Views;
+﻿using Calabonga.Commandex.Engine;
+using Calabonga.Commandex.Shell.Core.Dialogs.Base;
+using Calabonga.Commandex.Shell.Core.Services;
+using Calabonga.Commandex.Shell.ViewModels;
+using Calabonga.Commandex.Shell.Views;
 using Calabonga.Wpf.AppDefinitions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
 
-namespace Calabonga.Commandex.UI.Core.Engine;
+namespace Calabonga.Commandex.Shell.Core.Engine;
 
 internal static class DependencyContainer
 {

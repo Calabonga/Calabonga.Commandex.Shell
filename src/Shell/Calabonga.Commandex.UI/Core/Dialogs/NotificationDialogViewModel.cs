@@ -1,6 +1,6 @@
-﻿using Calabonga.Commandex.Contracts;
+﻿using Calabonga.Commandex.Engine;
 
-namespace Calabonga.Commandex.UI.Core.Dialogs;
+namespace Calabonga.Commandex.Shell.Core.Dialogs;
 
 /// <summary>
 /// // Calabonga: Summary required (NotificationDialogViewModel 2024-07-29 04:07)

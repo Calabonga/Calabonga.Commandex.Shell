@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Calabonga.Commandex.UI.Views;
+namespace Calabonga.Commandex.Shell.Views;
 
 /// <summary>
 /// Interaction logic for ShellWindow.xaml

@@ -1,6 +1,6 @@
 ﻿using DotNetEnv;
 
-namespace Calabonga.Commandex.UI;
+namespace Calabonga.Commandex.Shell;
 
 public class AppSettings
 {

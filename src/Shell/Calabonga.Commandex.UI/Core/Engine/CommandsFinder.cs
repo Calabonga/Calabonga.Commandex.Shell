@@ -3,7 +3,7 @@ using System.Reflection;
 using Calabonga.Wpf.AppDefinitions;
 using Serilog;
 
-namespace Calabonga.Commandex.UI.Core.Engine;
+namespace Calabonga.Commandex.Shell.Core.Engine;
 
 /// <summary>
 /// // Calabonga: Summary required (CommandsFinder 2024-07-29 04:06)

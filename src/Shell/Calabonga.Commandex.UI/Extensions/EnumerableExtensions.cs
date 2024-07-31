@@ -1,4 +1,4 @@
-﻿namespace Calabonga.Commandex.UI.Extensions;
+﻿namespace Calabonga.Commandex.Shell.Extensions;
 
 /// <summary>
 /// Enumerable extensions

@@ -1,27 +1,23 @@
 ﻿using System.Collections.ObjectModel;
-using Calabonga.Commandex.Contracts;
-using Calabonga.Commandex.Contracts.Commands;
-using Calabonga.Commandex.UI.Core.Engine;
-
-using Calabonga.Commandex.UI.Core.Services;
-using Calabonga.Commandex.UI.Models;
+using Calabonga.Commandex.Engine;
+using Calabonga.Commandex.Engine.Commands;
+using Calabonga.Commandex.Shell.Core.Engine;
+using Calabonga.Commandex.Shell.Core.Services;
+using Calabonga.Commandex.Shell.Models;
 using Calabonga.PredicatesBuilder;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
-using Npgsql;
 
-namespace Calabonga.Commandex.UI.ViewModels;
+namespace Calabonga.Commandex.Shell.ViewModels;
 
 public partial class ShellWindowViewModel : ViewModelBase
 {
-    private readonly IDbConnectionFactory<NpgsqlConnection> _connectionFactory;
     private readonly IEnumerable<ICommandexCommand> _commands;
     private readonly ILogger<ShellWindowViewModel> _logger;
     private readonly IDialogService _dialogService;
 
     public ShellWindowViewModel(
-        IDbConnectionFactory<NpgsqlConnection> connectionFactory,
         IEnumerable<ICommandexCommand> commands,
         ILogger<ShellWindowViewModel> logger,
         IDialogService dialogService,
@@ -29,7 +25,6 @@ public partial class ShellWindowViewModel : ViewModelBase
     {
         Version = $"{versionService.Version} ({versionService.Branch}:{versionService.Commit})";
         Title = $"Command Executor {Version}";
-        _connectionFactory = connectionFactory;
         _commands = commands;
         _logger = logger;
         _dialogService = dialogService;
@@ -99,11 +94,11 @@ public partial class ShellWindowViewModel : ViewModelBase
         {
             var term = SearchTerm.ToLower();
             predicate = predicate
-                .And(x => x.DisplayName.ToLower().Contains(term))
-                .Or(x => x.Description.ToLower().Contains(term))
-                .Or(x => x.CopyrightInfo.ToLower().Contains(term))
-                .Or(x => x.TypeName.ToLower().Contains(term))
-                .Or(x => x.Version.ToLower().Contains(term));
+                .And(x => x.DisplayName.ToLower().Contains((string)term))
+                .Or(x => x.Description.ToLower().Contains((string)term))
+                .Or(x => x.CopyrightInfo.ToLower().Contains((string)term))
+                .Or(x => x.TypeName.ToLower().Contains((string)term))
+                .Or(x => x.Version.ToLower().Contains((string)term));
         }
 
         var actionsList = _commands

@@ -1,11 +1,11 @@
 ﻿using System.Windows;
-using Calabonga.Commandex.UI.Core.Engine;
-using Calabonga.Commandex.UI.ViewModels;
-using Calabonga.Commandex.UI.Views;
+using Calabonga.Commandex.Shell.Core.Engine;
+using Calabonga.Commandex.Shell.ViewModels;
+using Calabonga.Commandex.Shell.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace Calabonga.Commandex.UI;
+namespace Calabonga.Commandex.Shell;
 
 /// <summary>
 /// Interaction logic for App.xaml

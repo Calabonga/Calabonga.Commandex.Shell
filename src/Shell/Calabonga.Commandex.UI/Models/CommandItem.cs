@@ -1,4 +1,4 @@
-﻿namespace Calabonga.Commandex.UI.Models;
+﻿namespace Calabonga.Commandex.Shell.Models;
 
 /// <summary>
 /// Calabonga: Summary required (CommandItem 2024-07-30 08:36)

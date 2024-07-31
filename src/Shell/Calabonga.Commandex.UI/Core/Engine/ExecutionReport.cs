@@ -1,9 +1,9 @@
 ﻿using System.Text;
 using System.Text.Json;
-using Calabonga.Commandex.Contracts;
-using Calabonga.Commandex.Contracts.Commands;
+using Calabonga.Commandex.Engine;
+using Calabonga.Commandex.Engine.Commands;
 
-namespace Calabonga.Commandex.UI.Core.Engine;
+namespace Calabonga.Commandex.Shell.Core.Engine;
 
 /// <summary>
 /// // Calabonga: Summary required (ExecutionReport 2024-07-30 10:13)
