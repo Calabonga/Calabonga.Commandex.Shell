@@ -10,14 +10,17 @@ namespace Calabonga.Commandex.GetMicroservicesInfoCommand;
 public partial class GetMicroserviceInfoDialogResult : ViewModelBase, IDialogResult
 {
     private readonly IDbConnectionFactory<NpgsqlConnection> _connectionFactory;
+    private readonly IDialogService _dialogService;
     private readonly ILogger<GetMicroserviceInfoDialogResult> _logger;
 
     public GetMicroserviceInfoDialogResult(
         IDbConnectionFactory<NpgsqlConnection> connectionFactory,
+        IDialogService dialogService,
         ILogger<GetMicroserviceInfoDialogResult> logger)
     {
         Title = "Список микросервисов";
         _connectionFactory = connectionFactory;
+        _dialogService = dialogService;
         _logger = logger;
     }
 
@@ -56,6 +59,7 @@ public partial class GetMicroserviceInfoDialogResult : ViewModelBase, IDialogRes
         catch (Exception exception)
         {
             _logger.LogError(exception, exception.Message);
+            _dialogService.ShowError(exception.Message);
         }
         finally
         {

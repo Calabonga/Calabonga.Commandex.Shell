@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Calabonga.Commandex.Contracts" Version="1.0.0-beta.4" />
+		<PackageReference Include="Calabonga.Commandex.Contracts" Version="1.0.0-beta.5" />
 		<PackageReference Include="Calabonga.Wpf.AppDefinitions" Version="1.0.0-beta.9" />
 		<PackageReference Include="Npgsql" Version="8.0.3" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.122" />

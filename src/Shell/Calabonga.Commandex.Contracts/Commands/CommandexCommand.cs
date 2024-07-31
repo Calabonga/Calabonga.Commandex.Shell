@@ -16,39 +16,78 @@ public abstract class CommandexCommand<TDialogView, TDialogResult> : ICommandexC
         _dialogService = dialogService;
     }
 
-    public IDialogResult? Result { get; private set; }
+    /// <summary>
+    /// // Calabonga: Summary required (CommandexCommand 2024-07-31 07:49)
+    /// </summary>
+    public virtual bool IsPushToShellEnabled => false;
 
-    public bool HasResult => Result is not null;
-
+    /// <summary>
+    /// // Calabonga: Summary required (CommandexCommand 2024-07-31 07:49)
+    /// </summary>
     public string TypeName => GetType().Name;
 
+    /// <summary>
+    /// // Calabonga: Summary required (CommandexCommand 2024-07-31 07:49)
+    /// </summary>
     public abstract string CopyrightInfo { get; }
 
+    /// <summary>
+    /// // Calabonga: Summary required (CommandexCommand 2024-07-31 07:49)
+    /// </summary>
     public abstract string DisplayName { get; }
 
+    /// <summary>
+    /// // Calabonga: Summary required (CommandexCommand 2024-07-31 07:49)
+    /// </summary>
     public abstract string Description { get; }
 
+    /// <summary>
+    /// // Calabonga: Summary required (CommandexCommand 2024-07-31 07:49)
+    /// </summary>
     public abstract string Version { get; }
 
+    /// <summary>
+    /// // Calabonga: Summary required (CommandexCommand 2024-07-31 07:49)
+    /// </summary>
+    private IDialogResult? Result { get; set; }
+
+    /// <summary>
+    /// // Calabonga: Summary required (CommandexCommand 2024-07-31 07:49)
+    /// </summary>
     public Task ShowDialogAsync()
     {
-        _dialogService.ShowDialog<TDialogView, TDialogResult>(OnResult);
+        _dialogService.ShowDialog<TDialogView, TDialogResult>(result =>
+        {
+            if (IsPushToShellEnabled)
+            {
+                SetResult(result);
+            }
+        });
 
         return Task.CompletedTask;
     }
 
-    public virtual void OnResult(TDialogResult result)
-    {
-        SetResult(result);
-    }
-
-    private void SetResult(TDialogResult result)
+    /// <summary>
+    /// // Calabonga: Summary required (CommandexCommand 2024-07-31 07:49)
+    /// </summary>
+    protected virtual void SetResult(TDialogResult result)
     {
         Result = result;
     }
 
-    public object GetResult()
+    /// <summary>
+    /// // Calabonga: Summary required (CommandexCommand 2024-07-31 07:49)
+    /// </summary>
+    private void OnClosingDialogCallback(TDialogResult result)
     {
-        return Result!;
+
+    }
+
+    /// <summary>
+    /// // Calabonga: Summary required (CommandexCommand 2024-07-31 07:49)
+    /// </summary>
+    public object? GetResult()
+    {
+        return IsPushToShellEnabled ? Result : null;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Calabonga.Commandex.Contracts;
-using Calabonga.Commandex.UI.Core.Dialogs;
 using Calabonga.Commandex.UI.Core.Dialogs.Base;
 using Calabonga.Commandex.UI.Core.Services;
 using Calabonga.Commandex.UI.ViewModels;
@@ -29,9 +28,6 @@ internal static class DependencyContainer
 
         services.AddSingleton<ShellWindowViewModel>();
         services.AddSingleton<ShellWindow>();
-
-        services.AddSingleton<ModulesInfoDialog>();
-        services.AddSingleton<ModulesInfoDialogViewModel>();
 
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<IVersionService, VersionService>();

@@ -16,11 +16,11 @@ public static class ExecutionReport
         stringBuilder.AppendLine();
         stringBuilder.AppendLine(command.Description);
         stringBuilder.AppendLine();
-        stringBuilder.AppendLine(command.HasResult
+        stringBuilder.AppendLine(command.IsPushToShellEnabled
             ? "Есть объект в результате."
             : "Нет объекта в результате.");
 
-        if (command.HasResult)
+        if (command.IsPushToShellEnabled)
         {
             var res = command.GetResult();
             var data = JsonSerializer.Serialize(res, JsonSerializerOptionsExt.Cyrillic);

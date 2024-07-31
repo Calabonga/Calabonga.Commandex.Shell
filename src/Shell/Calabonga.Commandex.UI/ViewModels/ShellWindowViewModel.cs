@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Calabonga.Commandex.Contracts;
 using Calabonga.Commandex.Contracts.Commands;
-using Calabonga.Commandex.UI.Core.Dialogs;
 using Calabonga.Commandex.UI.Core.Engine;
 
 using Calabonga.Commandex.UI.Core.Services;
@@ -68,19 +67,12 @@ public partial class ShellWindowViewModel : ViewModelBase
 
         await command.ShowDialogAsync();
 
-        if (command.HasResult)
+        if (command.IsPushToShellEnabled)
         {
             var message = ExecutionReport.CreateReport(command);
             _logger.LogInformation("{CommandType} executed with result: {Result}", command.TypeName, message);
             _dialogService.ShowNotification(message);
         }
-    }
-
-
-    [RelayCommand]
-    private async Task ShowModules()
-    {
-        _dialogService.ShowDialog<ModulesInfoDialog, ModulesInfoDialogViewModel>(_ => { });
     }
 
     [RelayCommand]

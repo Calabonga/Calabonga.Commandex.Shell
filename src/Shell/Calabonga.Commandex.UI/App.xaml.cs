@@ -56,15 +56,13 @@ public partial class App : Application
 
         shell.DataContext = shellViewModel;
 
-        Log.Logger.Information("Application started.");
-
         shell.Show();
 
-        Log.Logger.Information("Application startup completed.");
+        Log.Logger.Information("Application started.");
     }
 
     /// <summary>
-    ///     Required method to load App.Resources
+    ///     Required method to load Application Resources
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>

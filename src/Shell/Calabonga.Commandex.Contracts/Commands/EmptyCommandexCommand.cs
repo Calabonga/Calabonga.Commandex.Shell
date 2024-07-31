@@ -10,7 +10,7 @@ public abstract class EmptyCommandexCommand<TResult> : ICommandexCommand
 
     public abstract string CopyrightInfo { get; }
 
-    public bool HasResult => Result is not null;
+    public virtual bool IsPushToShellEnabled => false;
 
     public abstract string DisplayName { get; }
 

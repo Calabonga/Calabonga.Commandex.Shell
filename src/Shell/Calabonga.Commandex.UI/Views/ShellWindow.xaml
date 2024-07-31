@@ -71,7 +71,6 @@
             <StackPanel Grid.Row="1" Margin="4">
                 <CheckBox IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" Content="Включить панель поиска"/>
                 <Button Content="About" Command="{Binding ShowAboutCommand}" MinWidth="150" />
-                <Button Content="Modules Info" Command="{Binding ShowModulesCommand}" MinWidth="150" />
             </StackPanel>
         </Grid>
     </Grid>

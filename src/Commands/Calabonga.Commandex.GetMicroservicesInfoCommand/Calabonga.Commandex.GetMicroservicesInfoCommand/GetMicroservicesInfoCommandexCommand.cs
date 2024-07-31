@@ -15,6 +15,5 @@ public class GetMicroservicesInfoCommandexCommand : CommandexCommand<GetMicroser
 
     public override string Description => "Команда получает список микросервисов c PostgreSQL (Localhost), которые зарегистрированы в OpenIddict Server.";
 
-    public override string Version => "v1.0.0-beta.4";
-
+    public override string Version => "v1.0.0-beta.5";
 }
