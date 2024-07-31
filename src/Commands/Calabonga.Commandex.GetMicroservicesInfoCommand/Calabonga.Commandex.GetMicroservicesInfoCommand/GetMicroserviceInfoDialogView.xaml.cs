@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using Calabonga.Commandex.Contracts;
 
 namespace Calabonga.Commandex.GetMicroservicesInfoCommand
@@ -11,6 +12,12 @@ namespace Calabonga.Commandex.GetMicroservicesInfoCommand
         public GetMicroserviceInfoDialogView()
         {
             InitializeComponent();
+        }
+
+        private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (DataContext != null)
+            { ((GetMicroserviceInfoDialogResult)DataContext).Password = ((PasswordBox)sender).SecurePassword; }
         }
     }
 }

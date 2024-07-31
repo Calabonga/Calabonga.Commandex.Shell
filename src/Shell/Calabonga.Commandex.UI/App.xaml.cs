@@ -32,10 +32,6 @@ public partial class App : Application
     /// </summary>
     public IServiceProvider Services { get; private set; }
 
-    /// <summary>
-    /// Configures the services for the application.
-    /// </summary>
-
     /// <summary>Raises the <see cref="E:System.Windows.Application.Startup" /> event.</summary>
     /// <param name="e">A <see cref="T:System.Windows.StartupEventArgs" /> that contains the event data.</param>
     protected override void OnStartup(StartupEventArgs e)

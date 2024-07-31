@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Security;
 using Calabonga.Commandex.Contracts;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -26,17 +27,45 @@ public partial class GetMicroserviceInfoDialogResult : ViewModelBase, IDialogRes
 
     public string DialogTitle => Title;
 
+    [NotifyPropertyChangedFor(nameof(IsValid))]
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(LoadMicroservicesCommand))]
+    private string? _host = "localhost";
+
+    [NotifyPropertyChangedFor(nameof(IsValid))]
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(LoadMicroservicesCommand))]
+    private string? _database = "auth_openiddict";
+
+    [NotifyPropertyChangedFor(nameof(IsValid))]
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(LoadMicroservicesCommand))]
+    private string? _username = "qcrm_db_user";
+
+    [NotifyPropertyChangedFor(nameof(IsValid))]
+    [NotifyCanExecuteChangedFor(nameof(LoadMicroservicesCommand))]
+    [ObservableProperty]
+    private SecureString? _password;
+
+    public bool IsValid => !string.IsNullOrEmpty(Host) &&
+                           !string.IsNullOrEmpty(Database) &&
+                           !string.IsNullOrEmpty(Username) &&
+                           Password is not null;
+
     [ObservableProperty]
     private ObservableCollection<Microservice> _microservices = new();
 
-    [RelayCommand]
+
+    [RelayCommand(CanExecute = nameof(IsValid))]
     private async Task LoadMicroservices()
     {
         IsBusy = true;
 
+        var password = new System.Net.NetworkCredential(string.Empty, Password).Password;
+
         var list = new List<Microservice>();
 
-        await using var connection = _connectionFactory.CreateConnection("User ID=qcrm_db_user;Password=8jkGh47hnDw89Haq8LN2;Host=localhost;Port=5432;Database=auth_openiddict;");
+        await using var connection = _connectionFactory.CreateConnection($"User ID={Username};Password={password};Host={Host};Port=5432;Database={Database};");
         try
         {
             await connection.OpenAsync();
