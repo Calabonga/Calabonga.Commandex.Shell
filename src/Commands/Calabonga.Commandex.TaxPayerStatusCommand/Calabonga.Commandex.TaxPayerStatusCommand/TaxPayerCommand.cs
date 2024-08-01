@@ -1,5 +1,5 @@
-﻿using Calabonga.Commandex.Contracts;
-using Calabonga.Commandex.Contracts.Commands;
+﻿using Calabonga.Commandex.Engine;
+using Calabonga.Commandex.Engine.Commands;
 
 namespace Calabonga.Commandex.TaxPayerStatusCommand;
 
@@ -15,8 +15,5 @@ public class TaxPayerCommand : CommandexCommand<TaxPayerDialogView, TaxPayerDial
 
     public override string Version => "v1.0.0-beta.4";
 
-    public override void OnResult(TaxPayerDialogResult result)
-    {
-
-    }
+    public override bool IsPushToShellEnabled => true;
 }

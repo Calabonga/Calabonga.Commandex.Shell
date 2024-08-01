@@ -1,15 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWPF>true</UseWPF>
-    <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWPF>true</UseWPF>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Calabonga.Commandex.Contracts" Version="1.0.0-beta.6" />
-    <PackageReference Include="Calabonga.Wpf.AppDefinitions" Version="1.0.0-beta.9" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Calabonga.Commandex.Engine" Version="1.0.0-beta.7" />
+		<PackageReference Include="Calabonga.Wpf.AppDefinitions" Version="1.0.0-beta.9" />
+	</ItemGroup>
 
 </Project>

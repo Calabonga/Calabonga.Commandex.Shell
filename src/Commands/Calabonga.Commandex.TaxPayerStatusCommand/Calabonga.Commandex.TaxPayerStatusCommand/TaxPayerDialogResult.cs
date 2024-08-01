@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Json;
-using Calabonga.Commandex.Contracts;
+using Calabonga.Commandex.Engine;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 

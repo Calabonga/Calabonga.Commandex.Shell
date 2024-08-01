@@ -1,4 +1,4 @@
-﻿using Calabonga.Commandex.Contracts.Commands;
+﻿using Calabonga.Commandex.Engine.Commands;
 using Calabonga.Wpf.AppDefinitions;
 using Microsoft.Extensions.DependencyInjection;
 

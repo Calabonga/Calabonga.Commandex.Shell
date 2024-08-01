@@ -1,4 +1,4 @@
-﻿using Calabonga.Commandex.Contracts.Commands;
+﻿using Calabonga.Commandex.Engine.Commands;
 
 namespace Calabonga.Commandex.Welcome;
 
@@ -9,6 +9,7 @@ public class WelcomeCommandexCommand : EmptyCommandexCommand<string>
         Result = "Welcome";
         return Task.CompletedTask;
     }
+
     public override bool IsPushToShellEnabled => true;
 
     public override string CopyrightInfo => "Calabonga SOFT © 2024";
