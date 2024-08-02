@@ -34,6 +34,10 @@ public class DialogService : IDialogService
         dialog.Content = userControl;
         dialog.Title = ((IDialogResult)viewModel).DialogTitle;
 
+        dialog.ResizeMode = ((IDialogResult)viewModel).ResizeMode;
+        dialog.SizeToContent = ((IDialogResult)viewModel).SizeToContent;
+        dialog.WindowStyle = ((IDialogResult)viewModel).WindowStyle;
+
         dialog.ShowDialog();
         dialog.InitializeComponent();
 
@@ -90,14 +94,15 @@ public class DialogService : IDialogService
 
         dialog.Closed += closeEventHandler;
 
+        var viewModel = new NotificationDialogResult { Title = message };
         var control = new NotificationDialog
         {
-            DataContext = new NotificationDialogViewModel
-            {
-                Title = message
-            }
+            DataContext = viewModel
         };
 
+        dialog.ResizeMode = ((IDialogResult)viewModel).ResizeMode;
+        dialog.SizeToContent = ((IDialogResult)viewModel).SizeToContent;
+        dialog.WindowStyle = ((IDialogResult)viewModel).WindowStyle;
         dialog.Content = control;
 
         dialog.Title = GetTitle(type);
