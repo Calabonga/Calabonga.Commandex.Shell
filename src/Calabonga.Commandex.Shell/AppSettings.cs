@@ -15,6 +15,7 @@ public class AppSettings
 
         CommandsPath = Environment.GetEnvironmentVariable("COMMANDS_FOLDER") ?? throw new ArgumentNullException($"COMMANDS_FOLDER");
         ShowSearchPanelOnStartup = bool.Parse(Environment.GetEnvironmentVariable("SHOW_SEARCH_PANEL_ONSTARTUP") ?? "false");
+        ArtifactsFolderName = Environment.GetEnvironmentVariable("ARTIFACTS_FOLDER_NAME") ?? "Artifacts";
     }
 
     /// <summary>
@@ -31,4 +32,6 @@ public class AppSettings
     /// If True then search bar on the top of the commands list will be visible by default.
     /// </summary>
     public bool ShowSearchPanelOnStartup { get; }
+
+    public string ArtifactsFolderName { get; }
 }

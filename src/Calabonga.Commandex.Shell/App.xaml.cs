@@ -107,7 +107,7 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
-        Log.Information("Application shutdown successful");
+        Log.Information("Commandex Executor successfully shutdown");
         Log.CloseAndFlush();
         base.OnExit(e);
     }

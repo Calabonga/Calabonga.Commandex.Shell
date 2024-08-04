@@ -1,4 +1,5 @@
 ﻿using Calabonga.Commandex.Engine;
+using Calabonga.Commandex.Shell.Core.Dialogs;
 using Calabonga.Commandex.Shell.Core.Dialogs.Base;
 using Calabonga.Commandex.Shell.Core.Services;
 using Calabonga.Commandex.Shell.ViewModels;
@@ -27,12 +28,19 @@ internal static class DependencyContainer
 
         services.AddSingleton<ShellWindowViewModel>();
         services.AddSingleton<ShellWindow>();
+        services.AddSingleton<AboutDialog>();
+        services.AddSingleton<AboutDialogResult>();
+
+        services.AddTransient<CommandExecutor>();
+        services.AddTransient<ArtifactManager>();
+        services.AddTransient<FileService>();
+        services.AddTransient<NuGetService>();
 
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<IVersionService, VersionService>();
 
         var types = new List<Type>() { typeof(App) };
-        types.AddRange(CommandsFinder.Find(AppSettings.Default.CommandsPath).ToList());
+        types.AddRange(CommandFinder.Find(AppSettings.Default.CommandsPath));
         services.AddDefinitions(types.ToArray());
 
         return services.BuildServiceProvider();

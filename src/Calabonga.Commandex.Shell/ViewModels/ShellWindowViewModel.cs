@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using Calabonga.Commandex.Engine;
 using Calabonga.Commandex.Engine.Commands;
+using Calabonga.Commandex.Shell.Core.Dialogs;
 using Calabonga.Commandex.Shell.Core.Engine;
 using Calabonga.Commandex.Shell.Core.Services;
 using Calabonga.Commandex.Shell.Models;
@@ -13,19 +14,25 @@ namespace Calabonga.Commandex.Shell.ViewModels;
 
 public partial class ShellWindowViewModel : ViewModelBase
 {
+    private readonly CommandExecutor _commandExecutor;
     private readonly IEnumerable<ICommandexCommand> _commands;
+    private readonly IEnumerable<INugetDependency> _dependencies;
     private readonly ILogger<ShellWindowViewModel> _logger;
     private readonly IDialogService _dialogService;
 
     public ShellWindowViewModel(
+        CommandExecutor commandExecutor,
         IEnumerable<ICommandexCommand> commands,
+        IEnumerable<INugetDependency> dependencies,
         ILogger<ShellWindowViewModel> logger,
         IDialogService dialogService,
         IVersionService versionService)
     {
         Version = $"{versionService.Version} ({versionService.Branch}:{versionService.Commit})";
         Title = $"Command Executor {Version}";
+        _commandExecutor = commandExecutor;
         _commands = commands;
+        _dependencies = dependencies;
         _logger = logger;
         _dialogService = dialogService;
     }
@@ -40,7 +47,7 @@ public partial class ShellWindowViewModel : ViewModelBase
     private string _version;
 
     [ObservableProperty]
-    private ObservableCollection<CommandItem> _actionList;
+    private ObservableCollection<CommandItem> _commandItems = new();
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ExecuteActionCommand))]
@@ -51,29 +58,25 @@ public partial class ShellWindowViewModel : ViewModelBase
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
     private async Task ExecuteActionAsync()
     {
-        var command = _commands.FirstOrDefault(x => x.TypeName == SelectedCommand!.TypeName);
-        if (command is null)
+        var operation = await _commandExecutor.ExecuteAsync(SelectedCommand!);
+        if (operation.Ok)
         {
-            _logger.LogError("Action not found");
+            var command = operation.Result;
+            var message = CommandReport.CreateReport(command);
+            _logger.LogInformation("{CommandType} executed with result: {Result}", command.TypeName, message);
+            _dialogService.ShowNotification(message);
             return;
         }
 
-        _logger.LogDebug("Executing {CommandType}", command.TypeName);
-
-        await command.ShowDialogAsync();
-
-        if (command.IsPushToShellEnabled)
-        {
-            var message = ExecutionReport.CreateReport(command);
-            _logger.LogInformation("{CommandType} executed with result: {Result}", command.TypeName, message);
-            _dialogService.ShowNotification(message);
-        }
+        _logger.LogError(operation.Error, operation.Error.Message);
+        _dialogService.ShowError(operation.Error.Message);
     }
 
     [RelayCommand]
     private void ShowAbout()
     {
-        _dialogService.ShowNotification($"{Version}: Command Executor or Command Launcher. To run commands of any type for any purpose. For example, to execute a stored procedure or just to copy some files to some destination.");
+        _dialogService.ShowDialog<AboutDialog, AboutDialogResult>();
+        //_dialogService.ShowNotification($"{Version}: Command Executor or Command Launcher. To run commands of any type for any purpose. For example, to execute a stored procedure or just to copy some files to some destination.");
     }
 
     [RelayCommand]
@@ -106,7 +109,7 @@ public partial class ShellWindowViewModel : ViewModelBase
             .Select(x => new CommandItem(x.TypeName, x.Version, x.DisplayName, x.Description))
             .ToList();
 
-        ActionList = new ObservableCollection<CommandItem>(actionsList);
+        CommandItems = new ObservableCollection<CommandItem>(actionsList);
 
         _logger.LogInformation($"Total commands were found: {actionsList.Count}");
     }

@@ -10,6 +10,9 @@
         <Style x:Key="FancyBorder" TargetType="{x:Type Border}">
             <Setter Property="Margin" Value="2" />
             <Setter Property="Padding" Value="8" />
-</Style>
+            <Setter Property="BorderBrush" Value="#cccccc" />
+            <Setter Property="BorderThickness" Value="1" />
+
+        </Style>
     </Application.Resources>
 </Application>

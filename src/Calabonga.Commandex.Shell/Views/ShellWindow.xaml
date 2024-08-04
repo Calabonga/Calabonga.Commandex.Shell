@@ -37,7 +37,7 @@
             <TextBlock Grid.Column="0" Text="Фильтрация" Margin="0,0,4,0"/>
             <TextBox Grid.Column="1" Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <ListView ItemsSource="{Binding ActionList}" SelectedItem="{Binding SelectedCommand, Mode=TwoWay}"
+        <ListView ItemsSource="{Binding CommandItems}" SelectedItem="{Binding SelectedCommand, Mode=TwoWay}"
                   Grid.Column="0" Grid.Row="1" Margin="4"
                   HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListView.ItemTemplate>

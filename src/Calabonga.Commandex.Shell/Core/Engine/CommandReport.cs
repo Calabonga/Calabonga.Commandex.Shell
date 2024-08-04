@@ -1,14 +1,13 @@
 ﻿using System.Text;
-using System.Text.Json;
-using Calabonga.Commandex.Engine;
 using Calabonga.Commandex.Engine.Commands;
+using NuGet.Protocol;
 
 namespace Calabonga.Commandex.Shell.Core.Engine;
 
 /// <summary>
-/// // Calabonga: Summary required (ExecutionReport 2024-07-30 10:13)
+/// // Calabonga: Summary required (CommandReport 2024-07-30 10:13)
 /// </summary>
-public static class ExecutionReport
+public static class CommandReport
 {
     public static string CreateReport(ICommandexCommand command)
     {
@@ -23,8 +22,17 @@ public static class ExecutionReport
         if (command.IsPushToShellEnabled)
         {
             var res = command.GetResult();
-            var data = JsonSerializer.Serialize(res, JsonSerializerOptionsExt.Cyrillic);
-            stringBuilder.Append(data);
+            try
+            {
+                var data = res.ToJson();
+                stringBuilder.Append(data);
+
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                throw;
+            }
         }
 
         stringBuilder.AppendLine();

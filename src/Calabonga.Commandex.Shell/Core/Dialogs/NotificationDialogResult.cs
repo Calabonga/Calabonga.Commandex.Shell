@@ -8,8 +8,6 @@ namespace Calabonga.Commandex.Shell.Core.Dialogs;
 /// </summary>
 public partial class NotificationDialogResult : DefaultDialogResult
 {
-    public override string DialogTitle => Title;
-
     /// <summary>
     /// Default value <see cref="WindowStyle.ToolWindow"/>
     /// </summary>
