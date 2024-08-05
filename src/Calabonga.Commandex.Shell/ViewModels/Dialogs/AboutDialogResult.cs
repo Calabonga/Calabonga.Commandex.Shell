@@ -1,6 +1,6 @@
 ﻿using Calabonga.Commandex.Engine;
-using Calabonga.Commandex.Shell.Core.Engine;
-using Calabonga.Commandex.Shell.Core.Services;
+using Calabonga.Commandex.Shell.Engine;
+using Calabonga.Commandex.Shell.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows;

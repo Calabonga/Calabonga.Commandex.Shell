@@ -1,11 +1,13 @@
 ﻿using Calabonga.Commandex.Engine;
 using Calabonga.Commandex.Engine.Exceptions;
+using Calabonga.Commandex.Shell.Core.Dialogs;
+using Calabonga.Commandex.Shell.Core.Dialogs.Base;
 using Calabonga.OperationResults;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System.Windows.Controls;
 
-namespace Calabonga.Commandex.Shell.Core.Dialogs.Base;
+namespace Calabonga.Commandex.Shell.Core;
 
 /// <summary>
 /// // Calabonga: Summary required (DialogService 2024-08-03 07:58)
@@ -59,7 +61,7 @@ public class DialogService : IDialogService
         {
             var window = (DialogWindow)sender!;
             var userControl = (UserControl)window.Content;
-            var viewModel = ((TViewModel)userControl.DataContext);
+            var viewModel = (TViewModel)userControl.DataContext;
             onClosingDialogCallback?.Invoke(viewModel);
             dialog.Closed -= handler;
         };
@@ -70,11 +72,11 @@ public class DialogService : IDialogService
         {
             var viewModel = App.Current.Services.GetRequiredService(typeof(TViewModel));
             var control = App.Current.Services.GetRequiredService(typeof(TView));
-            var userControl = ((UserControl)control);
+            var userControl = (UserControl)control;
             userControl.DataContext = viewModel;
             dialog.Content = userControl;
 
-            var viewModelResult = ((IDialogResult)viewModel);
+            var viewModelResult = (IDialogResult)viewModel;
             viewModelResult.Owner = dialog;
 
             var title = viewModelResult.Title;

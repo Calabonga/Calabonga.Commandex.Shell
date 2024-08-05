@@ -1,9 +1,9 @@
-﻿using System.Windows;
-using Calabonga.Commandex.Shell.Core.Engine;
+﻿using Calabonga.Commandex.Shell.Engine;
 using Calabonga.Commandex.Shell.ViewModels;
 using Calabonga.Commandex.Shell.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using System.Windows;
 
 namespace Calabonga.Commandex.Shell;
 
@@ -25,7 +25,7 @@ public partial class App : Application
     /// <summary>
     /// Gets the current <see cref="App"/> instance in use
     /// </summary>
-    public new static App Current => (App)Application.Current;
+    public static new App Current => (App)Application.Current;
 
     /// <summary>
     /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.

@@ -1,4 +1,4 @@
-﻿namespace Calabonga.Commandex.Shell.Core.Dialogs.Base;
+﻿namespace Calabonga.Commandex.Shell.Core;
 
 public enum LogLevel
 {

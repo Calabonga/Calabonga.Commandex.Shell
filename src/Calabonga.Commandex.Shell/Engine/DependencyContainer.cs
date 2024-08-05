@@ -1,7 +1,7 @@
 ﻿using Calabonga.Commandex.Engine;
+using Calabonga.Commandex.Shell.Core;
 using Calabonga.Commandex.Shell.Core.Dialogs;
-using Calabonga.Commandex.Shell.Core.Dialogs.Base;
-using Calabonga.Commandex.Shell.Core.Services;
+using Calabonga.Commandex.Shell.Services;
 using Calabonga.Commandex.Shell.ViewModels;
 using Calabonga.Commandex.Shell.Views;
 using Calabonga.Wpf.AppDefinitions;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
 
-namespace Calabonga.Commandex.Shell.Core.Engine;
+namespace Calabonga.Commandex.Shell.Engine;
 
 internal static class DependencyContainer
 {
@@ -32,7 +32,7 @@ internal static class DependencyContainer
         services.AddSingleton<AboutDialogResult>();
 
         services.AddTransient<CommandExecutor>();
-        services.AddTransient<ArtifactManager>();
+        services.AddTransient<ArtifactService>();
         services.AddTransient<FileService>();
         services.AddTransient<NuGetService>();
 

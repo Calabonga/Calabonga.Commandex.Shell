@@ -2,7 +2,7 @@
 using Calabonga.Commandex.Engine.Commands;
 using NuGet.Protocol;
 
-namespace Calabonga.Commandex.Shell.Core.Engine;
+namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
 /// // Calabonga: Summary required (CommandReport 2024-07-30 10:13)

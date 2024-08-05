@@ -11,7 +11,7 @@ public class AppSettings
 
     private AppSettings()
     {
-        Env.Load(".env", LoadOptions.TraversePath());
+        Env.Load("commandex.env", LoadOptions.TraversePath());
 
         CommandsPath = Environment.GetEnvironmentVariable("COMMANDS_FOLDER") ?? throw new ArgumentNullException($"COMMANDS_FOLDER");
         ShowSearchPanelOnStartup = bool.Parse(Environment.GetEnvironmentVariable("SHOW_SEARCH_PANEL_ONSTARTUP") ?? "false");

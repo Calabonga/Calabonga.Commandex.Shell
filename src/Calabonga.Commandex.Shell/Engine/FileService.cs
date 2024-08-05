@@ -1,6 +1,7 @@
-﻿using System.IO;
+﻿using Calabonga.Commandex.Shell.Services;
+using System.IO;
 
-namespace Calabonga.Commandex.Shell.Core.Engine;
+namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
 /// // Calabonga: Summary required (FileService 2024-08-04 06:16)
@@ -9,7 +10,7 @@ public sealed class FileService
 {
     public long GetArtifactsSize()
     {
-        var folder = new DirectoryInfo(ArtifactManager.ArtifactsFolderPath);
+        var folder = new DirectoryInfo(ArtifactService.ArtifactsFolderPath);
         return folder.GetFiles("*.*", SearchOption.AllDirectories).Sum(fi => fi.Length);
     }
 }

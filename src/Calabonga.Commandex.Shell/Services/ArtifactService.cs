@@ -1,13 +1,14 @@
 ﻿using Calabonga.Commandex.Engine;
 using Calabonga.Commandex.Engine.Commands;
+using Calabonga.Commandex.Shell.Engine;
 using System.IO;
 
-namespace Calabonga.Commandex.Shell.Core.Engine;
+namespace Calabonga.Commandex.Shell.Services;
 
 /// <summary>
-/// // Calabonga: Summary required (ArtifactManager 2024-08-04 07:03)
+/// // Calabonga: Summary required (ArtifactService 2024-08-04 07:03)
 /// </summary>
-public sealed class ArtifactManager
+public sealed class ArtifactService
 {
     internal static readonly string ArtifactsFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AppSettings.Default.ArtifactsFolderName);
     private readonly CancellationTokenSource _cancellationTokenSource = new();
@@ -16,7 +17,7 @@ public sealed class ArtifactManager
     private readonly IEnumerable<INugetDependency> _dependencies;
     private string? _definitionArtifactFolder;
 
-    public ArtifactManager(
+    public ArtifactService(
         NuGetService nuGetService,
         IEnumerable<INugetDependency> dependencies)
     {
@@ -27,7 +28,7 @@ public sealed class ArtifactManager
     }
 
     /// <summary>
-    /// // Calabonga: Summary required (ArtifactManager 2024-08-04 07:26)
+    /// // Calabonga: Summary required (ArtifactService 2024-08-04 07:26)
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
@@ -54,7 +55,7 @@ public sealed class ArtifactManager
     }
 
     /// <summary>
-    /// // Calabonga: Summary required (ArtifactManager 2024-08-04 07:26)
+    /// // Calabonga: Summary required (ArtifactService 2024-08-04 07:26)
     /// </summary>
     private static void CreateArtifactFolderInNotExists()
     {

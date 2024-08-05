@@ -1,4 +1,4 @@
-﻿namespace Calabonga.Commandex.Shell.Core.Services;
+﻿namespace Calabonga.Commandex.Shell.Services;
 
 public interface IVersionService
 {

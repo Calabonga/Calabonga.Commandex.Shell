@@ -1,4 +1,4 @@
-﻿namespace Calabonga.Commandex.Shell.Core.Engine;
+﻿namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
 /// // Calabonga: Summary required (NuGetSourceType 2024-08-04 06:54)
@@ -7,5 +7,4 @@ public enum NuGetSourceType
 {
     Local,
     Remote
-
 }

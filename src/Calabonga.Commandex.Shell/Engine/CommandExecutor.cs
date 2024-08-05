@@ -1,10 +1,11 @@
 ﻿using Calabonga.Commandex.Engine.Commands;
 using Calabonga.Commandex.Engine.Exceptions;
 using Calabonga.Commandex.Shell.Models;
+using Calabonga.Commandex.Shell.Services;
 using Calabonga.OperationResults;
 using Serilog;
 
-namespace Calabonga.Commandex.Shell.Core.Engine;
+namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
 /// // Calabonga: Summary required (CommandExecutor 2024-08-03 09:54)
@@ -12,14 +13,14 @@ namespace Calabonga.Commandex.Shell.Core.Engine;
 public sealed class CommandExecutor
 {
     private readonly IEnumerable<ICommandexCommand> _commands;
-    private readonly ArtifactManager _artifactManager;
+    private readonly ArtifactService _artifactService;
 
     public CommandExecutor(
         IEnumerable<ICommandexCommand> commands,
-        ArtifactManager artifactManager)
+        ArtifactService artifactService)
     {
         _commands = commands;
-        _artifactManager = artifactManager;
+        _artifactService = artifactService;
     }
 
     public event EventHandler? CommandPrepared;
@@ -43,7 +44,7 @@ public sealed class CommandExecutor
 
         OnCommandPreparing();
 
-        await _artifactManager.CheckDependenciesReadyAsync(command);
+        await _artifactService.CheckDependenciesReadyAsync(command);
 
         OnCommandPrepared();
 
