@@ -1,14 +1,13 @@
-﻿using System.Collections.ObjectModel;
-using Calabonga.Commandex.Engine;
+﻿using Calabonga.Commandex.Engine;
 using Calabonga.Commandex.Engine.Commands;
 using Calabonga.Commandex.Shell.Core.Dialogs;
 using Calabonga.Commandex.Shell.Core.Engine;
-using Calabonga.Commandex.Shell.Core.Services;
 using Calabonga.Commandex.Shell.Models;
 using Calabonga.PredicatesBuilder;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
+using System.Collections.ObjectModel;
 
 namespace Calabonga.Commandex.Shell.ViewModels;
 
@@ -16,25 +15,23 @@ public partial class ShellWindowViewModel : ViewModelBase
 {
     private readonly CommandExecutor _commandExecutor;
     private readonly IEnumerable<ICommandexCommand> _commands;
-    private readonly IEnumerable<INugetDependency> _dependencies;
     private readonly ILogger<ShellWindowViewModel> _logger;
     private readonly IDialogService _dialogService;
 
     public ShellWindowViewModel(
         CommandExecutor commandExecutor,
         IEnumerable<ICommandexCommand> commands,
-        IEnumerable<INugetDependency> dependencies,
         ILogger<ShellWindowViewModel> logger,
-        IDialogService dialogService,
-        IVersionService versionService)
+        IDialogService dialogService)
     {
-        Version = $"{versionService.Version} ({versionService.Branch}:{versionService.Commit})";
-        Title = $"Command Executor {Version}";
+        Title = "CommandEx - Command Executor";
         _commandExecutor = commandExecutor;
         _commands = commands;
-        _dependencies = dependencies;
         _logger = logger;
         _dialogService = dialogService;
+
+        _commandExecutor.CommandPrepared += (_, _) => { IsBusy = false; };
+        _commandExecutor.CommandPreparing += (_, _) => { IsBusy = true; };
     }
 
     [ObservableProperty]
@@ -42,9 +39,6 @@ public partial class ShellWindowViewModel : ViewModelBase
 
     [ObservableProperty]
     private bool _isFindEnabled = AppSettings.Default.ShowSearchPanelOnStartup;
-
-    [ObservableProperty]
-    private string _version;
 
     [ObservableProperty]
     private ObservableCollection<CommandItem> _commandItems = new();
@@ -59,6 +53,7 @@ public partial class ShellWindowViewModel : ViewModelBase
     private async Task ExecuteActionAsync()
     {
         var operation = await _commandExecutor.ExecuteAsync(SelectedCommand!);
+
         if (operation.Ok)
         {
             var command = operation.Result;
@@ -73,11 +68,7 @@ public partial class ShellWindowViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void ShowAbout()
-    {
-        _dialogService.ShowDialog<AboutDialog, AboutDialogResult>();
-        //_dialogService.ShowNotification($"{Version}: Command Executor or Command Launcher. To run commands of any type for any purpose. For example, to execute a stored procedure or just to copy some files to some destination.");
-    }
+    private void ShowAbout() => _dialogService.ShowDialog<AboutDialog, AboutDialogResult>();
 
     [RelayCommand]
     private void LoadData()
@@ -97,11 +88,11 @@ public partial class ShellWindowViewModel : ViewModelBase
         {
             var term = SearchTerm.ToLower();
             predicate = predicate
-                .And(x => x.DisplayName.ToLower().Contains((string)term))
-                .Or(x => x.Description.ToLower().Contains((string)term))
-                .Or(x => x.CopyrightInfo.ToLower().Contains((string)term))
-                .Or(x => x.TypeName.ToLower().Contains((string)term))
-                .Or(x => x.Version.ToLower().Contains((string)term));
+                .And(x => x.DisplayName.ToLower().Contains(term))
+                .Or(x => x.Description.ToLower().Contains(term))
+                .Or(x => x.CopyrightInfo.ToLower().Contains(term))
+                .Or(x => x.TypeName.ToLower().Contains(term))
+                .Or(x => x.Version.ToLower().Contains(term));
         }
 
         var actionsList = _commands
@@ -111,21 +102,9 @@ public partial class ShellWindowViewModel : ViewModelBase
 
         CommandItems = new ObservableCollection<CommandItem>(actionsList);
 
-        _logger.LogInformation($"Total commands were found: {actionsList.Count}");
+        _logger.LogInformation("Total commands were found: {ActionCount}", actionsList.Count);
     }
 
-    partial void OnSearchTermChanged(string? value)
-    {
-        FindCommands();
-    }
+    partial void OnSearchTermChanged(string? value) => FindCommands();
 
-    partial void OnIsFindEnabledChanged(bool value)
-    {
-        _logger.LogInformation("IsFindEnabled {Value}", value);
-    }
-
-    partial void OnSelectedCommandChanged(CommandItem? value)
-    {
-        _logger.LogInformation("SelectedCommand {Name}", value?.TypeName ?? "N/A");
-    }
 }

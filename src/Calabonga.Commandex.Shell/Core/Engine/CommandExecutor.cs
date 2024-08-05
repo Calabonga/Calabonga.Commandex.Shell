@@ -22,6 +22,9 @@ public sealed class CommandExecutor
         _artifactManager = artifactManager;
     }
 
+    public event EventHandler? CommandPrepared;
+    public event EventHandler? CommandPreparing;
+
     /// <summary>
     /// // Calabonga: Summary required (CommandExecutor 2024-08-03 09:54)
     /// </summary>
@@ -38,15 +41,20 @@ public sealed class CommandExecutor
 
         Log.Logger.Debug("Executing {CommandType}", command.TypeName);
 
+        OnCommandPreparing();
+
         await _artifactManager.CheckDependenciesReadyAsync(command);
 
+        OnCommandPrepared();
+
         var operation = command.ExecuteCommand();
-        if (operation.Ok)
-        {
-            return Operation.Result(command);
-        }
-        return Operation.Error(new CommandExecuteException(operation.Error.Message, operation.Error));
 
-
+        return operation.Ok
+            ? Operation.Result(command)
+            : Operation.Error(new CommandExecuteException(operation.Error.Message, operation.Error));
     }
+
+    private void OnCommandPrepared() => CommandPrepared?.Invoke(this, EventArgs.Empty);
+
+    private void OnCommandPreparing() => CommandPreparing?.Invoke(this, EventArgs.Empty);
 }

@@ -73,5 +73,7 @@
                 <Button Content="About" Command="{Binding ShowAboutCommand}" MinWidth="150" />
             </StackPanel>
         </Grid>
+
+        <ProgressBar Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" IsIndeterminate="True" Height="10" VerticalAlignment="Bottom" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
     </Grid>
 </Window>
