@@ -1,11 +1,11 @@
-﻿<base:DialogUserControlBase x:Class="Calabonga.Commandex.Shell.Core.Dialogs.AboutDialog"
+﻿<core:DialogUserControlBase x:Class="Calabonga.Commandex.Shell.Core.Dialogs.AboutDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:base="clr-namespace:Calabonga.Commandex.Shell.Core.Dialogs.Base"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:dialogs="clr-namespace:Calabonga.Commandex.Shell.Core.Dialogs"
+             xmlns:core="clr-namespace:Calabonga.Commandex.Shell.Core"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance dialogs:AboutDialogResult}"
              MinHeight="300" Width="700"
@@ -85,4 +85,4 @@
             </Grid>
         </Border>
     </Border>
-</base:DialogUserControlBase>
+</core:DialogUserControlBase>

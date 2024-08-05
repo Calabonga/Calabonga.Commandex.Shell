@@ -1,5 +1,6 @@
 ﻿using Calabonga.Commandex.Engine;
 using Calabonga.Commandex.Engine.Commands;
+using Calabonga.Commandex.Engine.Exceptions;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Packaging;
@@ -10,8 +11,9 @@ using NuGet.Versioning;
 using System.IO;
 using System.IO.Compression;
 using System.Reflection;
+using System.Runtime.Versioning;
 
-namespace Calabonga.Commandex.Shell.Core.Engine;
+namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
 /// // Calabonga: Summary required (NuGetService 2024-08-04 06:50)
@@ -34,9 +36,16 @@ public sealed class NuGetService
             var packageId = nugetDependency[0].Name;
             var version = nugetDependency[0].Version;
 
-            var list = await LoadPackageByIdFromNugetAsync(command, packageId, version, sourceType, artifactsFolderPath, cancellationToken);
+            var extractedFiles = await LoadPackageByIdFromNugetAsync(command, packageId, version, sourceType, artifactsFolderPath, cancellationToken);
 
-            list.ForEach(x => Assembly.LoadFrom(x));
+            foreach (var file in extractedFiles)
+            {
+                var extension = Path.GetExtension(file);
+                if (extension == ".dll")
+                {
+                    Assembly.LoadFrom(file);
+                }
+            }
         }
     }
 
@@ -76,7 +85,6 @@ public sealed class NuGetService
             throw new Exception($"Invalid version {version} for nuget package {packageId} ({sourceType})");
         }
 
-
         using var downloadResourceResult = await downloadResource.GetDownloadResourceResultAsync(
             new PackageIdentity(packageId, nuGetVersion),
             new PackageDownloadContext(new SourceCacheContext()),
@@ -95,11 +103,42 @@ public sealed class NuGetService
 
         var libItems = await reader.GetLibItemsAsync(cancellationToken);
 
+        var groups = new List<FrameworkSpecificGroup>();
+
+        var all = libItems.ToList();
+        if (all.Count > 1)
+        {
+            var targetFrameworkAttribute = Assembly.GetExecutingAssembly()
+                .GetCustomAttributes(typeof(TargetFrameworkAttribute), false)
+                .SingleOrDefault();
+
+            if (targetFrameworkAttribute is not null)
+            {
+                var filtered = all.FirstOrDefault(x => x.TargetFramework.DotNetFrameworkName == ((TargetFrameworkAttribute)targetFrameworkAttribute).FrameworkName);
+                if (filtered is not null)
+                {
+                    groups.Add(filtered);
+                }
+                else
+                {
+                    throw new NugetExtractException("TargetFrameworkAttribute not found");
+                }
+            }
+            else
+            {
+                throw new NugetExtractException("TargetFrameworkAttribute not found");
+            }
+        }
+        else
+        {
+            groups = all;
+        }
+
         var loadedDllPaths = new List<string>();
         var definitionArtifactFolder = Path.Combine(artifactsFolderPath, command.TypeName);
-        foreach (var libItem in libItems)
+        foreach (var libItem in groups)
         {
-            foreach (var libItemItem in libItem.Items)
+            foreach (var libItemItem in libItem.Items.Where(x => x.EndsWith(".dll")))
             {
                 var entry = archive.GetEntry(libItemItem);
                 using var memoryStream = new MemoryStream();

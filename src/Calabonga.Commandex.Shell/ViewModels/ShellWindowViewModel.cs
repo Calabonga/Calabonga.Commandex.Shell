@@ -1,7 +1,7 @@
 ﻿using Calabonga.Commandex.Engine;
 using Calabonga.Commandex.Engine.Commands;
 using Calabonga.Commandex.Shell.Core.Dialogs;
-using Calabonga.Commandex.Shell.Core.Engine;
+using Calabonga.Commandex.Shell.Engine;
 using Calabonga.Commandex.Shell.Models;
 using Calabonga.PredicatesBuilder;
 using CommunityToolkit.Mvvm.ComponentModel;
