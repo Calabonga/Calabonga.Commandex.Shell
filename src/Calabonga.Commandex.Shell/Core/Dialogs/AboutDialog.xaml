@@ -5,48 +5,84 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:base="clr-namespace:Calabonga.Commandex.Shell.Core.Dialogs.Base"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:dialogs="clr-namespace:Calabonga.Commandex.Shell.Core.Dialogs"
              mc:Ignorable="d" 
-             Height="250" Width="450">
+             d:DataContext="{d:DesignInstance dialogs:AboutDialogResult}"
+             MinHeight="300" Width="700"
+             x:Name="Dialog">
 
     <b:Interaction.Triggers>
         <b:EventTrigger EventName="Loaded">
             <b:InvokeCommandAction Command="{Binding LoadDataCommand, Mode=OneWay}"/>
         </b:EventTrigger>
     </b:Interaction.Triggers>
+    <Border Style="{StaticResource FancyBorder}" Background="#f5f5f5">
+        <Border Style="{StaticResource FancyBorder}" Background="White">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
 
-    <Border Style="{StaticResource FancyBorder}">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                
-            </Grid.RowDefinitions>
-            <Button Grid.Row="0" Grid.Column="2" Content="x" MinHeight="20" MinWidth="20" Command="{Binding CloseDialogCommand}"/>
-            <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" Grid.Column="2" Content="x" MinHeight="20" MinWidth="20" Command="{Binding CloseDialogCommand}"/>
+                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                        TextAlignment="Center"
-                       Text="Command Executor" Style="{StaticResource Header}"/>
-            <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-                       TextAlignment="Center"
-                       Text="Command Executor or Command Launcher. To run commands of any type for any purpose. For example, to execute a stored procedure or just to copy some files to some destination."
-                       TextWrapping="Wrap"/>
-            <ScrollViewer Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
-                <Grid>
+                       Text="Commandex" Style="{StaticResource HugeHeader}"/>
+                <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Artifacts size:"/>
-                    <TextBlock Grid.Column="1" Text="{Binding ArtifactsSize}" TextAlignment="Right"/>
+                    <TextBlock Grid.Row="0" Margin="2" Grid.Column="0" Style="{StaticResource SubHeader}" TextAlignment="Right" Text="Version:"/>
+                    <TextBlock Grid.Row="1" Margin="2" Grid.Column="0" Style="{StaticResource SubHeader}" TextAlignment="Right" Text="Branch:"/>
+                    <TextBlock Grid.Row="2" Margin="2" Grid.Column="0" Style="{StaticResource SubHeader}" TextAlignment="Right" Text="Commit:"/>
+                    <TextBlock Grid.Row="3" Margin="2" Grid.Column="0" Style="{StaticResource SubHeader}" TextAlignment="Right" Text="Tag:"/>
+                    <TextBlock Grid.Row="0" Margin="2" Grid.Column="1" Style="{StaticResource SubHeader}" TextAlignment="Left" FontWeight="Light" Text="{Binding Version}"/>
+                    <TextBlock Grid.Row="1" Margin="2" Grid.Column="1" Style="{StaticResource SubHeader}" TextAlignment="Left" FontWeight="Light" Text="{Binding Branch}"/>
+                    <TextBlock Grid.Row="2" Margin="2" Grid.Column="1" Style="{StaticResource SubHeader}" TextAlignment="Left" FontWeight="Light" Text="{Binding Commit}"/>
+                    <TextBlock Grid.Row="3" Margin="2" Grid.Column="1" Style="{StaticResource SubHeader}" TextAlignment="Left" FontWeight="Light" Text="{Binding Tag}"/>
                 </Grid>
-            </ScrollViewer>
-        </Grid>
+                <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="20"
+                       TextAlignment="Center" Style="{StaticResource SubHeader}" FontWeight="Thin"
+                       Text="Commandex - Command Executor created to run commands that can be created for any purpose. For example, to execute a stored procedure or just to copy some files to some destination."
+                       TextWrapping="Wrap"/>
+                <ScrollViewer Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Row="0" Margin="2" Grid.Column="0" TextAlignment="Right" Text="Artifacts folder size:"/>
+                        <TextBlock Grid.Row="1" Margin="2" Grid.Column="0" TextAlignment="Right" Text="Artifacts folder path:"/>
+                        <TextBlock Grid.Row="2" Margin="2" Grid.Column="0" TextAlignment="Right" Text="Command folder path:"/>
+                        <TextBlock Grid.Row="3" Margin="2" Grid.Column="0" TextAlignment="Right" Text="Show search panel on startup:"/>
+                        <TextBlock Grid.Row="0" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding ArtifactsSize}" />
+                        <TextBlock Grid.Row="1" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding ArtifactsFolder}"/>
+                        <TextBlock Grid.Row="2" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding CommandsFolder}" TextWrapping="Wrap"/>
+                        <TextBlock Grid.Row="3" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding ShowSearchPanelOnStartup}" />
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+        </Border>
     </Border>
-
 </base:DialogUserControlBase>
