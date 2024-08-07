@@ -1,10 +1,10 @@
 ﻿using Calabonga.Commandex.Engine;
 using Calabonga.Commandex.Shell.Core;
 using Calabonga.Commandex.Shell.Core.Dialogs;
+using Calabonga.Commandex.Shell.Extensions;
 using Calabonga.Commandex.Shell.Services;
 using Calabonga.Commandex.Shell.ViewModels;
 using Calabonga.Commandex.Shell.Views;
-using Calabonga.Wpf.AppDefinitions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -39,9 +39,7 @@ internal static class DependencyContainer
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<IVersionService, VersionService>();
 
-        var types = new List<Type>() { typeof(App) };
-        types.AddRange(CommandFinder.Find(AppSettings.Default.CommandsPath));
-        services.AddDefinitions(types.ToArray());
+        services.AddModulesDefinitions();
 
         return services.BuildServiceProvider();
     }

@@ -1,5 +1,6 @@
 ﻿using Calabonga.Commandex.Engine;
 using Calabonga.Commandex.Engine.Commands;
+using Calabonga.OperationResults;
 using Calabonga.Wpf.AppDefinitions;
 using Serilog;
 using System.IO;
@@ -17,13 +18,15 @@ internal static class CommandFinder
     /// </summary>
     /// <param name="commandexFolderPath"></param>
     /// <exception cref="AppDefinitionsNotFoundException"></exception>
-    internal static Type[] Find(string commandexFolderPath)
+    internal static Operation<Type[], Exception> Find(string commandexFolderPath)
     {
         try
         {
             if (!Directory.Exists(commandexFolderPath))
             {
-                return [];
+                Directory.CreateDirectory(commandexFolderPath);
+                Log.Information("Folder for modules [{FolderName}] not found. It has been created.", commandexFolderPath);
+                return Operation.Result(new Type[] { });
             }
 
             var types = new List<Type>();
@@ -32,7 +35,8 @@ internal static class CommandFinder
             var files = modulesDirectory.GetFiles("*.dll");
             if (!files.Any())
             {
-                return [];
+                Log.Information("No modules were found in folder {FolderName}", commandexFolderPath);
+                return Operation.Result(new Type[] { });
             }
 
             foreach (var fileInfo in files)
@@ -66,7 +70,7 @@ internal static class CommandFinder
         catch (Exception exception)
         {
             Log.Error(exception, exception.Message);
-            throw;
+            return Operation.Error(exception);
         }
     }
 

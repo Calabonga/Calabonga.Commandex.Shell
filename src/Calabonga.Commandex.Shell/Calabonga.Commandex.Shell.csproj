@@ -9,9 +9,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Remove="Dialogs\**" />
 		<Compile Remove="Properties\**" />
+		<EmbeddedResource Remove="Dialogs\**" />
 		<EmbeddedResource Remove="Properties\**" />
+		<None Remove="Dialogs\**" />
 		<None Remove="Properties\**" />
+		<Page Remove="Dialogs\**" />
 		<Page Remove="Properties\**" />
 	</ItemGroup>
 
@@ -31,10 +35,6 @@
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
 		<PackageReference Include="NuGet.Protocol" Version="6.10.1" />
 		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Dialogs\" />
 	</ItemGroup>
 
 </Project>
