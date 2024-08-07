@@ -1,4 +1,5 @@
-﻿using Calabonga.Commandex.Shell.Engine;
+﻿using Calabonga.Commandex.Engine;
+using Calabonga.Commandex.Shell.Engine;
 using Calabonga.Commandex.Shell.ViewModels;
 using Calabonga.Commandex.Shell.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,9 +29,15 @@ public partial class App : Application
     public static new App Current => (App)Application.Current;
 
     /// <summary>
+    /// Last exception that was occurred in application.
+    /// If not null it will show as soon as possible and then will  be reset to null
+    /// </summary>
+    private Exception? LastException { get; set; }
+
+    /// <summary>
     /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.
     /// </summary>
-    public IServiceProvider Services { get; private set; }
+    public IServiceProvider Services { get; }
 
     /// <summary>Raises the <see cref="E:System.Windows.Application.Startup" /> event.</summary>
     /// <param name="e">A <see cref="T:System.Windows.StartupEventArgs" /> that contains the event data.</param>
@@ -51,6 +58,12 @@ public partial class App : Application
         }
 
         shell.DataContext = shellViewModel;
+
+        if (LastException is not null)
+        {
+            Services.GetRequiredService<IDialogService>().ShowError(LastException.Message);
+            LastException = null;
+        }
 
         shell.Show();
 

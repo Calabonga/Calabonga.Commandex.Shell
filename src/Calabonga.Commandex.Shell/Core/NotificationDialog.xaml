@@ -24,7 +24,7 @@
         </ScrollViewer>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="4" HorizontalAlignment="Right">
-            <Button Content="Ok" Click="OnButtonOkClicked" Padding="4" MinWidth="150"/>
+            <Button Content="Ok" Click="OnButtonOkClicked" Padding="4" IsDefault="True" MinWidth="150"/>
         </StackPanel>
     </Grid>
 </UserControl>
