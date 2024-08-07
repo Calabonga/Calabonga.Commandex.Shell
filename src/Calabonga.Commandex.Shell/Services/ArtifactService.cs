@@ -43,15 +43,13 @@ public sealed class ArtifactService
         }
 
         var definitionFolder = new DirectoryInfo(_definitionArtifactFolder);
-        if (!definitionFolder.Exists)
+        var source = definitionFolder.Exists switch
         {
-            await _nuGetService.LoadPackagesFromNugetAsync(command, items, NuGetSourceType.Remote, ArtifactsFolderPath, _cancellationTokenSource.Token);
-        }
+            true => NuGetSourceType.Local,
+            false => NuGetSourceType.Remote
+        };
 
-        else
-        {
-            await _nuGetService.LoadPackagesFromNugetAsync(command, items, NuGetSourceType.Local, ArtifactsFolderPath, _cancellationTokenSource.Token);
-        }
+        await _nuGetService.LoadPackagesFromNugetAsync(command, items, source, ArtifactsFolderPath, _cancellationTokenSource.Token);
     }
 
     /// <summary>
