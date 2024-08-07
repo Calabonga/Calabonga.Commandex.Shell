@@ -10,7 +10,7 @@ namespace Calabonga.Commandex.Shell.Services;
 /// </summary>
 public sealed class ArtifactService
 {
-    internal static readonly string ArtifactsFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AppSettings.Default.ArtifactsFolderName);
+    internal static readonly string ArtifactsFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, App.Current.Settings.ArtifactsFolderName);
     private readonly CancellationTokenSource _cancellationTokenSource = new();
 
     private readonly NuGetService _nuGetService;

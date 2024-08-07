@@ -1,7 +1,5 @@
 ﻿using Calabonga.Commandex.Engine;
 using Calabonga.Commandex.Engine.Exceptions;
-using Calabonga.Commandex.Shell.Core.Dialogs;
-using Calabonga.Commandex.Shell.Core.Dialogs.Base;
 using Calabonga.OperationResults;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

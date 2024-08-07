@@ -20,6 +20,8 @@ public partial class App : Application
             .WriteTo.File("/logs/commandex-.log", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true, shared: true)
             .CreateLogger();
 
+        Settings = SettingsFinder.Configure();
+
         Services = DependencyContainer.ConfigureServices();
     }
 
@@ -27,6 +29,11 @@ public partial class App : Application
     /// Gets the current <see cref="App"/> instance in use
     /// </summary>
     public static new App Current => (App)Application.Current;
+
+    /// <summary>
+    /// Current Application settings from env-file.
+    /// </summary>
+    internal AppSettings Settings { get; }
 
     /// <summary>
     /// Last exception that was occurred in application.

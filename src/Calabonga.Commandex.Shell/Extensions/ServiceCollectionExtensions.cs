@@ -12,8 +12,7 @@ internal static class ServiceCollectionExtensions
     internal static void AddModulesDefinitions(this IServiceCollection source)
     {
         var types = new List<Type>() { typeof(App) };
-        var findOperation = CommandFinder.Find(AppSettings.Default.CommandsPath);
-
+        var findOperation = CommandFinder.Find(App.Current.Settings.CommandsPath);
         if (findOperation.Ok)
         {
             types.AddRange(findOperation.Result);

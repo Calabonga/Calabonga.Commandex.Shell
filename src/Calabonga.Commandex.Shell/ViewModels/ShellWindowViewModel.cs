@@ -1,13 +1,14 @@
 ﻿using Calabonga.Commandex.Engine;
 using Calabonga.Commandex.Engine.Commands;
-using Calabonga.Commandex.Shell.Core.Dialogs;
 using Calabonga.Commandex.Shell.Engine;
 using Calabonga.Commandex.Shell.Models;
+using Calabonga.Commandex.Shell.Views.Dialogs;
 using Calabonga.PredicatesBuilder;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
+using AboutDialogResult = Calabonga.Commandex.Shell.ViewModels.Dialogs.AboutDialogResult;
 
 namespace Calabonga.Commandex.Shell.ViewModels;
 
@@ -38,7 +39,7 @@ public partial class ShellWindowViewModel : ViewModelBase
     private string? _searchTerm;
 
     [ObservableProperty]
-    private bool _isFindEnabled = AppSettings.Default.ShowSearchPanelOnStartup;
+    private bool _isFindEnabled = App.Current.Settings.ShowSearchPanelOnStartup;
 
     [ObservableProperty]
     private ObservableCollection<CommandItem> _commandItems = new();

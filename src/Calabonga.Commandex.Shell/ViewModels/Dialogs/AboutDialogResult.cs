@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows;
 
-namespace Calabonga.Commandex.Shell.Core.Dialogs;
+namespace Calabonga.Commandex.Shell.ViewModels.Dialogs;
 
 public partial class AboutDialogResult : DefaultDialogResult
 {
@@ -54,9 +54,9 @@ public partial class AboutDialogResult : DefaultDialogResult
     {
         var total = ((float)_fileService.GetArtifactsSize() / 1024).ToString("F");
         ArtifactsSize = $"{total} KB";
-        ArtifactsFolder = AppSettings.Default.ArtifactsFolderName;
-        CommandsFolder = AppSettings.Default.CommandsPath;
-        ShowSearchPanelOnStartup = AppSettings.Default.ShowSearchPanelOnStartup ? "Yes" : "No";
+        ArtifactsFolder = App.Current.Settings.ArtifactsFolderName;
+        CommandsFolder = App.Current.Settings.CommandsPath;
+        ShowSearchPanelOnStartup = App.Current.Settings.ShowSearchPanelOnStartup ? "Yes" : "No";
         Version = _versionService.Version;
         Branch = _versionService.Branch;
         Commit = _versionService.Commit;

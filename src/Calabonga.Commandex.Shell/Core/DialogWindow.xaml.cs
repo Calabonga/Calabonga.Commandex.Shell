@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Calabonga.Commandex.Shell.Core.Dialogs.Base;
+namespace Calabonga.Commandex.Shell.Core;
 
 /// <summary>
 /// Interaction logic for DialogWindow.xaml

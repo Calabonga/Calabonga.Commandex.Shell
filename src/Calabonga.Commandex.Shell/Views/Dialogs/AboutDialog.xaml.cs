@@ -1,4 +1,6 @@
-﻿namespace Calabonga.Commandex.Shell.Core.Dialogs;
+﻿using Calabonga.Commandex.Shell.Core;
+
+namespace Calabonga.Commandex.Shell.Views.Dialogs;
 
 /// <summary>
 /// Interaction logic for AboutDialog.xaml
