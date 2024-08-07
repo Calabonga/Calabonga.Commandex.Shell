@@ -56,6 +56,11 @@ public partial class ShellWindowViewModel : ViewModelBase
 
         if (operation.Ok)
         {
+            if (!operation.Result.IsPushToShellEnabled)
+            {
+                return;
+            }
+
             var command = operation.Result;
             var message = CommandReport.CreateReport(command);
             _logger.LogInformation("{CommandType} executed with result: {Result}", command.TypeName, message);
