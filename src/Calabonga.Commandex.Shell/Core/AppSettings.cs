@@ -1,6 +1,6 @@
 ﻿using Calabonga.Commandex.Engine;
 
-namespace Calabonga.Commandex.Shell;
+namespace Calabonga.Commandex.Shell.Core;
 
 /// <summary>
 /// Application settings imported from .env-file with parameters.

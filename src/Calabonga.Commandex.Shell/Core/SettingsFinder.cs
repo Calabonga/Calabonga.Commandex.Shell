@@ -1,6 +1,6 @@
 ﻿using DotNetEnv;
 
-namespace Calabonga.Commandex.Shell.Engine;
+namespace Calabonga.Commandex.Shell.Core;
 
 /// <summary>
 /// // Calabonga: Summary required (SettingsFinder 2024-08-07 07:52)
