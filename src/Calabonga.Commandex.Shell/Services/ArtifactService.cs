@@ -1,6 +1,8 @@
 ﻿using Calabonga.Commandex.Engine;
 using Calabonga.Commandex.Engine.Commands;
+using Calabonga.Commandex.Engine.Exceptions;
 using Calabonga.Commandex.Shell.Engine;
+using Calabonga.OperationResults;
 using System.IO;
 
 namespace Calabonga.Commandex.Shell.Services;
@@ -13,15 +15,15 @@ public sealed class ArtifactService
     internal static readonly string ArtifactsFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, App.Current.Settings.ArtifactsFolderName);
     private readonly CancellationTokenSource _cancellationTokenSource = new();
 
-    private readonly NuGetService _nuGetService;
+    private readonly NuGetLoader _nuGetLoader;
     private readonly IEnumerable<INugetDependency> _dependencies;
     private string? _definitionArtifactFolder;
 
     public ArtifactService(
-        NuGetService nuGetService,
+        NuGetLoader nuGetLoader,
         IEnumerable<INugetDependency> dependencies)
     {
-        _nuGetService = nuGetService;
+        _nuGetLoader = nuGetLoader;
         _dependencies = dependencies;
 
         CreateArtifactFolderInNotExists();
@@ -32,14 +34,14 @@ public sealed class ArtifactService
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    public async Task CheckDependenciesReadyAsync(ICommandexCommand command)
+    public async Task<OperationEmpty<CommandExecuteException>> CheckDependenciesReadyAsync(ICommandexCommand command)
     {
         _definitionArtifactFolder = Path.Combine(ArtifactsFolderPath, command.TypeName);
 
         var items = _dependencies.Where(x => x.Type.Name == command.TypeName).ToList();
         if (!items.Any())
         {
-            return;
+            return Operation.Result();
         }
 
         var definitionFolder = new DirectoryInfo(_definitionArtifactFolder);
@@ -49,7 +51,8 @@ public sealed class ArtifactService
             false => NuGetSourceType.Remote
         };
 
-        await _nuGetService.LoadPackagesFromNugetAsync(command, items, source, ArtifactsFolderPath, _cancellationTokenSource.Token);
+        return await _nuGetLoader.LoadPackagesFromNugetAsync(command, items, source, ArtifactsFolderPath, _cancellationTokenSource.Token);
+
     }
 
     /// <summary>

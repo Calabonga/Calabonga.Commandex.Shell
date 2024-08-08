@@ -40,7 +40,7 @@ public partial class App : Application
     /// Last exception that was occurred in application.
     /// If not null it will show as soon as possible and then will  be reset to null
     /// </summary>
-    private Exception? LastException { get; set; }
+    public Exception? LastException { get; set; }
 
     /// <summary>
     /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.

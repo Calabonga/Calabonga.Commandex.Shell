@@ -1,6 +1,8 @@
 ﻿using Calabonga.Commandex.Engine;
 using Calabonga.Commandex.Engine.Commands;
 using Calabonga.Commandex.Engine.Exceptions;
+using Calabonga.Commandex.Shell.Extensions;
+using Calabonga.OperationResults;
 using NuGet.Common;
 using NuGet.Configuration;
 using NuGet.Packaging;
@@ -8,20 +10,20 @@ using NuGet.Packaging.Core;
 using NuGet.Protocol;
 using NuGet.Protocol.Core.Types;
 using NuGet.Versioning;
+using Serilog;
 using System.IO;
 using System.IO.Compression;
 using System.Reflection;
-using System.Runtime.Versioning;
 
 namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
-/// // Calabonga: Summary required (NuGetService 2024-08-04 06:50)
+/// // Calabonga: Summary required (NuGetLoader 2024-08-04 06:50)
 /// </summary>
-public sealed class NuGetService
+public sealed class NuGetLoader
 {
     /// <summary>
-    /// // Calabonga: Summary required (NuGetService 2024-08-04 07:09)
+    /// // Calabonga: Summary required (NuGetLoader 2024-08-04 07:09)
     /// </summary>
     /// <param name="items"></param>
     /// <param name="sourceType"></param>
@@ -29,7 +31,7 @@ public sealed class NuGetService
     /// <param name="cancellationToken"></param>
     /// <param name="command"></param>
     /// <returns></returns>
-    public async Task LoadPackagesFromNugetAsync(ICommandexCommand command, List<INugetDependency> items, NuGetSourceType sourceType, string artifactsFolderPath, CancellationToken cancellationToken)
+    public async Task<OperationEmpty<CommandExecuteException>> LoadPackagesFromNugetAsync(ICommandexCommand command, List<INugetDependency> items, NuGetSourceType sourceType, string artifactsFolderPath, CancellationToken cancellationToken)
     {
         foreach (var nugetDependency in items.Select(x => x.Dependencies))
         {
@@ -38,7 +40,13 @@ public sealed class NuGetService
 
             var extractedFiles = await LoadPackageByIdFromNugetAsync(command, packageId, version, sourceType, artifactsFolderPath, cancellationToken);
 
-            foreach (var file in extractedFiles)
+            if (!extractedFiles.Ok)
+            {
+                App.Current.LastException = extractedFiles.Error;
+                return Operation.Error(extractedFiles.Error);
+            }
+
+            foreach (var file in extractedFiles.Result)
             {
                 var extension = Path.GetExtension(file);
                 if (extension == ".dll")
@@ -46,11 +54,14 @@ public sealed class NuGetService
                     Assembly.LoadFrom(file);
                 }
             }
+
         }
+
+        return Operation.Result();
     }
 
     /// <summary>
-    /// // Calabonga: Summary required (NuGetService 2024-08-04 07:09)
+    /// // Calabonga: Summary required (NuGetLoader 2024-08-04 07:09)
     /// </summary>
     /// <param name="isRemote"></param>
     /// <param name="artifactsFolderPath"></param>
@@ -75,14 +86,21 @@ public sealed class NuGetService
     /// <param name="cancellationToken"></param>
     /// <returns>The list of loaded assemblies</returns>
     /// <exception cref="Exception"></exception>
-    private async Task<List<string>> LoadPackageByIdFromNugetAsync(ICommandexCommand command, string packageId, string version, NuGetSourceType sourceType, string artifactsFolderPath, CancellationToken cancellationToken)
+    private async Task<Operation<List<string>, CommandExecuteException>> LoadPackageByIdFromNugetAsync(
+        ICommandexCommand command,
+        string packageId,
+        string version,
+        NuGetSourceType sourceType,
+        string artifactsFolderPath,
+        CancellationToken cancellationToken)
     {
         var globalNuget = Path.Combine(artifactsFolderPath, "packages");
         var repository = GetRepository(sourceType, globalNuget);
         var downloadResource = await repository.GetResourceAsync<DownloadResource>(cancellationToken);
         if (!NuGetVersion.TryParse(version, out var nuGetVersion))
         {
-            throw new Exception($"Invalid version {version} for nuget package {packageId} ({sourceType})");
+            var downloadException = new CommandExecuteException($"Invalid version {version} for nuget package {packageId} ({sourceType})");
+            return Operation.Error(downloadException);
         }
 
         using var downloadResourceResult = await downloadResource.GetDownloadResourceResultAsync(
@@ -94,7 +112,8 @@ public sealed class NuGetService
 
         if (downloadResourceResult.Status != DownloadResourceResultStatus.Available)
         {
-            throw new Exception($"DownloadAsync of NuGet package failed. DownloadResult Status: {downloadResourceResult.Status}");
+            var statusException = new CommandExecuteException($"DownloadAsync of NuGet package failed. DownloadResult Status: {downloadResourceResult.Status}");
+            return Operation.Error(statusException);
         }
 
         var reader = downloadResourceResult.PackageReader;
@@ -103,42 +122,21 @@ public sealed class NuGetService
 
         var libItems = await reader.GetLibItemsAsync(cancellationToken);
 
-        var groups = new List<FrameworkSpecificGroup>();
-
         var all = libItems.ToList();
+
         if (all.Count > 1)
         {
-            var targetFrameworkAttribute = Assembly.GetExecutingAssembly()
-                .GetCustomAttributes(typeof(TargetFrameworkAttribute), false)
-                .SingleOrDefault();
-
-            if (targetFrameworkAttribute is not null)
-            {
-                var filtered = all.FirstOrDefault(x => x.TargetFramework.DotNetFrameworkName == ((TargetFrameworkAttribute)targetFrameworkAttribute).FrameworkName);
-                if (filtered is not null)
-                {
-                    groups.Add(filtered);
-                }
-                else
-                {
-                    throw new NugetExtractException("TargetFrameworkAttribute not found");
-                }
-            }
-            else
-            {
-                throw new NugetExtractException("TargetFrameworkAttribute not found");
-            }
-        }
-        else
-        {
-            groups = all;
+            all = all.FindCompatible();
         }
 
         var loadedDllPaths = new List<string>();
         var definitionArtifactFolder = Path.Combine(artifactsFolderPath, command.TypeName);
-        foreach (var libItem in groups)
+        foreach (var libItem in all)
         {
-            foreach (var libItemItem in libItem.Items.Where(x => x.EndsWith(".dll")))
+            var files = libItem.Items.Where(x => x.EndsWith(".dll"))
+                .Where(x => !x.Contains("resources"));
+
+            foreach (var libItemItem in files)
             {
                 var entry = archive.GetEntry(libItemItem);
                 using var memoryStream = new MemoryStream();
@@ -148,10 +146,11 @@ public sealed class NuGetService
                 assemblyLoadContext.LoadFromStream(memoryStream);
                 var dllFile = Path.Combine(definitionArtifactFolder!, entry!.Name);
                 entry.SaveAsFile(dllFile, NullLogger.Instance);
+                Log.Debug(dllFile);
                 loadedDllPaths.Add(dllFile);
             }
         }
 
-        return loadedDllPaths;
+        return Operation.Result(loadedDllPaths);
     }
 }

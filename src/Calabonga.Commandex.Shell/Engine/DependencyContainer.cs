@@ -35,7 +35,7 @@ internal static class DependencyContainer
         services.AddTransient<CommandExecutor>();
         services.AddTransient<ArtifactService>();
         services.AddTransient<FileService>();
-        services.AddTransient<NuGetService>();
+        services.AddTransient<NuGetLoader>();
 
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<IVersionService, VersionService>();

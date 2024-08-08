@@ -3,8 +3,11 @@
 public interface IVersionService
 {
     public string Version { get; }
+
     public string Branch { get; }
+
     public string Commit { get; }
+
     public string Tag { get; }
 }
 
