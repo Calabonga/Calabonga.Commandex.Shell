@@ -15,10 +15,10 @@ public class VersionService : IVersionService
 {
     public VersionService()
     {
-        Version = $"{ThisAssembly.Git.SemVer.Major}.{ThisAssembly.Git.SemVer.Minor}.{ThisAssembly.Git.SemVer.Patch}";
+        Version = $"{ThisAssembly.Git.BaseVersion.Major}.{ThisAssembly.Git.BaseVersion.Minor}.{ThisAssembly.Git.BaseVersion.Patch}";
         Branch = ThisAssembly.Git.Branch;
         Commit = ThisAssembly.Git.Commit;
-        Tag = ThisAssembly.Git.SemVer.Label;
+        Tag = ThisAssembly.Git.BaseTag;
     }
 
     public string Version { get; }
