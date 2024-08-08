@@ -11,6 +11,12 @@ namespace Calabonga.Commandex.Shell.Extensions;
 /// </summary>
 internal static class FrameworkSpecificGroupExtensions
 {
+    /// <summary>
+    /// Returns filtered by <see cref="FrameworkSpecificGroup"/> items.
+    /// </summary>
+    /// <param name="source"></param>
+    /// <returns></returns>
+    /// <exception cref="NugetExtractException"></exception>
     internal static List<FrameworkSpecificGroup> FindCompatible(this List<FrameworkSpecificGroup> source)
     {
         const string netStandardName21 = ".NETStandard,Version=v2.1";

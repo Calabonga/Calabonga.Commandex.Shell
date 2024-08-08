@@ -18,12 +18,12 @@ using System.Reflection;
 namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
-/// // Calabonga: Summary required (NuGetLoader 2024-08-04 06:50)
+/// // Calabonga: Summary required (NugetLoader 2024-08-04 06:50)
 /// </summary>
-public sealed class NuGetLoader
+public sealed class NugetLoader
 {
     /// <summary>
-    /// // Calabonga: Summary required (NuGetLoader 2024-08-04 07:09)
+    /// // Calabonga: Summary required (NugetLoader 2024-08-04 07:09)
     /// </summary>
     /// <param name="items"></param>
     /// <param name="sourceType"></param>
@@ -54,14 +54,13 @@ public sealed class NuGetLoader
                     Assembly.LoadFrom(file);
                 }
             }
-
         }
 
         return Operation.Result();
     }
 
     /// <summary>
-    /// // Calabonga: Summary required (NuGetLoader 2024-08-04 07:09)
+    /// // Calabonga: Summary required (NugetLoader 2024-08-04 07:09)
     /// </summary>
     /// <param name="isRemote"></param>
     /// <param name="artifactsFolderPath"></param>

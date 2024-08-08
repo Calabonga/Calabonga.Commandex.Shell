@@ -2,13 +2,13 @@
 using Calabonga.Commandex.Engine.Commands;
 using Calabonga.Commandex.Shell.Engine;
 using Calabonga.Commandex.Shell.Models;
+using Calabonga.Commandex.Shell.ViewModels.Dialogs;
 using Calabonga.Commandex.Shell.Views.Dialogs;
 using Calabonga.PredicatesBuilder;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
-using AboutDialogResult = Calabonga.Commandex.Shell.ViewModels.Dialogs.AboutDialogResult;
 
 namespace Calabonga.Commandex.Shell.ViewModels;
 

@@ -1,9 +1,9 @@
-﻿using System.Windows.Controls;
-using Calabonga.Commandex.Engine;
+﻿using Calabonga.Commandex.Engine;
+using System.Windows.Controls;
 
 namespace Calabonga.Commandex.Shell.Core;
 
-public class DialogUserControlBase : UserControl, IDialogView
-{
-
-}
+/// <summary>
+/// Base UserControl class
+/// </summary>
+public abstract class DialogUserControlBase : UserControl, IDialogView { }

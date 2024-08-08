@@ -15,15 +15,15 @@ public sealed class ArtifactService
     internal static readonly string ArtifactsFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, App.Current.Settings.ArtifactsFolderName);
     private readonly CancellationTokenSource _cancellationTokenSource = new();
 
-    private readonly NuGetLoader _nuGetLoader;
+    private readonly NugetLoader _nugetLoader;
     private readonly IEnumerable<INugetDependency> _dependencies;
     private string? _definitionArtifactFolder;
 
     public ArtifactService(
-        NuGetLoader nuGetLoader,
+        NugetLoader nugetLoader,
         IEnumerable<INugetDependency> dependencies)
     {
-        _nuGetLoader = nuGetLoader;
+        _nugetLoader = nugetLoader;
         _dependencies = dependencies;
 
         CreateArtifactFolderInNotExists();
@@ -51,7 +51,7 @@ public sealed class ArtifactService
             false => NuGetSourceType.Remote
         };
 
-        return await _nuGetLoader.LoadPackagesFromNugetAsync(command, items, source, ArtifactsFolderPath, _cancellationTokenSource.Token);
+        return await _nugetLoader.LoadPackagesFromNugetAsync(command, items, source, ArtifactsFolderPath, _cancellationTokenSource.Token);
 
     }
 
