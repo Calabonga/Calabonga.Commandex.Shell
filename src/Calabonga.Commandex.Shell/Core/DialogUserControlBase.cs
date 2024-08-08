@@ -4,6 +4,6 @@ using System.Windows.Controls;
 namespace Calabonga.Commandex.Shell.Core;
 
 /// <summary>
-/// Base UserControl class
+/// UserControl class for all dialogs
 /// </summary>
-public abstract class DialogUserControlBase : UserControl, IDialogView { }
+public class DialogUserControlBase : UserControl, IDialogView { }
