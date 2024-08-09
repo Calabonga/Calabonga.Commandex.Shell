@@ -5,8 +5,9 @@
 /// </summary>
 public sealed class CommandItem : ItemBase
 {
-    public CommandItem(string type, string version, string name, string description)
+    public CommandItem(string scope, string type, string version, string name, string description)
     {
+        Scope = scope;
         TypeName = type;
         Version = version;
         Name = name;
