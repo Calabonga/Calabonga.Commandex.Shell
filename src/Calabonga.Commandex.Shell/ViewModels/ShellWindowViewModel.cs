@@ -15,18 +15,21 @@ namespace Calabonga.Commandex.Shell.ViewModels;
 public partial class ShellWindowViewModel : ViewModelBase
 {
     private readonly CommandExecutor _commandExecutor;
+    private readonly IConfigurationFinder _configurationFinder;
     private readonly IEnumerable<ICommandexCommand> _commands;
     private readonly ILogger<ShellWindowViewModel> _logger;
     private readonly IDialogService _dialogService;
 
     public ShellWindowViewModel(
         CommandExecutor commandExecutor,
+        IConfigurationFinder configurationFinder,
         IEnumerable<ICommandexCommand> commands,
         ILogger<ShellWindowViewModel> logger,
         IDialogService dialogService)
     {
         Title = "CommandEx - Command Executor";
         _commandExecutor = commandExecutor;
+        _configurationFinder = configurationFinder;
         _commands = commands;
         _logger = logger;
         _dialogService = dialogService;
@@ -46,6 +49,7 @@ public partial class ShellWindowViewModel : ViewModelBase
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ExecuteActionCommand))]
+    [NotifyCanExecuteChangedFor(nameof(OpenCommandConfigurationCommand))]
     private CommandItem? _selectedCommand;
 
     private bool CanExecuteAction => SelectedCommand is not null;
@@ -72,6 +76,9 @@ public partial class ShellWindowViewModel : ViewModelBase
         _logger.LogError(operation.Error, operation.Error.Message);
         _dialogService.ShowError(operation.Error.Message);
     }
+
+    [RelayCommand(CanExecute = nameof(CanExecuteAction))]
+    private void OpenCommandConfiguration() => _configurationFinder.CommandConfiguration(SelectedCommand!.Scope);
 
     [RelayCommand]
     private void ShowAbout() => _dialogService.ShowDialog<AboutDialog, AboutDialogResult>();
@@ -103,7 +110,7 @@ public partial class ShellWindowViewModel : ViewModelBase
 
         var actionsList = _commands
             .Where(predicate.Compile())
-            .Select(x => new CommandItem(x.TypeName, x.Version, x.DisplayName, x.Description))
+            .Select(x => new CommandItem(x.GetType().Namespace ?? "Commandex", x.TypeName, x.Version, x.DisplayName, x.Description))
             .ToList();
 
         CommandItems = new ObservableCollection<CommandItem>(actionsList);
