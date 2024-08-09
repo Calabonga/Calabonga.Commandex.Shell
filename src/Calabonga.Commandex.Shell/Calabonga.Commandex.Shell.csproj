@@ -9,6 +9,10 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Views\calabongalogo.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Calabonga.Commandex.Engine" Version="1.0.0-beta.20" />
 		<PackageReference Include="Calabonga.PredicatesBuilder" Version="2.0.1" />
 		<PackageReference Include="DotNetEnv" Version="3.1.0" />
@@ -22,6 +26,10 @@
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
 		<PackageReference Include="NuGet.Protocol" Version="6.10.1" />
 		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Views\calabongalogo.png" />
 	</ItemGroup>
 
 </Project>

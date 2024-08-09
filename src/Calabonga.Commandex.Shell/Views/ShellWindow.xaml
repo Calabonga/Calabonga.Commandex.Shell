@@ -8,7 +8,7 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         d:DataContext="{d:DesignInstance Type=viewModels:ShellWindowViewModel}"
         WindowStartupLocation="CenterScreen"
-        Title="{Binding Title}" Height="768" Width="1024">
+        Title="{Binding Title}" Height="768" Width="1024" Icon="/Views/calabongalogo.png">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </Window.Resources>

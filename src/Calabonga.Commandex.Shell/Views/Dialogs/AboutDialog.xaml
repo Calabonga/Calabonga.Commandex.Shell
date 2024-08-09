@@ -26,17 +26,18 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition />
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" MinHeight="156"/>
+                    <RowDefinition Height="25*" />
+                    <RowDefinition Height="26*"/>
                     <RowDefinition Height="Auto"/>
 
                 </Grid.RowDefinitions>
+                <Image Source="/Views/calabongalogo.png" Stretch="Fill" Grid.Row="1" Margin="109,32,109,0" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2" Width="100" Height="100"/>
                 <Button Grid.Row="0" Grid.Column="2" Content="x" MinHeight="20" MinWidth="20" Command="{Binding CloseDialogCommand}"/>
-                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                <TextBlock Grid.Row="1" Grid.Column="0"
                        TextAlignment="Center"
-                       Text="Commandex" Style="{StaticResource HugeHeader}"/>
-                <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                       Text="Commandex" Style="{StaticResource HugeHeader}" VerticalAlignment="Top" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
+                <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" d:IsLocked="True">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
@@ -56,7 +57,7 @@
                     <TextBlock Grid.Row="2" Margin="2" Grid.Column="1" Style="{StaticResource SubHeader}" TextAlignment="Left" FontWeight="Light" Text="{Binding Commit}"/>
                     <TextBlock Grid.Row="3" Margin="2" Grid.Column="1" Style="{StaticResource SubHeader}" TextAlignment="Left" FontWeight="Light" Text="{Binding Tag}"/>
                 </Grid>
-                <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="20"
+                <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="20,20,20,20"
                        TextAlignment="Center" Style="{StaticResource SubHeader}" FontWeight="Thin"
                        Text="Commandex - Command Executor created to run commands that can be created for any purpose. For example, to execute a stored procedure or just to copy some files to some destination."
                        TextWrapping="Wrap"/>
