@@ -23,7 +23,7 @@ internal static class DependencyContainer
             options.AddSerilog(dispose: true);
             options.AddDebug();
         });
-
+        services.AddScoped<IConfigurationFinder, ConfigurationFinder>();
         services.AddSingleton(typeof(DefaultDialogResult<>));
         services.AddSingleton<DefaultDialogView>();
 
