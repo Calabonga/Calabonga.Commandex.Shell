@@ -67,6 +67,7 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Margin="4">
                 <Button Content="Запуск" Command="{Binding ExecuteActionCommand}" MinWidth="150" />
+                <Button Content="Настройки" Command="{Binding OpenCommandConfigurationCommand}" MinWidth="150" />
             </StackPanel>
             <StackPanel Grid.Row="1" Margin="4">
                 <CheckBox IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" Content="Включить панель поиска"/>
