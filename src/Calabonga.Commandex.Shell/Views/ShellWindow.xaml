@@ -49,7 +49,7 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" FontWeight="Bold" FontSize="18" Text="{Binding Name}"/>
+                                <TextBlock Grid.Column="0" FontWeight="Bold" FontSize="18" Text="{Binding Title}"/>
                                 <StackPanel Grid.Column="1" HorizontalAlignment="Right">
                                     <TextBlock FontWeight="Bold" Text="{Binding Version}" HorizontalAlignment="Right"/>
                                     <TextBlock Text="{Binding Scope}" FontSize="9" HorizontalAlignment="Right"/>
