@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using Calabonga.Commandex.Engine;
+﻿using Calabonga.Commandex.Engine.Dialogs;
+using System.Windows;
 
 namespace Calabonga.Commandex.Shell.Core;
 

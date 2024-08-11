@@ -1,14 +1,15 @@
-﻿using Calabonga.Commandex.Engine;
+﻿using Calabonga.Commandex.Engine.Dialogs;
+using Calabonga.Commandex.Engine.Settings;
 using Calabonga.Commandex.Shell.Core;
 using Calabonga.Commandex.Shell.Extensions;
 using Calabonga.Commandex.Shell.Services;
 using Calabonga.Commandex.Shell.ViewModels;
+using Calabonga.Commandex.Shell.ViewModels.Dialogs;
 using Calabonga.Commandex.Shell.Views;
 using Calabonga.Commandex.Shell.Views.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using AboutDialogResult = Calabonga.Commandex.Shell.ViewModels.Dialogs.AboutDialogResult;
 
 namespace Calabonga.Commandex.Shell.Engine;
 
@@ -24,7 +25,6 @@ internal static class DependencyContainer
             options.AddDebug();
         });
         services.AddScoped<IConfigurationFinder, ConfigurationFinder>();
-        services.AddSingleton(typeof(DefaultDialogResult<>));
         services.AddSingleton<DefaultDialogView>();
 
         services.AddSingleton<ShellWindowViewModel>();

@@ -1,4 +1,4 @@
-﻿using Calabonga.Commandex.Engine;
+﻿using Calabonga.Commandex.Engine.Settings;
 using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;

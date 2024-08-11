@@ -1,6 +1,6 @@
-﻿using Calabonga.Commandex.Engine;
-using Calabonga.Commandex.Engine.Commands;
+﻿using Calabonga.Commandex.Engine.Commands;
 using Calabonga.Commandex.Engine.Exceptions;
+using Calabonga.Commandex.Engine.NugetDependencies;
 using Calabonga.Commandex.Shell.Engine;
 using Calabonga.OperationResults;
 using System.IO;

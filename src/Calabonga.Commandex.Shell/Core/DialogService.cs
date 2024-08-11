@@ -1,4 +1,4 @@
-﻿using Calabonga.Commandex.Engine;
+﻿using Calabonga.Commandex.Engine.Dialogs;
 using Calabonga.Commandex.Engine.Exceptions;
 using Calabonga.OperationResults;
 using Microsoft.Extensions.DependencyInjection;

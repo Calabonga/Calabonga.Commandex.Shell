@@ -1,5 +1,5 @@
-﻿using Calabonga.Commandex.Engine;
-using Calabonga.Commandex.Engine.Commands;
+﻿using Calabonga.Commandex.Engine.Commands;
+using Calabonga.Commandex.Engine.NugetDependencies;
 using Calabonga.OperationResults;
 using Calabonga.Wpf.AppDefinitions;
 using Serilog;

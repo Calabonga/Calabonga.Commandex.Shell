@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.Shell",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.Engine", "..\..\Calabonga.Commandex.Engine\src\Calabonga.Commandex.Engine\Calabonga.Commandex.Engine.csproj", "{3111EE6B-DF7C-42CC-BC5C-C2101BE220A5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.Welcome", "..\..\Calabonga.Commandex.Commands\src\Calabonga.Commandex.Welcome\Calabonga.Commandex.Welcome\Calabonga.Commandex.Welcome.csproj", "{F11D2E90-8E62-4B52-8DE8-ACE862D89751}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3111EE6B-DF7C-42CC-BC5C-C2101BE220A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3111EE6B-DF7C-42CC-BC5C-C2101BE220A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3111EE6B-DF7C-42CC-BC5C-C2101BE220A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F11D2E90-8E62-4B52-8DE8-ACE862D89751}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F11D2E90-8E62-4B52-8DE8-ACE862D89751}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F11D2E90-8E62-4B52-8DE8-ACE862D89751}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F11D2E90-8E62-4B52-8DE8-ACE862D89751}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
