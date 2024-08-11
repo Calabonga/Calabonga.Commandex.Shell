@@ -22,7 +22,7 @@ public class DialogService : IDialogService
     /// <typeparam name="TView"></typeparam>
     /// <typeparam name="TViewModel"></typeparam>
     /// <param name="onClosingDialogCallback"></param>
-    public OperationEmpty<OpenDialogException> ShowDialog<TView, TViewModel>(Action<TViewModel> onClosingDialogCallback)
+    public OperationEmpty<ExecuteCommandexCommandException> ShowDialog<TView, TViewModel>(Action<TViewModel> onClosingDialogCallback)
         where TView : IDialogView
         where TViewModel : IDialogResult
         => ShowDialogInternal<TView, TViewModel>(onClosingDialogCallback);
@@ -32,27 +32,27 @@ public class DialogService : IDialogService
     /// </summary>
     /// <typeparam name="TView"></typeparam>
     /// <typeparam name="TViewModel"></typeparam>
-    public OperationEmpty<OpenDialogException> ShowDialog<TView, TViewModel>() where TView : IDialogView where TViewModel : IDialogResult
+    public OperationEmpty<ExecuteCommandexCommandException> ShowDialog<TView, TViewModel>() where TView : IDialogView where TViewModel : IDialogResult
         => ShowDialogInternal<TView, TViewModel>();
 
-    public OperationEmpty<OpenDialogException> ShowNotification(string message)
+    public OperationEmpty<ExecuteCommandexCommandException> ShowNotification(string message)
         => ShowDialogInternal(message, LogLevel.Notification);
 
-    public OperationEmpty<OpenDialogException> ShowWarning(string message)
+    public OperationEmpty<ExecuteCommandexCommandException> ShowWarning(string message)
         => ShowDialogInternal(message, LogLevel.Warning);
 
-    public OperationEmpty<OpenDialogException> ShowError(string message)
+    public OperationEmpty<ExecuteCommandexCommandException> ShowError(string message)
         => ShowDialogInternal(message, LogLevel.Error);
 
     private string GetTitle(LogLevel type) => type.ToString();
 
-    private OperationEmpty<OpenDialogException> ShowDialogInternal<TView, TViewModel>(Action<TViewModel>? onClosingDialogCallback = null)
+    private OperationEmpty<ExecuteCommandexCommandException> ShowDialogInternal<TView, TViewModel>(Action<TViewModel>? onClosingDialogCallback = null)
         where TView : IDialogView
         where TViewModel : IDialogResult
     {
         EventHandler closeEventHandler = null!;
 
-        var dialog = new DialogWindow();
+        var dialog = new DialogWindow { MinWidth = 400, MinHeight = 350 };
 
         var handler = closeEventHandler;
         closeEventHandler = (sender, _) =>
@@ -92,11 +92,11 @@ public class DialogService : IDialogService
         catch (Exception exception)
         {
             _logger.LogError(exception, exception.Message);
-            return Operation.Error(new OpenDialogException(exception.Message, exception));
+            return Operation.Error(new ExecuteCommandexCommandException(exception.Message, exception));
         }
     }
 
-    private OperationEmpty<OpenDialogException> ShowDialogInternal(string message, LogLevel type)
+    private OperationEmpty<ExecuteCommandexCommandException> ShowDialogInternal(string message, LogLevel type)
     {
         var dialog = new DialogWindow();
 

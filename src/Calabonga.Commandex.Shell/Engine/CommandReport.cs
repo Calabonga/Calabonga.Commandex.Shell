@@ -1,6 +1,6 @@
-﻿using System.Text;
-using Calabonga.Commandex.Engine.Commands;
+﻿using Calabonga.Commandex.Engine.Commands;
 using NuGet.Protocol;
+using System.Text;
 
 namespace Calabonga.Commandex.Shell.Engine;
 
@@ -31,6 +31,7 @@ public static class CommandReport
             catch (Exception exception)
             {
                 Console.WriteLine(exception);
+                App.Current.LastException = exception;
                 throw;
             }
         }

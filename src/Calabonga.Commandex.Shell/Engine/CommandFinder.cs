@@ -70,6 +70,7 @@ internal static class CommandFinder
         catch (Exception exception)
         {
             Log.Error(exception, exception.Message);
+            App.Current.LastException = exception;
             return Operation.Error(exception);
         }
     }

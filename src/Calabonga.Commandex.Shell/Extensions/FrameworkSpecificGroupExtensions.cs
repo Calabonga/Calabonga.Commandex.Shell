@@ -16,7 +16,7 @@ internal static class FrameworkSpecificGroupExtensions
     /// </summary>
     /// <param name="source"></param>
     /// <returns></returns>
-    /// <exception cref="NugetExtractException"></exception>
+    /// <exception cref="ExtractCommandexNugetException"></exception>
     internal static List<FrameworkSpecificGroup> FindCompatible(this List<FrameworkSpecificGroup> source)
     {
         const string netStandardName21 = ".NETStandard,Version=v2.1";
@@ -30,7 +30,7 @@ internal static class FrameworkSpecificGroupExtensions
 
         if (targetFrameworkAttribute is not TargetFrameworkAttribute attribute)
         {
-            throw new NugetExtractException("TargetFramework not found");
+            throw new ExtractCommandexNugetException("TargetFramework not found");
         }
 
         var termList = new string[] { attribute.FrameworkName, netStandardName21, netStandardName20 };
@@ -49,6 +49,6 @@ internal static class FrameworkSpecificGroupExtensions
             }
         }
 
-        throw new NugetExtractException($"TargetFrameworks {string.Join(",", termList)}  were not found. Sorry.");
+        throw new ExtractCommandexNugetException($"TargetFrameworks {string.Join(",", termList)}  were not found. Sorry.");
     }
 }
