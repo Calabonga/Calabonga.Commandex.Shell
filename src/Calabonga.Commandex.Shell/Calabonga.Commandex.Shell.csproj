@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Views\calabongalogo.png" />
+	  <None Remove="Views\logo.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -32,7 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Resource Include="Views\calabongalogo.png" />
+	  <Resource Include="logo.png" />
 	</ItemGroup>
 
 </Project>

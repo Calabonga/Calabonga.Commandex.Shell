@@ -15,6 +15,10 @@ namespace Calabonga.Commandex.Shell.Engine;
 
 internal static class DependencyContainer
 {
+    /// <summary>
+    /// Configure services
+    /// </summary>
+    /// <returns></returns>
     internal static IServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection();
@@ -24,23 +28,30 @@ internal static class DependencyContainer
             options.AddSerilog(dispose: true);
             options.AddDebug();
         });
-        services.AddScoped<IConfigurationFinder, ConfigurationFinder>();
-        services.AddSingleton<DefaultDialogView>();
 
-        services.AddSingleton<ShellWindowViewModel>();
+        // views and models for views
         services.AddSingleton<ShellWindow>();
+        services.AddSingleton<ShellWindowViewModel>();
         services.AddSingleton<AboutDialog>();
         services.AddSingleton<AboutDialogResult>();
+        services.AddSingleton<DefaultDialogView>();
 
+        // engine
         services.AddTransient<CommandExecutor>();
         services.AddTransient<ArtifactService>();
         services.AddTransient<FileService>();
         services.AddTransient<NugetLoader>();
+        services.AddScoped<IConfigurationFinder, ConfigurationFinder>();
 
+        // dialogs and wizard
+        services.AddSingleton<IWizardDialogView, WizardDialog>();
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<IVersionService, VersionService>();
 
+        // settings
         services.AddSingleton<IAppSettings>(_ => App.Current.Settings);
+
+        // definitions
         services.AddModulesDefinitions();
 
         return services.BuildServiceProvider();

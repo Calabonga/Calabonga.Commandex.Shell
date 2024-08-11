@@ -11,7 +11,6 @@ public partial class AboutDialogResult : DefaultDialogResult
 {
     private readonly IVersionService _versionService;
     private readonly FileService _fileService;
-    private int Counter;
 
     public AboutDialogResult(IVersionService versionService, FileService fileService)
     {

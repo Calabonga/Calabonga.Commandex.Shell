@@ -6,6 +6,7 @@
 public abstract class ItemBase
 {
     public string Scope { get; set; } = null!;
+
     public string TypeName { get; set; } = null!;
 
     public string Description { get; set; } = null!;
