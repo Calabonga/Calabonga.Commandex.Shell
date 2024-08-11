@@ -1,5 +1,6 @@
 ﻿using Calabonga.Commandex.Engine.Dialogs;
 using Calabonga.Commandex.Engine.Settings;
+using Calabonga.Commandex.Engine.Wizards;
 using Calabonga.Commandex.Shell.Core;
 using Calabonga.Commandex.Shell.Extensions;
 using Calabonga.Commandex.Shell.Services;

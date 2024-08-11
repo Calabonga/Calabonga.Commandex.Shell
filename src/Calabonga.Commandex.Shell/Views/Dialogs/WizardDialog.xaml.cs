@@ -1,4 +1,4 @@
-﻿using Calabonga.Commandex.Engine.Dialogs;
+﻿using Calabonga.Commandex.Engine.Wizards;
 
 namespace Calabonga.Commandex.Shell.Views.Dialogs
 {

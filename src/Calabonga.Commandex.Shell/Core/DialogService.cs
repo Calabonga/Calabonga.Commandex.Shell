@@ -1,4 +1,5 @@
-﻿using Calabonga.Commandex.Engine.Dialogs;
+﻿using Calabonga.Commandex.Engine.Base;
+using Calabonga.Commandex.Engine.Dialogs;
 using Calabonga.Commandex.Engine.Exceptions;
 using Calabonga.OperationResults;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,8 +24,8 @@ public class DialogService : IDialogService
     /// <typeparam name="TViewModel"></typeparam>
     /// <param name="onClosingDialogCallback"></param>
     public OperationEmpty<ExecuteCommandexCommandException> ShowDialog<TView, TViewModel>(Action<TViewModel> onClosingDialogCallback)
-        where TView : IDialogView
-        where TViewModel : IDialogResult
+        where TView : IView
+        where TViewModel : IResult
         => ShowDialogInternal<TView, TViewModel>(onClosingDialogCallback);
 
     /// <summary>
@@ -47,8 +48,8 @@ public class DialogService : IDialogService
     private string GetTitle(LogLevel type) => type.ToString();
 
     private OperationEmpty<ExecuteCommandexCommandException> ShowDialogInternal<TView, TViewModel>(Action<TViewModel>? onClosingDialogCallback = null)
-        where TView : IDialogView
-        where TViewModel : IDialogResult
+        where TView : IView
+        where TViewModel : IResult
     {
         EventHandler closeEventHandler = null!;
 
@@ -74,7 +75,7 @@ public class DialogService : IDialogService
             userControl.DataContext = viewModel;
             dialog.Content = userControl;
 
-            var viewModelResult = (IDialogResult)viewModel;
+            var viewModelResult = (IResult)viewModel;
             viewModelResult.Owner = dialog;
 
             var title = viewModelResult.Title;
