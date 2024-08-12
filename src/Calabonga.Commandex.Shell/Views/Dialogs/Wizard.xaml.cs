@@ -3,11 +3,11 @@
 namespace Calabonga.Commandex.Shell.Views.Dialogs
 {
     /// <summary>
-    /// Interaction logic for WizardDialog.xaml
+    /// Interaction logic for Wizard.xaml
     /// </summary>
-    public partial class WizardDialog : IWizardDialogView
+    public partial class Wizard : IWizardView
     {
-        public WizardDialog()
+        public Wizard()
         {
             InitializeComponent();
         }

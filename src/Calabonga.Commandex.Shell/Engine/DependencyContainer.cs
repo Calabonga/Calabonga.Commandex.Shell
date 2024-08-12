@@ -45,7 +45,7 @@ internal static class DependencyContainer
         services.AddScoped<IConfigurationFinder, ConfigurationFinder>();
 
         // dialogs and wizard
-        services.AddSingleton<IWizardDialogView, WizardDialog>();
+        services.AddSingleton<IWizardView, Wizard>();
         services.AddSingleton<IDialogService, DialogService>();
         services.AddSingleton<IVersionService, VersionService>();
 
