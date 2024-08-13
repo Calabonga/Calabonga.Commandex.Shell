@@ -14,8 +14,6 @@ public class WizardStepManager : IWizardStepManager
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly List<IWizardStep<IWizardStepView, IWizardStepViewModel>> _internalSteps;
-
-    public event EventHandler<ManagerStatusChangedArgs>? ManagerStatusChanged;
     public event EventHandler<ManagerStepActivatedArgs>? ManagerStepActivated;
 
     public WizardStepManager(IServiceProvider serviceProvider)
@@ -24,8 +22,9 @@ public class WizardStepManager : IWizardStepManager
         _internalSteps = _serviceProvider.GetServices<IWizardStep<IWizardStepView, IWizardStepViewModel>>().ToList();
     }
 
-    public void ActivateStep(int index)
+    public void ActivateStep<TPayload>(WizardContext<TPayload> wizardContext)
     {
+
         if (IsCanDeactivatePreviousStep())
         {
             return;
@@ -33,11 +32,11 @@ public class WizardStepManager : IWizardStepManager
 
         _internalSteps.DeactivateAll();
 
-        InitializeStepByIndex(index);
+        InitializeStepByIndex(wizardContext);
 
         var steps = new ObservableCollection<IWizardStep>(_internalSteps);
         var active = _internalSteps.Find(x => x.IsActive);
-        OnManagerStepActivated(new ManagerStepActivatedArgs(steps, active, index));
+        OnManagerStepActivated(new ManagerStepActivatedArgs(steps, active));
     }
 
     public ObservableCollection<IWizardStep> GetSteps() => new(_internalSteps);
@@ -53,7 +52,7 @@ public class WizardStepManager : IWizardStepManager
         var activeView = (IWizardStepView)active.Content;
         var activeViewModel = (IWizardStepViewModel)activeView.DataContext!;
         var canLeave = activeViewModel.HasErrors;
-        if (!canLeave)
+        if (canLeave)
         {
             return true;
         }
@@ -66,14 +65,13 @@ public class WizardStepManager : IWizardStepManager
     private void OnHasErrorsChanged(object? sender, bool e)
     {
         _internalSteps.Find(x => x.IsActive)?.UpdateHasErrors(e);
-        OnManagerStatusChanged(new ManagerStatusChangedArgs() { HasErrors = e });
     }
 
     private object? ResolveType(Type type) => _serviceProvider.GetService(type);
 
-    private void InitializeStepByIndex(int index)
+    private void InitializeStepByIndex<TPayload>(WizardContext<TPayload> wizardContext)
     {
-        var step = _internalSteps[index];
+        var step = _internalSteps[wizardContext.StepIndex];
         var types = step.GetStepTypes();
         var viewType = ResolveType(types[0]);
         var viewModelType = ResolveType(types[1]);
@@ -89,10 +87,9 @@ public class WizardStepManager : IWizardStepManager
 
         viewModel.HasErrorsChanged += OnHasErrorsChanged;
         view.DataContext = viewModel;
+        step.HasErrors = viewModel.HasErrors;
         step.Activate(view);
     }
-
-    protected virtual void OnManagerStatusChanged(ManagerStatusChangedArgs e) => ManagerStatusChanged?.Invoke(this, e);
 
     protected virtual void OnManagerStepActivated(ManagerStepActivatedArgs e) => ManagerStepActivated?.Invoke(this, e);
 }
