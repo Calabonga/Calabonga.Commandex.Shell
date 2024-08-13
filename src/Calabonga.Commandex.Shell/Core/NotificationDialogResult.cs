@@ -12,4 +12,6 @@ public partial class NotificationDialogResult : DefaultDialogResult
     /// Default value <see cref="WindowStyle.ToolWindow"/>
     /// </summary>
     public override WindowStyle WindowStyle => WindowStyle.ToolWindow;
+
+    public override void Dispose() { }
 }

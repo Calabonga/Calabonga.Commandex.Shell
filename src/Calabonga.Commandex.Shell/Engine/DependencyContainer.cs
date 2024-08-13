@@ -31,11 +31,11 @@ internal static class DependencyContainer
         });
 
         // views and models for views
-        services.AddSingleton<ShellWindow>();
-        services.AddSingleton<ShellWindowViewModel>();
-        services.AddSingleton<AboutDialog>();
-        services.AddSingleton<AboutDialogResult>();
-        services.AddSingleton<DefaultDialogView>();
+        services.AddTransient<ShellWindow>();
+        services.AddTransient<ShellWindowViewModel>();
+        services.AddTransient<AboutDialog>();
+        services.AddTransient<AboutDialogResult>();
+        services.AddTransient<DefaultDialogView>();
 
         // engine
         services.AddTransient<CommandExecutor>();
@@ -45,9 +45,10 @@ internal static class DependencyContainer
         services.AddScoped<IConfigurationFinder, ConfigurationFinder>();
 
         // dialogs and wizard
-        services.AddSingleton<IWizardView, Wizard>();
-        services.AddSingleton<IDialogService, DialogService>();
-        services.AddSingleton<IVersionService, VersionService>();
+        services.AddTransient<IWizardView, Wizard>();
+        services.AddTransient<IDialogService, DialogService>();
+        services.AddTransient<IVersionService, VersionService>();
+        services.AddTransient<IWizardStepManager, WizardStepManager>();
 
         // settings
         services.AddSingleton<IAppSettings>(_ => App.Current.Settings);

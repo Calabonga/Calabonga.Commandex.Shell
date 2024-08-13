@@ -61,4 +61,9 @@ public partial class AboutDialogResult : DefaultDialogResult
         Commit = _versionService.Commit;
         Tag = _versionService.Tag;
     }
+
+    public override void Dispose()
+    {
+
+    }
 }

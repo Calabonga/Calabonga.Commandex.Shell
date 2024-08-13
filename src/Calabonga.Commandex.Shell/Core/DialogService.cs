@@ -62,6 +62,7 @@ public class DialogService : IDialogService
             var userControl = (UserControl)window.Content;
             var viewModel = (TViewModel)userControl.DataContext;
             onClosingDialogCallback?.Invoke(viewModel);
+            viewModel.Dispose();
             dialog.Closed -= handler;
         };
 
