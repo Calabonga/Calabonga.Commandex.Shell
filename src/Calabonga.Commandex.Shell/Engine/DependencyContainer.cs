@@ -48,7 +48,7 @@ internal static class DependencyContainer
         services.AddTransient<IWizardView, Wizard>();
         services.AddTransient<IDialogService, DialogService>();
         services.AddTransient<IVersionService, VersionService>();
-        services.AddTransient<IWizardStepManager, WizardStepManager>();
+        services.AddTransient(typeof(IWizardManager<>), typeof(WizardManager<>));
 
         // settings
         services.AddSingleton<IAppSettings>(_ => App.Current.Settings);

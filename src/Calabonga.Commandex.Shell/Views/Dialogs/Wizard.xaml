@@ -6,7 +6,6 @@
              xmlns:views="clr-namespace:Calabonga.Commandex.Shell.Views"
              xmlns:wizards="clr-namespace:Calabonga.Commandex.Engine.Wizards;assembly=Calabonga.Commandex.Engine"
              mc:Ignorable="d"
-             d:DesignSource="{d:DesignInstance wizards:WizardStepViewModel}"
              MinWidth="800" MinHeight="600">
 
     <UserControl.Resources>

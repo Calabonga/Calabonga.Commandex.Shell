@@ -9,20 +9,20 @@ using System.Collections.ObjectModel;
 namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
-/// // Calabonga: Summary required (WizardStepManager 2024-08-13 08:01)
+/// // Calabonga: Summary required (WizardManager 2024-08-13 08:01)
 /// </summary>
-public class WizardStepManager : IWizardStepManager
+public class WizardManager<TPayload> : IWizardManager<TPayload>
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly List<IWizardStep<IWizardStepView, IWizardStepViewModel>> _internalSteps;
+    private readonly List<IWizardStep<IWizardStepView, IWizardStepViewModel<TPayload>>> _internalSteps;
 
-    public WizardStepManager(IServiceProvider serviceProvider)
+    public WizardManager(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
-        _internalSteps = _serviceProvider.GetServices<IWizardStep<IWizardStepView, IWizardStepViewModel>>().ToList();
+        _internalSteps = _serviceProvider.GetServices<IWizardStep<IWizardStepView, IWizardStepViewModel<TPayload>>>().ToList();
     }
 
-    public void ActivateStep<TPayload>(WizardContext<TPayload> wizardContext)
+    public void ActivateStep(WizardContext<TPayload> wizardContext)
     {
         if (IsCanDeactivatePreviousStep())
         {
@@ -31,7 +31,7 @@ public class WizardStepManager : IWizardStepManager
 
         _internalSteps.DeactivateAll();
 
-        InitializeStepByIndex(wizardContext);
+        GetFromContainer(wizardContext);
 
         var steps = new ObservableCollection<IWizardStep>(_internalSteps);
         var activeStep = _internalSteps.Find(x => x.IsActive);
@@ -58,24 +58,28 @@ public class WizardStepManager : IWizardStepManager
         return false;
     }
 
-    private object? ResolveType(Type type) => _serviceProvider.GetService(type);
-
-    private void InitializeStepByIndex<TPayload>(WizardContext<TPayload> wizardContext)
+    /// <summary>
+    /// // Calabonga: Summary required (WizardManager 2024-08-13 05:16)
+    /// </summary>
+    /// <param name="wizardContext"></param>
+    /// <exception cref="WizardInvalidOperationException"></exception>
+    private void GetFromContainer(WizardContext<TPayload> wizardContext)
     {
         var step = _internalSteps[wizardContext.StepIndex];
         var types = step.GetStepTypes();
-        var viewType = ResolveType(types[0]);
-        var viewModelType = ResolveType(types[1]);
+        var viewType = _serviceProvider.GetService(types[0]);
+        var viewModelType = _serviceProvider.GetService(types[1]);
         if (viewType is not IWizardStepView view)
         {
             throw new WizardInvalidOperationException($"Unable to get View object from {nameof(IWizardStepView)}");
         }
 
-        if (viewModelType is not IWizardStepViewModel viewModel)
+        if (viewModelType is not IWizardStepViewModel<TPayload> viewModel)
         {
             throw new WizardInvalidOperationException($"Unable to get View object from {nameof(IWizardStepViewModel)}");
         }
 
+        viewModel.Initialize(wizardContext.Payload);
         view.DataContext = viewModel;
         step.HasErrors = viewModel.HasErrors;
         step.Activate(view);
