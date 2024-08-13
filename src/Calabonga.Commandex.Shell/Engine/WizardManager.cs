@@ -19,42 +19,50 @@ public class WizardManager<TPayload> : IWizardManager<TPayload>
     public WizardManager(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
-        _internalSteps = _serviceProvider.GetServices<IWizardStep<IWizardStepView, IWizardStepViewModel<TPayload>>>().ToList();
+        _internalSteps = _serviceProvider
+            .GetServices<IWizardStep<IWizardStepView, IWizardStepViewModel<TPayload>>>()
+            .OrderBy(x => x.OrderIndex)
+            .ToList();
     }
 
+    /// <summary>
+    /// Deactivates current Step if it exists and Activates the next Step.
+    /// </summary>
+    /// <param name="wizardContext"></param>
     public void ActivateStep(WizardContext<TPayload> wizardContext)
     {
-        if (IsCanDeactivatePreviousStep())
+        if (IsCanDeactivatePreviousStep(wizardContext))
         {
             return;
         }
 
         _internalSteps.DeactivateAll();
 
-        GetFromContainer(wizardContext);
+        ResolveFromContainer(wizardContext);
 
         var steps = new ObservableCollection<IWizardStep>(_internalSteps);
-        var activeStep = _internalSteps.Find(x => x.IsActive);
+        var activeStep = GetActiveStep();
 
         WeakReferenceMessenger.Default.Send(new ManagerStepActivatedMessage(steps, activeStep));
     }
 
-    private bool IsCanDeactivatePreviousStep()
+    private bool IsCanDeactivatePreviousStep(WizardContext<TPayload> wizardContext)
     {
-        var active = _internalSteps.Find(x => x.IsActive);
-        if (active is null)
+        var activeStep = GetActiveStep();
+        if (activeStep is null)
         {
             return false;
         }
 
-        var activeView = (IWizardStepView)active.Content;
-        var activeViewModel = (IWizardStepViewModel)activeView.DataContext!;
+        var activeView = (IWizardStepView)activeStep.Content;
+        var activeViewModel = (IWizardStepViewModel<TPayload>)activeView.DataContext!;
         var canLeave = activeViewModel.HasErrors;
         if (canLeave)
         {
             return true;
         }
 
+        activeViewModel.OnLeave(wizardContext.Payload);
         return false;
     }
 
@@ -63,10 +71,10 @@ public class WizardManager<TPayload> : IWizardManager<TPayload>
     /// </summary>
     /// <param name="wizardContext"></param>
     /// <exception cref="WizardInvalidOperationException"></exception>
-    private void GetFromContainer(WizardContext<TPayload> wizardContext)
+    private void ResolveFromContainer(WizardContext<TPayload> wizardContext)
     {
-        var step = _internalSteps[wizardContext.StepIndex];
-        var types = step.GetStepTypes();
+        var activeStep = GetStep(wizardContext);
+        var types = activeStep.GetStepTypes();
         var viewType = _serviceProvider.GetService(types[0]);
         var viewModelType = _serviceProvider.GetService(types[1]);
         if (viewType is not IWizardStepView view)
@@ -79,9 +87,22 @@ public class WizardManager<TPayload> : IWizardManager<TPayload>
             throw new WizardInvalidOperationException($"Unable to get View object from {nameof(IWizardStepViewModel)}");
         }
 
-        viewModel.Initialize(wizardContext.Payload);
+        viewModel.OnEnter(wizardContext.Payload);
         view.DataContext = viewModel;
-        step.HasErrors = viewModel.HasErrors;
-        step.Activate(view);
+        activeStep.HasErrors = viewModel.HasErrors;
+        activeStep.Activate(view);
+    }
+
+    private IWizardStep? GetActiveStep()
+    {
+        var step = _internalSteps.Find(x => x.IsActive);
+
+        return step;
+    }
+
+    private IWizardStep<IWizardStepView, IWizardStepViewModel<TPayload>> GetStep(WizardContext<TPayload> wizardContext)
+    {
+        return _internalSteps[wizardContext.StepIndex];
+
     }
 }
