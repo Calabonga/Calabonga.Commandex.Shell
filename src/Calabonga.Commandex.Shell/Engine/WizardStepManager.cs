@@ -2,6 +2,7 @@
 using Calabonga.Commandex.Engine.Extensions;
 using Calabonga.Commandex.Engine.Wizards;
 using Calabonga.Commandex.Engine.Wizards.ManagerEventArgs;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 
@@ -14,7 +15,6 @@ public class WizardStepManager : IWizardStepManager
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly List<IWizardStep<IWizardStepView, IWizardStepViewModel>> _internalSteps;
-    public event EventHandler<ManagerStepActivatedArgs>? ManagerStepActivated;
 
     public WizardStepManager(IServiceProvider serviceProvider)
     {
@@ -24,7 +24,6 @@ public class WizardStepManager : IWizardStepManager
 
     public void ActivateStep<TPayload>(WizardContext<TPayload> wizardContext)
     {
-
         if (IsCanDeactivatePreviousStep())
         {
             return;
@@ -35,11 +34,10 @@ public class WizardStepManager : IWizardStepManager
         InitializeStepByIndex(wizardContext);
 
         var steps = new ObservableCollection<IWizardStep>(_internalSteps);
-        var active = _internalSteps.Find(x => x.IsActive);
-        OnManagerStepActivated(new ManagerStepActivatedArgs(steps, active));
-    }
+        var activeStep = _internalSteps.Find(x => x.IsActive);
 
-    public ObservableCollection<IWizardStep> GetSteps() => new(_internalSteps);
+        WeakReferenceMessenger.Default.Send(new ManagerStepActivatedMessage(steps, activeStep));
+    }
 
     private bool IsCanDeactivatePreviousStep()
     {
@@ -57,14 +55,7 @@ public class WizardStepManager : IWizardStepManager
             return true;
         }
 
-        activeViewModel.HasErrorsChanged -= OnHasErrorsChanged;
-
         return false;
-    }
-
-    private void OnHasErrorsChanged(object? sender, bool e)
-    {
-        _internalSteps.Find(x => x.IsActive)?.UpdateHasErrors(e);
     }
 
     private object? ResolveType(Type type) => _serviceProvider.GetService(type);
@@ -85,11 +76,8 @@ public class WizardStepManager : IWizardStepManager
             throw new WizardInvalidOperationException($"Unable to get View object from {nameof(IWizardStepViewModel)}");
         }
 
-        viewModel.HasErrorsChanged += OnHasErrorsChanged;
         view.DataContext = viewModel;
         step.HasErrors = viewModel.HasErrors;
         step.Activate(view);
     }
-
-    protected virtual void OnManagerStepActivated(ManagerStepActivatedArgs e) => ManagerStepActivated?.Invoke(this, e);
 }
