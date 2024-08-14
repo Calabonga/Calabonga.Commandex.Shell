@@ -1,12 +1,12 @@
 ﻿using Calabonga.Commandex.Engine.Exceptions;
 using Calabonga.Commandex.Engine.Extensions;
 using Calabonga.Commandex.Engine.Wizards;
-using Calabonga.Commandex.Engine.Wizards.ManagerEventArgs;
+using Calabonga.Commandex.Engine.Wizards.Messages;
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.ObjectModel;
 
-namespace Calabonga.Commandex.Shell.Engine;
+namespace Calabonga.Commandex.Shell.Core;
 
 /// <summary>
 /// // Calabonga: Summary required (WizardManager 2024-08-13 08:01)
@@ -96,13 +96,21 @@ public class WizardManager<TPayload> : IWizardManager<TPayload>
     private IWizardStep? GetActiveStep()
     {
         var step = _internalSteps.Find(x => x.IsActive);
+        if (step is null)
+        {
+            return step;
+        }
 
+        var index = _internalSteps.IndexOf(step);
+        ((WizardStep)step).SetLast(index == _internalSteps.Count - 1);
         return step;
     }
 
     private IWizardStep<IWizardStepView, IWizardStepViewModel<TPayload>> GetStep(WizardContext<TPayload> wizardContext)
     {
-        return _internalSteps[wizardContext.StepIndex];
-
+        var step = _internalSteps[wizardContext.StepIndex];
+        var index = _internalSteps.IndexOf(step);
+        ((WizardStep)step).SetLast(index == _internalSteps.Count - 1);
+        return step;
     }
 }

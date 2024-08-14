@@ -3,20 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:views="clr-namespace:Calabonga.Commandex.Shell.Views"
              xmlns:wizards="clr-namespace:Calabonga.Commandex.Engine.Wizards;assembly=Calabonga.Commandex.Engine"
+             xmlns:core="clr-namespace:Calabonga.Commandex.Shell.Core"
              mc:Ignorable="d"
              MinWidth="800" MinHeight="600">
 
     <UserControl.Resources>
-        <views:IsActiveColorConverter x:Key="IsActiveColorConverter"/>
+        <core:IsActiveColorConverter x:Key="IsActiveColorConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
 
     <Grid Margin="8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="155"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -25,19 +26,16 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding ActiveStep.Name}" HorizontalAlignment="Center"/>
+        <TextBlock  Text="{Binding ActiveStep.Name}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center"/>
 
         <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource FancyBorder}">
             <Grid >
                 <ItemsControl ItemsSource="{Binding Steps}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type wizards:IWizardStep}">
-                            <Border Style="{StaticResource FancyBorder}" Background="{Binding IsActive, Converter={StaticResource IsActiveColorConverter}}" Padding="2">
+                            <Border Style="{StaticResource FancyBorder}" BorderBrush="{Binding IsActive, Converter={StaticResource IsActiveColorConverter}}">
                                 <StackPanel>
-
-
-                                <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
-                                <TextBlock  Text="{Binding Errors.Count}"/>
+                                    <TextBlock Text="{Binding Name}" TextWrapping="Wrap" />
                                 </StackPanel>
                             </Border>
                         </DataTemplate>
@@ -52,9 +50,21 @@
             </Grid>
         </Border>
 
+        <Button Grid.Row="2" Grid.Column="1"
+                Content="{Binding PreviousButtonText}" Command="{Binding PreviousStepCommand}"
+                HorizontalAlignment="Right" Width="150" />
+        <Button Grid.Row="2" Grid.Column="2" Margin="4,0,0,0"
+                Visibility="{Binding IsNotLast, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Content="{Binding NextButtonText}" Command="{Binding NextStepCommand}" 
+                HorizontalAlignment="Right" Width="150"
+                IsDefault="True"/>
 
-        <Button Grid.Row="2" Grid.Column="1" Content="◄" Command="{Binding PreviousStepCommand}" HorizontalAlignment="Right" Width="150" />
-        <Button Grid.Row="2" Grid.Column="2" Content="►" Command="{Binding NextStepCommand}"  HorizontalAlignment="Right" Width="150" />
+        <Button Grid.Row="2" Grid.Column="2" Margin="4,0,0,0"
+                Visibility="{Binding ActiveStep.IsLast, Converter={StaticResource BooleanToVisibilityConverter}}"
+                Content="{Binding FinishButtonText}" Command="{Binding FinishWizardCommand}" 
+                HorizontalAlignment="Right" Width="150"
+                IsDefault="True"/>
+
 
     </Grid>
 </UserControl>

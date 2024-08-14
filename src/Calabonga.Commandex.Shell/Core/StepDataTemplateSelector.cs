@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace Calabonga.Commandex.Shell.Views;
+namespace Calabonga.Commandex.Shell.Core;
 
 /// <summary>
 /// // Calabonga: Summary required (StepDataTemplateSelector 2024-08-12 03:05)

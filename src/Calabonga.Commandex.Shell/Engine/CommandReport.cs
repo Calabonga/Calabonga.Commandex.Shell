@@ -1,6 +1,7 @@
 ﻿using Calabonga.Commandex.Engine.Commands;
-using NuGet.Protocol;
+using Calabonga.Commandex.Engine.Extensions;
 using System.Text;
+using System.Text.Json;
 
 namespace Calabonga.Commandex.Shell.Engine;
 
@@ -24,7 +25,7 @@ public static class CommandReport
             var res = command.GetResult();
             try
             {
-                var data = res.ToJson();
+                var data = JsonSerializer.Serialize(res, JsonSerializerOptionsExt.Cyrillic);
                 stringBuilder.Append(data);
 
             }

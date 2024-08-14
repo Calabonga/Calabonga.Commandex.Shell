@@ -20,7 +20,6 @@
             <Setter Property="Padding" Value="2" />
             <Setter Property="BorderBrush" Value="#cccccc" />
             <Setter Property="BorderThickness" Value="1" />
-
         </Style>
     </Application.Resources>
 </Application>
