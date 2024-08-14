@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using Calabonga.Commandex.Engine;
+﻿using Calabonga.Commandex.Engine.Dialogs;
+using System.Windows;
 
 namespace Calabonga.Commandex.Shell.Core;
 
@@ -12,4 +12,6 @@ public partial class NotificationDialogResult : DefaultDialogResult
     /// Default value <see cref="WindowStyle.ToolWindow"/>
     /// </summary>
     public override WindowStyle WindowStyle => WindowStyle.ToolWindow;
+
+    public override void Dispose() { }
 }

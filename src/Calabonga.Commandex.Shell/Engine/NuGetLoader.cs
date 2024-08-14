@@ -1,6 +1,6 @@
-﻿using Calabonga.Commandex.Engine;
-using Calabonga.Commandex.Engine.Commands;
+﻿using Calabonga.Commandex.Engine.Commands;
 using Calabonga.Commandex.Engine.Exceptions;
+using Calabonga.Commandex.Engine.NugetDependencies;
 using Calabonga.Commandex.Shell.Extensions;
 using Calabonga.OperationResults;
 using NuGet.Common;
@@ -31,7 +31,7 @@ public sealed class NugetLoader
     /// <param name="cancellationToken"></param>
     /// <param name="command"></param>
     /// <returns></returns>
-    public async Task<OperationEmpty<CommandExecuteException>> LoadPackagesFromNugetAsync(ICommandexCommand command, List<INugetDependency> items, NuGetSourceType sourceType, string artifactsFolderPath, CancellationToken cancellationToken)
+    public async Task<OperationEmpty<ExecuteCommandexCommandException>> LoadPackagesFromNugetAsync(ICommandexCommand command, List<INugetDependency> items, NuGetSourceType sourceType, string artifactsFolderPath, CancellationToken cancellationToken)
     {
         foreach (var nugetDependency in items.Select(x => x.Dependencies))
         {
@@ -85,7 +85,7 @@ public sealed class NugetLoader
     /// <param name="cancellationToken"></param>
     /// <returns>The list of loaded assemblies</returns>
     /// <exception cref="Exception"></exception>
-    private async Task<Operation<List<string>, CommandExecuteException>> LoadPackageByIdFromNugetAsync(
+    private async Task<Operation<List<string>, ExecuteCommandexCommandException>> LoadPackageByIdFromNugetAsync(
         ICommandexCommand command,
         string packageId,
         string version,
@@ -98,7 +98,7 @@ public sealed class NugetLoader
         var downloadResource = await repository.GetResourceAsync<DownloadResource>(cancellationToken);
         if (!NuGetVersion.TryParse(version, out var nuGetVersion))
         {
-            var downloadException = new CommandExecuteException($"Invalid version {version} for nuget package {packageId} ({sourceType})");
+            var downloadException = new ExecuteCommandexCommandException($"Invalid version {version} for nuget package {packageId} ({sourceType})");
             return Operation.Error(downloadException);
         }
 
@@ -111,7 +111,7 @@ public sealed class NugetLoader
 
         if (downloadResourceResult.Status != DownloadResourceResultStatus.Available)
         {
-            var statusException = new CommandExecuteException($"DownloadAsync of NuGet package failed. DownloadResult Status: {downloadResourceResult.Status}");
+            var statusException = new ExecuteCommandexCommandException($"DownloadAsync of NuGet package failed. DownloadResult Status: {downloadResourceResult.Status}");
             return Operation.Error(statusException);
         }
 

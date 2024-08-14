@@ -1,5 +1,5 @@
-﻿using Calabonga.Commandex.Engine;
-using Calabonga.Commandex.Engine.Commands;
+﻿using Calabonga.Commandex.Engine.Commands;
+using Calabonga.Commandex.Engine.NugetDependencies;
 using Calabonga.OperationResults;
 using Calabonga.Wpf.AppDefinitions;
 using Serilog;
@@ -70,6 +70,7 @@ internal static class CommandFinder
         catch (Exception exception)
         {
             Log.Error(exception, exception.Message);
+            App.Current.LastException = exception;
             return Operation.Error(exception);
         }
     }

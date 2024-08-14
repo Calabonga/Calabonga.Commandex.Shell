@@ -1,19 +1,25 @@
-﻿using Calabonga.Commandex.Engine;
+﻿using Calabonga.Commandex.Engine.Dialogs;
+using Calabonga.Commandex.Engine.Settings;
+using Calabonga.Commandex.Engine.Wizards;
 using Calabonga.Commandex.Shell.Core;
 using Calabonga.Commandex.Shell.Extensions;
 using Calabonga.Commandex.Shell.Services;
 using Calabonga.Commandex.Shell.ViewModels;
+using Calabonga.Commandex.Shell.ViewModels.Dialogs;
 using Calabonga.Commandex.Shell.Views;
 using Calabonga.Commandex.Shell.Views.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using AboutDialogResult = Calabonga.Commandex.Shell.ViewModels.Dialogs.AboutDialogResult;
 
 namespace Calabonga.Commandex.Shell.Engine;
 
 internal static class DependencyContainer
 {
+    /// <summary>
+    /// Configure services
+    /// </summary>
+    /// <returns></returns>
     internal static IServiceProvider ConfigureServices()
     {
         var services = new ServiceCollection();
@@ -23,24 +29,31 @@ internal static class DependencyContainer
             options.AddSerilog(dispose: true);
             options.AddDebug();
         });
-        services.AddScoped<IConfigurationFinder, ConfigurationFinder>();
-        services.AddSingleton(typeof(DefaultDialogResult<>));
-        services.AddSingleton<DefaultDialogView>();
 
-        services.AddSingleton<ShellWindowViewModel>();
-        services.AddSingleton<ShellWindow>();
-        services.AddSingleton<AboutDialog>();
-        services.AddSingleton<AboutDialogResult>();
+        // views and models for views
+        services.AddTransient<ShellWindow>();
+        services.AddTransient<ShellWindowViewModel>();
+        services.AddTransient<AboutDialog>();
+        services.AddTransient<AboutDialogResult>();
+        services.AddTransient<DefaultDialogView>();
 
+        // engine
         services.AddTransient<CommandExecutor>();
         services.AddTransient<ArtifactService>();
         services.AddTransient<FileService>();
         services.AddTransient<NugetLoader>();
+        services.AddScoped<IConfigurationFinder, ConfigurationFinder>();
 
-        services.AddSingleton<IDialogService, DialogService>();
-        services.AddSingleton<IVersionService, VersionService>();
+        // dialogs and wizard
+        services.AddTransient<IWizardView, Wizard>();
+        services.AddTransient<IDialogService, DialogService>();
+        services.AddTransient<IVersionService, VersionService>();
+        services.AddTransient(typeof(IWizardManager<>), typeof(WizardManager<>));
 
+        // settings
         services.AddSingleton<IAppSettings>(_ => App.Current.Settings);
+
+        // definitions
         services.AddModulesDefinitions();
 
         return services.BuildServiceProvider();

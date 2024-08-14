@@ -1,6 +1,6 @@
-﻿using Calabonga.Commandex.Engine;
-using Calabonga.Commandex.Engine.Commands;
+﻿using Calabonga.Commandex.Engine.Commands;
 using Calabonga.Commandex.Engine.Exceptions;
+using Calabonga.Commandex.Engine.NugetDependencies;
 using Calabonga.Commandex.Shell.Engine;
 using Calabonga.OperationResults;
 using System.IO;
@@ -34,7 +34,7 @@ public sealed class ArtifactService
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
-    public async Task<OperationEmpty<CommandExecuteException>> CheckDependenciesReadyAsync(ICommandexCommand command)
+    public async Task<OperationEmpty<ExecuteCommandexCommandException>> CheckDependenciesReadyAsync(ICommandexCommand command)
     {
         _definitionArtifactFolder = Path.Combine(ArtifactsFolderPath, command.TypeName);
 

@@ -1,4 +1,4 @@
-﻿using Calabonga.Commandex.Engine;
+﻿using Calabonga.Commandex.Engine.Dialogs;
 using Calabonga.Commandex.Shell.Engine;
 using Calabonga.Commandex.Shell.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -11,7 +11,6 @@ public partial class AboutDialogResult : DefaultDialogResult
 {
     private readonly IVersionService _versionService;
     private readonly FileService _fileService;
-    private int Counter;
 
     public AboutDialogResult(IVersionService versionService, FileService fileService)
     {
@@ -61,5 +60,10 @@ public partial class AboutDialogResult : DefaultDialogResult
         Branch = _versionService.Branch;
         Commit = _versionService.Commit;
         Tag = _versionService.Tag;
+    }
+
+    public override void Dispose()
+    {
+
     }
 }

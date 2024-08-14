@@ -1,4 +1,4 @@
-﻿using Calabonga.Commandex.Engine;
+﻿using Calabonga.Commandex.Engine.Dialogs;
 using Calabonga.Commandex.Shell.Core;
 using Calabonga.Commandex.Shell.Engine;
 using Calabonga.Commandex.Shell.ViewModels;
@@ -18,7 +18,7 @@ public partial class App : Application
     {
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Verbose()
-            .WriteTo.File("/logs/commandex-.log", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true, shared: true)
+            .WriteTo.File("logs/commandex-.log", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true, shared: true)
             .CreateLogger();
 
         Settings = SettingsFinder.Configure();
