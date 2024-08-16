@@ -61,7 +61,10 @@ public sealed class CommandExecutor
 
         OnCommandPrepared();
 
+
         var operation = await command.ExecuteCommandAsync();
+
+        command.Dispose();
 
         return operation.Ok
             ? Operation.Result(command)
