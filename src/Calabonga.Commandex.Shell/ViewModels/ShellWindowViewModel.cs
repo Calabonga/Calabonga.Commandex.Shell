@@ -111,7 +111,7 @@ public partial class ShellWindowViewModel : ViewModelBase
 
         var actionsList = _commands
             .Where(predicate.Compile())
-            .Select(x => new CommandItem(x.GetType().Namespace ?? "Commandex", x.TypeName, x.Version, x.DisplayName, x.Description))
+            .Select(x => new CommandItem(x.GetType().Assembly.GetName().Name ?? "Commandex", x.TypeName, x.Version, x.DisplayName, x.Description))
             .ToList();
 
         CommandItems = new ObservableCollection<CommandItem>(actionsList);

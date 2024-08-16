@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "Calabonga.Commandex.Shell/1.4.2+main.bc170c4": {
+      "Calabonga.Commandex.Shell/1.4.6+main.4e85082": {
         "dependencies": {
           "Calabonga.Commandex.Engine": "1.0.0-rc.4",
           "Calabonga.PredicatesBuilder": "2.0.1",
@@ -1067,7 +1067,7 @@
     }
   },
   "libraries": {
-    "Calabonga.Commandex.Shell/1.4.2+main.bc170c4": {
+    "Calabonga.Commandex.Shell/1.4.6+main.4e85082": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

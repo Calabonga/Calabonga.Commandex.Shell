@@ -28,36 +28,31 @@ public class ConfigurationFinder : IConfigurationFinder
     {
         var configurationPath = Path.Combine(_shellSettings.CommandsPath, scope + _configurationFileDefaultExtension);
 
-        if (TryGetRegisteredApplication(".env", out var defaultApp))
+        if (!TryGetRegisteredApplication(".env", out var defaultApp))
         {
-            if (!string.IsNullOrEmpty(defaultApp))
-            {
-                Process.Start(new ProcessStartInfo(configurationPath)
-                {
-                    FileName = defaultApp,
-                    Arguments = configurationPath
-                });
-            }
+            return;
         }
-        else
-        {
 
+        if (!string.IsNullOrEmpty(defaultApp))
+        {
+            Process.Start(new ProcessStartInfo(configurationPath)
+            {
+                FileName = defaultApp,
+                Arguments = configurationPath
+            });
         }
-        //Process.Start(process);
     }
 
-    public static bool TryGetRegisteredApplication(
-        string extension, out string registeredApp)
+    private static bool TryGetRegisteredApplication(string extension, out string? registeredApp)
     {
-        string extensionId = GetClassesRootKeyDefaultValue(extension);
+        var extensionId = GetClassesRootKeyDefaultValue(extension);
         if (extensionId == null)
         {
             registeredApp = null;
             return false;
         }
 
-        string openCommand = GetClassesRootKeyDefaultValue(
-            Path.Combine(new[] { extensionId, "shell", "open", "command" }));
+        var openCommand = GetClassesRootKeyDefaultValue(Path.Combine(new[] { extensionId, "shell", "open", "command" }));
 
         if (openCommand == null)
         {
@@ -72,22 +67,10 @@ public class ConfigurationFinder : IConfigurationFinder
         return true;
     }
 
-    private static string GetClassesRootKeyDefaultValue(string keyPath)
+    private static string? GetClassesRootKeyDefaultValue(string keyPath)
     {
-        using (var key = Registry.ClassesRoot.OpenSubKey(keyPath))
-        {
-            if (key == null)
-            {
-                return null;
-            }
-
-            var defaultValue = key.GetValue(null);
-            if (defaultValue == null)
-            {
-                return null;
-            }
-
-            return defaultValue.ToString();
-        }
+        using var key = Registry.ClassesRoot.OpenSubKey(keyPath);
+        var defaultValue = key?.GetValue(null);
+        return defaultValue?.ToString();
     }
 }
