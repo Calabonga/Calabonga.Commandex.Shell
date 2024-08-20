@@ -23,17 +23,24 @@ public static class CommandReport
         if (command.IsPushToShellEnabled)
         {
             var res = command.GetResult();
-            try
+            if (res is null)
             {
-                var data = JsonSerializer.Serialize(res, JsonSerializerOptionsExt.Cyrillic);
-                stringBuilder.Append(data);
-
+                stringBuilder.Append("Result is NULL");
             }
-            catch (Exception exception)
+            else
             {
-                Console.WriteLine(exception);
-                App.Current.LastException = exception;
-                throw;
+                try
+                {
+                    var data = JsonSerializer.Serialize(res, JsonSerializerOptionsExt.Cyrillic);
+                    stringBuilder.Append(data);
+
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                    App.Current.LastException = exception;
+                    throw;
+                }
             }
         }
 
