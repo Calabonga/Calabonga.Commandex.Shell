@@ -24,17 +24,17 @@ It's a complex solution with a few repositories:
 
 When your Command need to use `Microsoft.Data.SqlClient` then you should install reference (nuget) in the `Shell` application. [More information](https://stackoverflow.com/questions/78411196/what-data-sqlclient-can-be-used-with-net-8)
 
-## Video
+## Видео (Video)
 
-### [Commandex Framework - Модульный монолит. Идея.](https://boosty.to/calabonga/posts/88abe79c-c396-4b03-9dc2-4c76b20a25ca)
+### [1. Commandex Framework - Модульный монолит. Идея.](https://boosty.to/calabonga/posts/88abe79c-c396-4b03-9dc2-4c76b20a25ca)
 
 В продолжение темы про эволюцию архитектуры программного обеспечения, в котором речь зашла про "модульный монолит".
 В этом видео - пример реализации модульного монолита.
 
-### [Commandex Framework - Модульный монолит. Знакомство.](https://boosty.to/calabonga/posts/3915ad48-1f0b-44cc-83ac-a1981d8d6c8e)
+### [2. Commandex Framework - Модульный монолит. Знакомство.](https://boosty.to/calabonga/posts/3915ad48-1f0b-44cc-83ac-a1981d8d6c8e)
 В этом видео я представлю вашему вниманию свой новый фреймворк, которые позволит без особых усилий организовать на платформе WPF приложение по работе с плагинами.
 
-### [Commandex Framework - Модульный монолит. Shell.](https://boosty.to/calabonga/posts/dba3f618-314e-4383-ae7b-2485ba93a058)
+### [3. Commandex Framework - Модульный монолит. Shell.](https://boosty.to/calabonga/posts/dba3f618-314e-4383-ae7b-2485ba93a058)
 
 Немного теории про Commandex Framework. В этом видео подробнее про Commandex Shell:
 
@@ -47,18 +47,20 @@ When your Command need to use `Microsoft.Data.SqlClient` then you should install
    * Логирование
    * И другие полезные мелочи
 
-### [Commandex Framework - Модульный монолит. EmptyCommand.](https://boosty.to/calabonga/posts/fdfd99c2-a3d2-4b19-94ee-eae01aac2ae0)
+### [4. Commandex Framework - Модульный монолит. EmptyCommand.](https://boosty.to/calabonga/posts/fdfd99c2-a3d2-4b19-94ee-eae01aac2ae0)
 
-Это самый простой тип команды, которые ничего не должен возвращать на Shell, простой триггер, которые можно что-то сделать, и при этом не должен никому ни в чем отчитываться. Simplest command type for Commandex. This type does not anything returns to shell.
+`EmptyCommandexCommand` - это самый простой тип команды, которые ничего не должен возвращать на Shell, простой триггер, которые можно что-то сделать, и при этом не должен никому ни в чем отчитываться. Simplest command type for Commandex. This type does not anything returns to shell.
 
-### Commandex Framework - Модульный монолит. Result-команды. Часть 4.
-[планируется]
+### 5. Commandex Framework - Модульный монолит. Result-команды. [Видео готовится]
 
-### Commandex Framework - Модульный монолит. Dialog-команды. Часть 5.
-[планируется]
+`ResultCommandexCommand<T>` - это вид команды, который может вернуть на Shell результаты своей работы. На видео были созданы две новые команды:
 
-### Commandex Framework - Модульный монолит. Wizard-команды. Часть 6.
-[планируется]
+* `CheckApiReadyCommandexCommand` - возвращает `bool`-значение, которое выбирается случайным образом. 
+* `ValidateDocumentCommandexCommand` - возвращает класс `ValidateResult`, значения свойств которого, также выбирается случайным образом. Вдобавок, я показал как обрабатывает Shell ошибки, которые возникают при выполнении команд.
 
-### Commandex Framework - Модульный монолит. Parameter-команды. Часть 7.
-[планируется]
+
+### 6. Commandex Framework - Модульный монолит. Dialog-команды. [Видео планируется]
+
+### 7. Commandex Framework - Модульный монолит. Wizard-команды. [Видео планируется]
+
+### 8. Commandex Framework - Модульный монолит. Parameter-команды. [Видео планируется]
