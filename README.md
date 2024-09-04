@@ -56,18 +56,21 @@ When your Command need to use `Microsoft.Data.SqlClient` then you should install
 
 ### 4 [Commandex Framework - Модульный монолит. EmptyCommand.](https://boosty.to/calabonga/posts/fdfd99c2-a3d2-4b19-94ee-eae01aac2ae0)
 
-Это самый простой тип команды, которые ничего не должен возвращать на Shell, простой триггер, которые можно что-то сделать, и при этом не должен никому ни в чем отчитываться. Simplest command type for Commandex. This type does not anything returns to shell.
+`EmptyCommandexCommand` - это самый простой тип команды, которые ничего не должен возвращать на Shell, простой триггер, которые можно что-то сделать, и при этом не должен никому ни в чем отчитываться. Simplest command type for Commandex. This type does not anything returns to shell.
+
 
 ![Commandex-4-empty-command](https://github.com/user-attachments/assets/9574459f-94e2-4cc3-8aa1-2d5d70a9c606)
 
-### 5 Commandex Framework - Модульный монолит. Result-команды. Часть 4.
-[планируется]
+`ResultCommandexCommand<T>` - это вид команды, который может вернуть на Shell результаты своей работы. На видео были созданы две новые команды:
 
-### 6 Commandex Framework - Модульный монолит. Dialog-команды. Часть 5.
-[планируется]
+* `CheckApiReadyCommandexCommand` - возвращает `bool`-значение, которое выбирается случайным образом. 
+* `ValidateDocumentCommandexCommand` - возвращает класс `ValidateResult`, значения свойств которого, также выбирается случайным образом. Вдобавок, я показал как обрабатывает Shell ошибки, которые возникают при выполнении команд.
 
-### 7 Commandex Framework - Модульный монолит. Wizard-команды. Часть 6.
-[планируется]
 
-### 8 Commandex Framework - Модульный монолит. Parameter-команды. Часть 7.
-[планируется]
+### 6. Commandex Framework - Модульный монолит. Dialog-команды. [Видео планируется]
+
+### 7. Commandex Framework - Модульный монолит. Wizard-команды. [Видео планируется]
+
+### 8. Commandex Framework - Модульный монолит. Parameter-команды. [Видео планируется]
+=======
+![Commandex-4-empty-command](https://github.com/user-attachments/assets/9574459f-94e2-4cc3-8aa1-2d5d70a9c606)
