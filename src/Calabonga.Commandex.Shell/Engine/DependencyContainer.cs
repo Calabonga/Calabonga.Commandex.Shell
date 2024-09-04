@@ -1,4 +1,5 @@
-﻿using Calabonga.Commandex.Engine.Dialogs;
+﻿using Calabonga.Commandex.Engine.Base;
+using Calabonga.Commandex.Engine.Dialogs;
 using Calabonga.Commandex.Engine.Settings;
 using Calabonga.Commandex.Engine.Wizards;
 using Calabonga.Commandex.Shell.Core;
@@ -43,6 +44,7 @@ internal static class DependencyContainer
         services.AddTransient<FileService>();
         services.AddTransient<NugetLoader>();
         services.AddScoped<IConfigurationFinder, ConfigurationFinder>();
+        services.AddSingleton<ISettingsReaderConfiguration, DefaultSettingsReaderConfiguration>();
 
         // dialogs and wizard
         services.AddTransient<IWizardView, Wizard>();
