@@ -6,9 +6,9 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "Calabonga.Commandex.Shell/1.5.5+main.5f73bd1": {
+      "Calabonga.Commandex.Shell/1.5.7+dialog-commandex-command.9f70450": {
         "dependencies": {
-          "Calabonga.Commandex.Engine": "1.0.0-rc.7",
+          "Calabonga.Commandex.Engine": "1.0.0-rc.9",
           "Calabonga.PredicatesBuilder": "2.0.1",
           "DotNetEnv": "3.1.1",
           "GitInfo": "3.3.5",
@@ -23,7 +23,7 @@
           "Calabonga.Commandex.Shell.dll": {}
         }
       },
-      "Calabonga.Commandex.Engine/1.0.0-rc.7": {
+      "Calabonga.Commandex.Engine/1.0.0-rc.9": {
         "dependencies": {
           "Calabonga.Results": "1.1.0",
           "Calabonga.Wpf.AppDefinitions": "1.0.0",
@@ -1067,17 +1067,17 @@
     }
   },
   "libraries": {
-    "Calabonga.Commandex.Shell/1.5.5+main.5f73bd1": {
+    "Calabonga.Commandex.Shell/1.5.7+dialog-commandex-command.9f70450": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Calabonga.Commandex.Engine/1.0.0-rc.7": {
+    "Calabonga.Commandex.Engine/1.0.0-rc.9": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-YqxZwyaQg2Q38hHMQbsKM2yZBzFzCQvD3pK+BlrOklvDMcWQGHi4MJxsXk+hrUqcXk0q1cDcEZ5RMq6ZkRPRfA==",
-      "path": "calabonga.commandex.engine/1.0.0-rc.7",
-      "hashPath": "calabonga.commandex.engine.1.0.0-rc.7.nupkg.sha512"
+      "sha512": "sha512-39+tXp3jqJVn3O4Dguk9O92M96TvDK6D37wDqAPRiAtSNsFhfsn3eKODyga4CSRMQEVY2fiMPLtFKN6QzklTzg==",
+      "path": "calabonga.commandex.engine/1.0.0-rc.9",
+      "hashPath": "calabonga.commandex.engine.1.0.0-rc.9.nupkg.sha512"
     },
     "Calabonga.PredicatesBuilder/2.0.1": {
       "type": "package",
