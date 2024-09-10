@@ -10,6 +10,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 
 namespace Calabonga.Commandex.Shell.ViewModels;
 
@@ -83,6 +85,25 @@ public partial class ShellWindowViewModel : ViewModelBase
 
     [RelayCommand]
     private void ShowAbout() => _dialogService.ShowDialog<AboutDialog, AboutDialogResult>();
+
+    [RelayCommand]
+    private void OpenLogsFolder()
+    {
+        var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+
+        if (!Path.Exists(path))
+        {
+            _dialogService.ShowNotification($"Folder not found: {path}");
+            return;
+        }
+
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = path,
+            UseShellExecute = true,
+            Verb = "open"
+        });
+    }
 
     [RelayCommand]
     private void LoadData()

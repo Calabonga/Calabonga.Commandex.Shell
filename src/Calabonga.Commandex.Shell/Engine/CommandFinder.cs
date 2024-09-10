@@ -41,7 +41,7 @@ internal static class CommandFinder
 
             foreach (var fileInfo in files)
             {
-                var assembly = Assembly.LoadFile(fileInfo.FullName) ?? throw new ArgumentNullException(nameof(commandexFolderPath));
+                var assembly = Assembly.LoadFrom(fileInfo.FullName) ?? throw new ArgumentNullException(nameof(commandexFolderPath));
 
                 var exportedTypes = assembly.GetExportedTypes();
                 var modulesTypes = exportedTypes.Where(AppDefinitionFindPredicate).ToList();
