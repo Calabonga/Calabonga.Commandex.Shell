@@ -51,9 +51,7 @@ public sealed class CommandExecutor
 
         OnCommandPreparing();
 
-        await _artifactService.CheckDependenciesReadyAsync(command);
         var checkOperation = await _artifactService.CheckDependenciesReadyAsync(command);
-
         if (!checkOperation.Ok)
         {
             return Operation.Error(checkOperation.Error);
