@@ -21,4 +21,9 @@ public class AppSettings : IAppSettings
     /// Artifacts folder name
     /// </summary>
     public required string ArtifactsFolderName { get; set; }
+
+    /// <summary>
+    /// Nuget Feed URL
+    /// </summary>
+    public required string NugetFeedUrl { get; set; }
 }
