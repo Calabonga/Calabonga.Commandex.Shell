@@ -17,6 +17,21 @@ public class DialogService : IDialogService
 
     public DialogService(ILogger<DialogService> logger) => _logger = logger;
 
+    public OperationEmpty<ExecuteCommandexCommandException> ShowDialog<TView, TViewModel>(object dialogParameter, Action<TViewModel>? onClosingDialogCallback)
+        where TView : IView
+        where TViewModel : IResult
+        => ShowDialogInternal<TView, TViewModel>(dialogParameter, onClosingDialogCallback);
+    
+    public OperationEmpty<ExecuteCommandexCommandException> ShowDialog<TView, TViewModel>(object dialogParameter)
+        where TView : IView
+        where TViewModel : IResult
+        => ShowDialogInternal<TView, TViewModel>(dialogParameter);
+
+    public OperationEmpty<ExecuteCommandexCommandException> ShowDialog<TView, TViewModel>(TViewModel model, Action<TViewModel>? onClosingDialogCallback)
+        where TView : IView
+        where TViewModel : IResult
+        => ShowDialogInternal<TView, TViewModel>(model, onClosingDialogCallback);
+
     /// <summary>
     /// // Calabonga: Summary required (IDialogService 2024-07-31 05:53)
     /// </summary>
@@ -26,7 +41,7 @@ public class DialogService : IDialogService
     public OperationEmpty<ExecuteCommandexCommandException> ShowDialog<TView, TViewModel>(Action<TViewModel> onClosingDialogCallback)
         where TView : IView
         where TViewModel : IResult
-        => ShowDialogInternal<TView, TViewModel>(onClosingDialogCallback);
+        => ShowDialogInternal<TView, TViewModel>(null, onClosingDialogCallback);
 
     /// <summary>
     /// // Calabonga: Summary required (IDialogService 2024-08-03 07:56)
@@ -34,7 +49,7 @@ public class DialogService : IDialogService
     /// <typeparam name="TView"></typeparam>
     /// <typeparam name="TViewModel"></typeparam>
     public OperationEmpty<ExecuteCommandexCommandException> ShowDialog<TView, TViewModel>() where TView : IDialogView where TViewModel : IDialogResult
-        => ShowDialogInternal<TView, TViewModel>();
+        => ShowDialogInternal<TView, TViewModel>(null);
 
     public OperationEmpty<ExecuteCommandexCommandException> ShowNotification(string message)
         => ShowDialogInternal(message, LogLevel.Notification);
@@ -47,7 +62,15 @@ public class DialogService : IDialogService
 
     private string GetTitle(LogLevel type) => type.ToString();
 
-    private OperationEmpty<ExecuteCommandexCommandException> ShowDialogInternal<TView, TViewModel>(Action<TViewModel>? onClosingDialogCallback = null)
+    /// <summary>
+    /// Internal dialog launcher for generic dialog types.
+    /// </summary>
+    /// <typeparam name="TView"></typeparam>
+    /// <typeparam name="TViewModel"></typeparam>
+    /// <param name="dialogParameter"></param>
+    /// <param name="onClosingDialogCallback"></param>
+    /// <returns></returns>
+    private OperationEmpty<ExecuteCommandexCommandException> ShowDialogInternal<TView, TViewModel>(object? dialogParameter = null, Action<TViewModel>? onClosingDialogCallback = null)
         where TView : IView
         where TViewModel : IResult
     {
@@ -78,6 +101,10 @@ public class DialogService : IDialogService
 
             var viewModelResult = (IResult)viewModel;
             viewModelResult.Owner = dialog;
+            if (viewModelResult is IDialogResult viewModelDialogResult)
+            {
+                viewModelDialogResult.DialogParameter = dialogParameter;
+            }
 
             var title = viewModelResult.Title;
             dialog.Title = string.IsNullOrEmpty(title) ? "Untitled" : title;
@@ -98,6 +125,11 @@ public class DialogService : IDialogService
         }
     }
 
+    /// <summary>
+    /// Internal dialog launcher for primitive type (string)
+    /// </summary>
+    /// <param name="message"></param>
+    /// <param name="type"></param>
     private OperationEmpty<ExecuteCommandexCommandException> ShowDialogInternal(string message, LogLevel type)
     {
         var dialog = new DialogWindow();
