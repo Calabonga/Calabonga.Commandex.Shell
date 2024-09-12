@@ -21,7 +21,7 @@ public class DialogService : IDialogService
         where TView : IView
         where TViewModel : IResult
         => ShowDialogInternal<TView, TViewModel>(dialogParameter, onClosingDialogCallback);
-    
+
     public OperationEmpty<ExecuteCommandexCommandException> ShowDialog<TView, TViewModel>(object dialogParameter)
         where TView : IView
         where TViewModel : IResult
@@ -101,7 +101,7 @@ public class DialogService : IDialogService
 
             var viewModelResult = (IResult)viewModel;
             viewModelResult.Owner = dialog;
-            if (viewModelResult is IDialogResult viewModelDialogResult)
+            if (dialogParameter is not null && viewModelResult is IDialogResult viewModelDialogResult)
             {
                 viewModelDialogResult.DialogParameter = dialogParameter;
             }
