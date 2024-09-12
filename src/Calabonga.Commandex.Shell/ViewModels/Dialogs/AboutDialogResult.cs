@@ -42,9 +42,6 @@ public partial class AboutDialogResult : DefaultDialogResult
     private string _commit;
 
     [ObservableProperty]
-    private string _tag;
-
-    [ObservableProperty]
     private string _artifactsSize = "0.0 KB";
 
     [ObservableProperty]
@@ -70,7 +67,6 @@ public partial class AboutDialogResult : DefaultDialogResult
         Version = _versionService.Version;
         Branch = _versionService.Branch;
         Commit = _versionService.Commit;
-        Tag = _versionService.Tag;
     }
 
     #region command ClearArtifacts
