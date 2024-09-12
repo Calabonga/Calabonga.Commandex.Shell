@@ -3,17 +3,28 @@ using Calabonga.Commandex.Shell.Engine;
 using Calabonga.Commandex.Shell.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
 
 namespace Calabonga.Commandex.Shell.ViewModels.Dialogs;
 
 public partial class AboutDialogResult : DefaultDialogResult
 {
+    private readonly IDialogService _dialogService;
+    private readonly ILogger<AboutDialogResult> _logger;
     private readonly IVersionService _versionService;
     private readonly FileService _fileService;
 
-    public AboutDialogResult(IVersionService versionService, FileService fileService)
+    public AboutDialogResult(
+        IDialogService dialogService,
+        ILogger<AboutDialogResult> logger,
+        IVersionService versionService,
+        FileService fileService)
     {
+        _dialogService = dialogService;
+        _logger = logger;
         _versionService = versionService;
         _fileService = fileService;
         Title = "About Commandex";
@@ -62,8 +73,47 @@ public partial class AboutDialogResult : DefaultDialogResult
         Tag = _versionService.Tag;
     }
 
-    public override void Dispose()
-    {
+    #region command ClearArtifacts
 
+    private bool CanClearArtifacts => !string.IsNullOrEmpty(ArtifactsFolder);
+    [RelayCommand(CanExecute = nameof(CanClearArtifacts))]
+    private void ClearArtifacts()
+    {
+        IsBusy = true;
+        var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ArtifactsFolder);
+
+        if (!Path.Exists(path))
+        {
+            var message = $"{path} not exists";
+            _logger.LogWarning(message);
+            _dialogService.ShowWarning(message);
+            IsBusy = false;
+            return;
+        }
+
+        try
+        {
+            var directory = new DirectoryInfo(path);
+            directory.Delete(true);
+            LoadData();
+        }
+        catch (Exception exception)
+        {
+            var message = exception.Message;
+            _logger.LogError(exception, message);
+
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = path,
+                UseShellExecute = true,
+                Verb = "open"
+            });
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
+
+    #endregion
 }
