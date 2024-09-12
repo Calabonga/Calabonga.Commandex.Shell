@@ -26,12 +26,17 @@ public sealed class CommandExecutor
     /// <summary>
     /// Fires when everything is prepared for command execution.
     /// </summary>
-    public event EventHandler? CommandPrepared;
+    public event EventHandler? CommandPreparedSuccess;
+
+    /// <summary>
+    /// Fires when everything is prepared for command execution.
+    /// </summary>
+    public event EventHandler? CommandPreparationFailed;
 
     /// <summary>
     /// Fires before command be executed and prepare command dependencies is started.
     /// </summary>
-    public event EventHandler? CommandPreparing;
+    public event EventHandler? CommandPrepareStart;
 
     /// <summary>
     /// // Calabonga: Summary required (CommandExecutor 2024-08-03 09:54)
@@ -54,11 +59,11 @@ public sealed class CommandExecutor
         var checkOperation = await _artifactService.CheckDependenciesReadyAsync(command);
         if (!checkOperation.Ok)
         {
+            OnCommandPreparationFailed();
             return Operation.Error(checkOperation.Error);
         }
 
         OnCommandPrepared();
-
 
         var operation = await command.ExecuteCommandAsync();
 
@@ -69,7 +74,9 @@ public sealed class CommandExecutor
             : Operation.Error(new ExecuteCommandexCommandException(operation.Error.Message, operation.Error));
     }
 
-    private void OnCommandPrepared() => CommandPrepared?.Invoke(this, EventArgs.Empty);
+    private void OnCommandPrepared() => CommandPreparedSuccess?.Invoke(this, EventArgs.Empty);
 
-    private void OnCommandPreparing() => CommandPreparing?.Invoke(this, EventArgs.Empty);
+    private void OnCommandPreparing() => CommandPrepareStart?.Invoke(this, EventArgs.Empty);
+
+    private void OnCommandPreparationFailed() => CommandPreparationFailed?.Invoke(this, EventArgs.Empty);
 }

@@ -37,8 +37,9 @@ public partial class ShellWindowViewModel : ViewModelBase
         _logger = logger;
         _dialogService = dialogService;
 
-        _commandExecutor.CommandPrepared += (_, _) => { IsBusy = false; };
-        _commandExecutor.CommandPreparing += (_, _) => { IsBusy = true; };
+        _commandExecutor.CommandPreparedSuccess += (_, _) => { IsBusy = false; };
+        _commandExecutor.CommandPrepareStart += (_, _) => { IsBusy = true; };
+        _commandExecutor.CommandPreparationFailed += (_, _) => { IsBusy = false; };
     }
 
     [ObservableProperty]
