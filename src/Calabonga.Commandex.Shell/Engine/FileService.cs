@@ -11,6 +11,6 @@ public sealed class FileService
     public long GetArtifactsSize()
     {
         var folder = new DirectoryInfo(ArtifactService.ArtifactsFolderPath);
-        return folder.GetFiles("*.*", SearchOption.AllDirectories).Sum(fi => fi.Length);
+        return folder.Exists ? folder.GetFiles("*.*", SearchOption.AllDirectories).Sum(fi => fi.Length) : 0;
     }
 }
