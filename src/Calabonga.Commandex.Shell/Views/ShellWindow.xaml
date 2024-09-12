@@ -40,6 +40,11 @@
         <ListView ItemsSource="{Binding CommandItems}" SelectedItem="{Binding SelectedCommand, Mode=TwoWay}"
                   Grid.Column="0" Grid.Row="1" Margin="4"
                   HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding ExecuteActionCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Border Style="{StaticResource FancyBorder}">
