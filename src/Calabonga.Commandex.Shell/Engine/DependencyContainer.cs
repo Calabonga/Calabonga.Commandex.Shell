@@ -1,8 +1,7 @@
 ﻿using Calabonga.Commandex.Engine.Base;
 using Calabonga.Commandex.Engine.Dialogs;
+using Calabonga.Commandex.Engine.Extensions;
 using Calabonga.Commandex.Engine.Settings;
-using Calabonga.Commandex.Engine.Wizards;
-using Calabonga.Commandex.Shell.Core;
 using Calabonga.Commandex.Shell.Extensions;
 using Calabonga.Commandex.Shell.Services;
 using Calabonga.Commandex.Shell.ViewModels;
@@ -45,12 +44,11 @@ internal static class DependencyContainer
         services.AddTransient<NugetLoader>();
         services.AddScoped<IConfigurationFinder, ConfigurationFinder>();
         services.AddSingleton<ISettingsReaderConfiguration, DefaultSettingsReaderConfiguration>();
-
-        // dialogs and wizard
-        services.AddTransient<IWizardView, Wizard>();
-        services.AddTransient<IDialogService, DialogService>();
         services.AddTransient<IVersionService, VersionService>();
-        services.AddTransient(typeof(IWizardManager<>), typeof(WizardManager<>));
+
+        // components
+        services.AddDialogComponent();
+        services.AddWizardComponent();
 
         // settings
         services.AddSingleton<IAppSettings>(_ => App.Current.Settings);
