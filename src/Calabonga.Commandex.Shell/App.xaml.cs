@@ -1,5 +1,5 @@
 ﻿using Calabonga.Commandex.Engine.Dialogs;
-using Calabonga.Commandex.Shell.Core;
+using Calabonga.Commandex.Engine.Settings;
 using Calabonga.Commandex.Shell.Engine;
 using Calabonga.Commandex.Shell.ViewModels;
 using Calabonga.Commandex.Shell.Views;

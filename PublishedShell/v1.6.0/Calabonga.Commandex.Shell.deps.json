@@ -6,9 +6,9 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "Calabonga.Commandex.Shell/1.5.23+main.4b121fa": {
+      "Calabonga.Commandex.Shell/1.6.0+huge-refactoring.0381443": {
         "dependencies": {
-          "Calabonga.Commandex.Engine": "1.0.0-rc.11",
+          "Calabonga.Commandex.Engine": "1.0.0-rc.13",
           "Calabonga.PredicatesBuilder": "2.0.1",
           "DotNetEnv": "3.1.1",
           "GitInfo": "3.3.5",
@@ -23,13 +23,13 @@
           "Calabonga.Commandex.Shell.dll": {}
         }
       },
-      "Calabonga.Commandex.Engine/1.0.0-rc.11": {
+      "Calabonga.Commandex.Engine/1.0.0-rc.13": {
         "dependencies": {
           "Calabonga.Results": "1.1.0",
           "Calabonga.Wpf.AppDefinitions": "1.0.0",
-          "CommunityToolkit.Common": "8.3.0",
-          "CommunityToolkit.Diagnostics": "8.3.0",
-          "CommunityToolkit.Mvvm": "8.2.2",
+          "CommunityToolkit.Common": "8.3.1",
+          "CommunityToolkit.Diagnostics": "8.3.1",
+          "CommunityToolkit.Mvvm": "8.3.1",
           "DotNetEnv": "3.1.1",
           "Microsoft.Xaml.Behaviors.Wpf": "1.1.135"
         },
@@ -68,27 +68,27 @@
           }
         }
       },
-      "CommunityToolkit.Common/8.3.0": {
+      "CommunityToolkit.Common/8.3.1": {
         "runtime": {
           "lib/net8.0/CommunityToolkit.Common.dll": {
             "assemblyVersion": "8.3.0.0",
-            "fileVersion": "8.3.0.1"
+            "fileVersion": "8.3.1.1"
           }
         }
       },
-      "CommunityToolkit.Diagnostics/8.3.0": {
+      "CommunityToolkit.Diagnostics/8.3.1": {
         "runtime": {
           "lib/net8.0/CommunityToolkit.Diagnostics.dll": {
             "assemblyVersion": "8.3.0.0",
-            "fileVersion": "8.3.0.1"
+            "fileVersion": "8.3.1.1"
           }
         }
       },
-      "CommunityToolkit.Mvvm/8.2.2": {
+      "CommunityToolkit.Mvvm/8.3.1": {
         "runtime": {
-          "lib/net6.0/CommunityToolkit.Mvvm.dll": {
-            "assemblyVersion": "8.2.0.0",
-            "fileVersion": "8.2.2.1"
+          "lib/net8.0/CommunityToolkit.Mvvm.dll": {
+            "assemblyVersion": "8.3.0.0",
+            "fileVersion": "8.3.1.1"
           }
         }
       },
@@ -1067,17 +1067,17 @@
     }
   },
   "libraries": {
-    "Calabonga.Commandex.Shell/1.5.23+main.4b121fa": {
+    "Calabonga.Commandex.Shell/1.6.0+huge-refactoring.0381443": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Calabonga.Commandex.Engine/1.0.0-rc.11": {
+    "Calabonga.Commandex.Engine/1.0.0-rc.13": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-f7Xrdnp8NC/xKqcOuSmcfvXqetzKNmc7YI3v0Y4Q/PRIBo/EOpIgj96RcSA94gLrdJymKWF1Y7cK+QGraVPRvA==",
-      "path": "calabonga.commandex.engine/1.0.0-rc.11",
-      "hashPath": "calabonga.commandex.engine.1.0.0-rc.11.nupkg.sha512"
+      "sha512": "sha512-vO7C9NxuAeVDU9D2Oa9eaNlqu34oH9CcZkexjTbM3E38XcGjOn0bO3ryGsShfcHNB/LjvOSuj/MRzXI07dtj9Q==",
+      "path": "calabonga.commandex.engine/1.0.0-rc.13",
+      "hashPath": "calabonga.commandex.engine.1.0.0-rc.13.nupkg.sha512"
     },
     "Calabonga.PredicatesBuilder/2.0.1": {
       "type": "package",
@@ -1100,26 +1100,26 @@
       "path": "calabonga.wpf.appdefinitions/1.0.0",
       "hashPath": "calabonga.wpf.appdefinitions.1.0.0.nupkg.sha512"
     },
-    "CommunityToolkit.Common/8.3.0": {
+    "CommunityToolkit.Common/8.3.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-TibqmLI1MF5mIo/u1qYM/AFAzmoJsvs6einYKnhUMAXxJHbREIlg1tYMq7YbiqBaJL8Mfp7hqrZdAGJ0fsW0+w==",
-      "path": "communitytoolkit.common/8.3.0",
-      "hashPath": "communitytoolkit.common.8.3.0.nupkg.sha512"
+      "sha512": "sha512-r8jWhfnwSfn7/xPjh3Aom6gAGkENUMrr+FmZJOzOvRWBgXJ/latl8b8iCx1F+GHiS/0f5zK4zWZM18P0DgNNiw==",
+      "path": "communitytoolkit.common/8.3.1",
+      "hashPath": "communitytoolkit.common.8.3.1.nupkg.sha512"
     },
-    "CommunityToolkit.Diagnostics/8.3.0": {
+    "CommunityToolkit.Diagnostics/8.3.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-U3b9YjLckOc2TVRTh5Np+tCICrzlp7zSi+jNk6wlsZUA6woURtNnMxq6bK718lF1E2PyskjUWqoemBOBVZC9gA==",
-      "path": "communitytoolkit.diagnostics/8.3.0",
-      "hashPath": "communitytoolkit.diagnostics.8.3.0.nupkg.sha512"
+      "sha512": "sha512-7S76LyBFVUhXhLwRsZK24BXqiNOrfo91ALTiQiUBh797gyLQBtsUB0xxM7LKhLIfX6o5RC8fdB3AxKzomSsDGA==",
+      "path": "communitytoolkit.diagnostics/8.3.1",
+      "hashPath": "communitytoolkit.diagnostics.8.3.1.nupkg.sha512"
     },
-    "CommunityToolkit.Mvvm/8.2.2": {
+    "CommunityToolkit.Mvvm/8.3.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-r0g0k9tGYdrnz8R7T3x5UiokDffeevzK/2P/9SBL6fqLgN8B157MIi/bVUWI1KAz6ZorZrK9AdABCWUeXZZsvA==",
-      "path": "communitytoolkit.mvvm/8.2.2",
-      "hashPath": "communitytoolkit.mvvm.8.2.2.nupkg.sha512"
+      "sha512": "sha512-Fuqjp5uYzHEdrRxsZlY0EqvFX9pF2v0cZN+zfso44lVLI3wZa8Nb9jdcBoXbHxiRSU3hEDhHUqh2fM8znzodzg==",
+      "path": "communitytoolkit.mvvm/8.3.1",
+      "hashPath": "communitytoolkit.mvvm.8.3.1.nupkg.sha512"
     },
     "DotNetEnv/3.1.1": {
       "type": "package",
