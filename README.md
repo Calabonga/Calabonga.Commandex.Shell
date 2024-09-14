@@ -70,8 +70,12 @@ When your Command need to use `Microsoft.Data.SqlClient` then you should install
 
 ![Commandex-5-result-command](https://github.com/user-attachments/assets/e690628f-1be5-4c1f-92e7-7468a22b0686)
 
-### 6. Commandex Framework - Модульный монолит. Dialog-команды. [Видео планируется]
+### [6. Commandex Framework - Модульный монолит. Dialog-команды.](https://boosty.to/calabonga/posts/f73a1f14-4e64-4703-9c08-2add245125d6)
+
+![Commandex-6-framework](https://github.com/user-attachments/assets/6dc338cb-cccd-4007-9229-9ee1f67c9126)
 
 ### 7. Commandex Framework - Модульный монолит. Wizard-команды. [Видео планируется]
 
 ### 8. Commandex Framework - Модульный монолит. Parameter-команды. [Видео планируется]
+
+### 9. Commandex Framework - Модульный монолит. Dialog-команды с параметром. [Видео планируется]
