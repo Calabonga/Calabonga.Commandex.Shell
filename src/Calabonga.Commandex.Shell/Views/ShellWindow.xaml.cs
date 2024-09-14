@@ -11,5 +11,4 @@ public partial class ShellWindow : Window
     {
         InitializeComponent();
     }
-
 }
