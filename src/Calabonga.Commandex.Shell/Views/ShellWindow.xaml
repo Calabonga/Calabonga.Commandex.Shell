@@ -12,8 +12,7 @@
         Height="768"
         MinWidth="1024"
         MinHeight="768"
-        Icon="/logo.png"
-        >
+        Icon="/logo.png">
     <Window.Title>
         <MultiBinding StringFormat="{} {0}: {1} command(s) found">
             <Binding Path="Title"/>
@@ -40,10 +39,6 @@
     <Window.Resources>
         <NullableBoolConverter x:Key="NullableBoolConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <HierarchicalDataTemplate DataType="{x:Type viewModels:MenuItemViewModel}"
-                                  ItemsSource="{Binding Path=MenuItems}">
-            <ContentPresenter Content="{Binding Path=Text}" />
-        </HierarchicalDataTemplate>
     </Window.Resources>
 
     <i:Interaction.Triggers>
@@ -53,26 +48,26 @@
     </i:Interaction.Triggers>
 
     <Grid>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Menu Height="30" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Stretch"  >
+        <Menu Height="30" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Stretch"  >
             <MenuItem Header="Commandex">
                 <MenuItem Header="Show search bar" IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" IsCheckable="True"/>
             </MenuItem>
-            <MenuItem Header="Commands Menu" ItemsSource="{Binding MenuItems}"/>
             <MenuItem Header="Commands Items" ItemsSource="{Binding CommandItems}">
                 <MenuItem.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}">
                             <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseLeftButtonDown">
-                                    <i:InvokeCommandAction Command="{Binding DataContext.ExecuteActionCommand, RelativeSource={RelativeSource FindAncestor , AncestorType=Window}}" />
+                                <i:EventTrigger EventName="MouseLeftButtonUp">
+                                    <i:InvokeCommandAction
+                                        Command="{Binding DataContext.ExecuteActionCommand, RelativeSource={RelativeSource FindAncestor , AncestorType=Window}}" 
+                                        CommandParameter="{Binding}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </TextBlock>
@@ -90,7 +85,10 @@
             </MenuItem>
         </Menu>
 
-        <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" Margin="4" Visibility="{Binding IsFindEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <ProgressBar Grid.Column="0" Grid.Row="1"  IsIndeterminate="True" Height="10" VerticalAlignment="Bottom"
+                     Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
+        <Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" Margin="4" Visibility="{Binding IsFindEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -100,7 +98,7 @@
         </Grid>
 
         <ListView ItemsSource="{Binding CommandItems}" SelectedItem="{Binding SelectedCommand, Mode=TwoWay}"
-                  Grid.Column="0" Grid.Row="2" Margin="4"
+                  Grid.Column="0" Grid.Row="3" Margin="4"
                   HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
@@ -144,8 +142,7 @@
             </ListView.ItemTemplate>
         </ListView>
 
-       
 
-        <ProgressBar Grid.Column="0" Grid.Row="2"  IsIndeterminate="True" Height="10" VerticalAlignment="Bottom" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
     </Grid>
 </Window>

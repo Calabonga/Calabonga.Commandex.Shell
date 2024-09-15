@@ -38,22 +38,10 @@ public partial class ShellWindowViewModel : ViewModelBase
         _dialogService = dialogService;
         _settingsReader = settingsReader;
 
-        _commandExecutor.CommandPreparedSuccess += (_, _) => { IsBusy = false; };
-        _commandExecutor.CommandPrepareStart += (_, _) => { IsBusy = true; };
-        _commandExecutor.CommandPreparationFailed += (_, _) => { IsBusy = false; };
-
-        MenuItems = new ObservableCollection<MenuItemViewModel> { };
-
-        //MenuItems =
-        //[
-        //    new() { Text = "Text1" },
-        //    new() { Text = "Text2" },
-        //    new() { Text = "Text4" }
-        //];
+        // _commandExecutor.CommandPreparedSuccess += (_, _) => { IsBusy = false; };
+        // _commandExecutor.CommandPrepareStart += (_, _) => { IsBusy = true; };
+        // _commandExecutor.CommandPreparationFailed += (_, _) => { IsBusy = false; };
     }
-
-    [ObservableProperty]
-    private ObservableCollection<MenuItemViewModel> _menuItems;
 
     [ObservableProperty]
     private string? _searchTerm;
@@ -75,24 +63,35 @@ public partial class ShellWindowViewModel : ViewModelBase
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
     private async Task ExecuteActionAsync()
     {
-        var operation = await _commandExecutor.ExecuteAsync(SelectedCommand!);
+        IsBusy = true;
 
-        if (operation.Ok)
+        try
         {
-            if (!operation.Result.IsPushToShellEnabled)
+            var operation = await _commandExecutor.ExecuteAsync(SelectedCommand!);
+
+            if (operation.Ok)
             {
+                if (!operation.Result.IsPushToShellEnabled)
+                {
+                    IsBusy = false;
+                    return;
+                }
+
+                var command = operation.Result;
+                var message = CommandReport.CreateReport(command);
+                _logger.LogInformation("{CommandType} executed with result: {Result}", command.TypeName, message);
+                IsBusy = false;
+                _dialogService.ShowNotification(message);
                 return;
             }
 
-            var command = operation.Result;
-            var message = CommandReport.CreateReport(command);
-            _logger.LogInformation("{CommandType} executed with result: {Result}", command.TypeName, message);
-            _dialogService.ShowNotification(message);
-            return;
+            _logger.LogError(operation.Error, operation.Error.Message);
+            _dialogService.ShowError(operation.Error.Message);
         }
-
-        _logger.LogError(operation.Error, operation.Error.Message);
-        _dialogService.ShowError(operation.Error.Message);
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
