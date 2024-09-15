@@ -14,4 +14,6 @@ public abstract class ItemBase
     public string Name { get; set; } = null!;
 
     public string Version { get; set; } = null!;
+
+    public string[]? Tags { get; set; }
 }

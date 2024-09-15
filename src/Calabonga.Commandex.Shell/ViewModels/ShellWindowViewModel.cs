@@ -1,11 +1,9 @@
 ﻿using Calabonga.Commandex.Engine.Base;
-using Calabonga.Commandex.Engine.Commands;
 using Calabonga.Commandex.Engine.Dialogs;
 using Calabonga.Commandex.Shell.Engine;
 using Calabonga.Commandex.Shell.Models;
 using Calabonga.Commandex.Shell.ViewModels.Dialogs;
 using Calabonga.Commandex.Shell.Views.Dialogs;
-using Calabonga.PredicatesBuilder;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
@@ -22,13 +20,15 @@ public partial class ShellWindowViewModel : ViewModelBase
     private readonly IEnumerable<ICommandexCommand> _commands;
     private readonly ILogger<ShellWindowViewModel> _logger;
     private readonly IDialogService _dialogService;
+    private readonly ISettingsReaderConfiguration _settingsReader;
 
     public ShellWindowViewModel(
         CommandExecutor commandExecutor,
         IConfigurationFinder configurationFinder,
         IEnumerable<ICommandexCommand> commands,
         ILogger<ShellWindowViewModel> logger,
-        IDialogService dialogService)
+        IDialogService dialogService,
+        ISettingsReaderConfiguration settingsReader)
     {
         Title = "CommandEx - Command Executor";
         _commandExecutor = commandExecutor;
@@ -36,6 +36,7 @@ public partial class ShellWindowViewModel : ViewModelBase
         _commands = commands;
         _logger = logger;
         _dialogService = dialogService;
+        _settingsReader = settingsReader;
 
         _commandExecutor.CommandPreparedSuccess += (_, _) => { IsBusy = false; };
         _commandExecutor.CommandPrepareStart += (_, _) => { IsBusy = true; };
@@ -111,36 +112,14 @@ public partial class ShellWindowViewModel : ViewModelBase
     {
         IsBusy = true;
 
-        FindCommands();
+        FindCommandsInContainer();
 
         IsBusy = false;
     }
 
-    private void FindCommands()
-    {
-        var predicate = PredicateBuilder.True<ICommandexCommand>().And(x => !string.IsNullOrEmpty(x.Version));
+    private void FindCommandsInContainer()
+        => CommandItems = new ObservableCollection<CommandItem>(CommandFinder.ConvertToItems(_commands, _settingsReader, SearchTerm));
 
-        if (!string.IsNullOrEmpty(SearchTerm))
-        {
-            var term = SearchTerm.ToLower();
-            predicate = predicate
-                .And(x => x.DisplayName.ToLower().Contains(term))
-                .Or(x => x.Description.ToLower().Contains(term))
-                .Or(x => x.CopyrightInfo.ToLower().Contains(term))
-                .Or(x => x.TypeName.ToLower().Contains(term))
-                .Or(x => x.Version.ToLower().Contains(term));
-        }
-
-        var actionsList = _commands
-            .Where(predicate.Compile())
-            .Select(x => new CommandItem(x.GetType().Assembly.GetName().Name ?? "Commandex", x.TypeName, x.Version, x.DisplayName, x.Description))
-            .ToList();
-
-        CommandItems = new ObservableCollection<CommandItem>(actionsList);
-
-        _logger.LogInformation("Total commands were found: {ActionCount}", actionsList.Count);
-    }
-
-    partial void OnSearchTermChanged(string? value) => FindCommands();
+    partial void OnSearchTermChanged(string? value) => FindCommandsInContainer();
 
 }

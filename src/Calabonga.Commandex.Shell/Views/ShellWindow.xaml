@@ -82,6 +82,20 @@
                             </Grid>
                             <TextBlock Text="{Binding TypeName}" FontSize="15"/>
                             <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="11"/>
+                            <ItemsControl ItemsSource="{Binding Tags}" FontSize="11">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Style="{StaticResource TagBorder}">
+                                            <TextBlock Text="{Binding}"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
                         </StackPanel>
                     </Border>
                 </DataTemplate>

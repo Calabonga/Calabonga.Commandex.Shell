@@ -1,16 +1,19 @@
-﻿namespace Calabonga.Commandex.Shell.Models;
+﻿using Calabonga.Commandex.Engine.Base;
+
+namespace Calabonga.Commandex.Shell.Models;
 
 /// <summary>
-/// Calabonga: Summary required (CommandItem 2024-07-30 08:36)
+/// Represents <see cref="ICommandexCommand" /> as the item to show on the UI.
 /// </summary>
 public sealed class CommandItem : ItemBase
 {
-    public CommandItem(string scope, string type, string version, string name, string description)
+    public CommandItem(string scope, string type, string version, string name, string description, string[] tags)
     {
         Scope = scope;
         TypeName = type;
         Version = version;
         Name = name;
         Description = description;
+        Tags = tags;
     }
 }

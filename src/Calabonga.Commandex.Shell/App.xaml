@@ -21,5 +21,15 @@
             <Setter Property="BorderBrush" Value="#cccccc" />
             <Setter Property="BorderThickness" Value="1" />
         </Style>
-    </Application.Resources>
+
+        <Style x:Key="TagBorder" TargetType="{x:Type Border}">
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="BorderBrush" Value="#cccccc" />
+            <Setter Property="Background" Value="#f4f4f4" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="3"/>
+        </Style>
+
+</Application.Resources>
 </Application>
