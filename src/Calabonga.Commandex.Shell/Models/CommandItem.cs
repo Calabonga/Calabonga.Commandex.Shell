@@ -7,7 +7,7 @@ namespace Calabonga.Commandex.Shell.Models;
 /// </summary>
 public sealed class CommandItem : ItemBase
 {
-    public CommandItem(string scope, string type, string version, string name, string description, string[] tags)
+    public CommandItem(string scope, string type, string version, string name, string description, string[]? tags)
     {
         Scope = scope;
         TypeName = type;

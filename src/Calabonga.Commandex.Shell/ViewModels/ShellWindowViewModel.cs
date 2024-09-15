@@ -30,7 +30,7 @@ public partial class ShellWindowViewModel : ViewModelBase
         IDialogService dialogService,
         ISettingsReaderConfiguration settingsReader)
     {
-        Title = "CommandEx - Command Executor";
+        Title = "Command Executor";
         _commandExecutor = commandExecutor;
         _configurationFinder = configurationFinder;
         _commands = commands;
@@ -41,7 +41,19 @@ public partial class ShellWindowViewModel : ViewModelBase
         _commandExecutor.CommandPreparedSuccess += (_, _) => { IsBusy = false; };
         _commandExecutor.CommandPrepareStart += (_, _) => { IsBusy = true; };
         _commandExecutor.CommandPreparationFailed += (_, _) => { IsBusy = false; };
+
+        MenuItems = new ObservableCollection<MenuItemViewModel> { };
+
+        //MenuItems =
+        //[
+        //    new() { Text = "Text1" },
+        //    new() { Text = "Text2" },
+        //    new() { Text = "Text4" }
+        //];
     }
+
+    [ObservableProperty]
+    private ObservableCollection<MenuItemViewModel> _menuItems;
 
     [ObservableProperty]
     private string? _searchTerm;
@@ -55,9 +67,10 @@ public partial class ShellWindowViewModel : ViewModelBase
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ExecuteActionCommand))]
     [NotifyCanExecuteChangedFor(nameof(OpenCommandConfigurationCommand))]
+    [NotifyPropertyChangedFor(nameof(CanExecuteAction))]
     private CommandItem? _selectedCommand;
 
-    private bool CanExecuteAction => SelectedCommand is not null;
+    public bool CanExecuteAction => SelectedCommand is not null;
 
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
     private async Task ExecuteActionAsync()
@@ -112,14 +125,11 @@ public partial class ShellWindowViewModel : ViewModelBase
     {
         IsBusy = true;
 
-        FindCommandsInContainer();
+        CommandItems = new ObservableCollection<CommandItem>(CommandFinder.ConvertToItems(_commands, _settingsReader, SearchTerm));
 
         IsBusy = false;
     }
 
-    private void FindCommandsInContainer()
-        => CommandItems = new ObservableCollection<CommandItem>(CommandFinder.ConvertToItems(_commands, _settingsReader, SearchTerm));
-
-    partial void OnSearchTermChanged(string? value) => FindCommandsInContainer();
+    partial void OnSearchTermChanged(string? value) => LoadData();
 
 }

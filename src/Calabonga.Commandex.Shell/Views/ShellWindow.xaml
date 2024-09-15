@@ -12,7 +12,15 @@
         Height="768"
         MinWidth="1024"
         MinHeight="768"
-        Title="{Binding Title}" Icon="/logo.png">
+        Icon="/logo.png"
+        >
+    <Window.Title>
+        <MultiBinding StringFormat="{} {0}: {1} command(s) found">
+            <Binding Path="Title"/>
+            <Binding Path="CommandItems.Count"/>
+        </MultiBinding>
+    </Window.Title>
+
     <Window.Triggers>
         <EventTrigger RoutedEvent="FrameworkElement.Loaded">
             <BeginStoryboard>
@@ -30,7 +38,12 @@
         </EventTrigger>
     </Window.Triggers>
     <Window.Resources>
+        <NullableBoolConverter x:Key="NullableBoolConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <HierarchicalDataTemplate DataType="{x:Type viewModels:MenuItemViewModel}"
+                                  ItemsSource="{Binding Path=MenuItems}">
+            <ContentPresenter Content="{Binding Path=Text}" />
+        </HierarchicalDataTemplate>
     </Window.Resources>
 
     <i:Interaction.Triggers>
@@ -40,16 +53,44 @@
     </i:Interaction.Triggers>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Margin="4" Visibility="{Binding IsFindEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+        <Menu Height="30" Grid.Row="0" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Stretch"  >
+            <MenuItem Header="Commandex">
+                <MenuItem Header="Show search bar" IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" IsCheckable="True"/>
+            </MenuItem>
+            <MenuItem Header="Commands Menu" ItemsSource="{Binding MenuItems}"/>
+            <MenuItem Header="Commands Items" ItemsSource="{Binding CommandItems}">
+                <MenuItem.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseLeftButtonDown">
+                                    <i:InvokeCommandAction Command="{Binding DataContext.ExecuteActionCommand, RelativeSource={RelativeSource FindAncestor , AncestorType=Window}}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </TextBlock>
+                    </DataTemplate>
+                </MenuItem.ItemTemplate>
+            </MenuItem>
+            <MenuItem Header="Command" IsEnabled="{Binding CanExecuteAction}">
+                <MenuItem Header="Execute" Command="{Binding ExecuteActionCommand}" />
+                <MenuItem Header="Settings" Command="{Binding OpenCommandConfigurationCommand}" />
+            </MenuItem>
+            <MenuItem Header="About">
+                <MenuItem Header="About Commandex" Command="{Binding ShowAboutCommand}"/>
+                <Separator />
+                <MenuItem Header="Open Commandex Logs" Command="{Binding OpenLogsFolderCommand}"/>
+            </MenuItem>
+        </Menu>
+
+        <Grid Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" Margin="4" Visibility="{Binding IsFindEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
@@ -57,8 +98,9 @@
             <TextBlock Grid.Column="0" Text="Фильтрация" Margin="0,0,4,0"/>
             <TextBox Grid.Column="1" Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
+
         <ListView ItemsSource="{Binding CommandItems}" SelectedItem="{Binding SelectedCommand, Mode=TwoWay}"
-                  Grid.Column="0" Grid.Row="1" Margin="4"
+                  Grid.Column="0" Grid.Row="2" Margin="4"
                   HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
@@ -102,23 +144,8 @@
             </ListView.ItemTemplate>
         </ListView>
 
-        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" >
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Margin="4">
-                <Button Content="Запуск" Command="{Binding ExecuteActionCommand}" MinWidth="150" />
-                <Button Content="Настройки" Command="{Binding OpenCommandConfigurationCommand}" MinWidth="150" />
-                <TextBlock Text="{Binding CommandItems.Count, StringFormat='Всего команд: {0} шт.'}" TextAlignment="Center"/>
-            </StackPanel>
-            <StackPanel Grid.Row="1" Margin="4">
-                <CheckBox IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" Content="Включить панель поиска"/>
-                <Button Content="About" Command="{Binding ShowAboutCommand}" MinWidth="150" />
-                <Button Content="Logs" Command="{Binding OpenLogsFolderCommand}" MinWidth="150" />
-            </StackPanel>
-        </Grid>
+       
 
-        <ProgressBar Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" IsIndeterminate="True" Height="10" VerticalAlignment="Bottom" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <ProgressBar Grid.Column="0" Grid.Row="2"  IsIndeterminate="True" Height="10" VerticalAlignment="Bottom" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
     </Grid>
 </Window>
