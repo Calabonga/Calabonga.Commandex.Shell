@@ -12,7 +12,12 @@
         Height="768"
         MinWidth="1024"
         MinHeight="768"
-        Icon="/logo.png">
+        Icon="/logo.png" UseLayoutRounding="True">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+
     <Window.Title>
         <MultiBinding StringFormat="{} {0}: {1} command(s) found">
             <Binding Path="Title"/>
@@ -24,22 +29,16 @@
         <EventTrigger RoutedEvent="FrameworkElement.Loaded">
             <BeginStoryboard>
                 <Storyboard Storyboard.TargetName="window">
-                    <DoubleAnimation Storyboard.TargetProperty="MinWidth" 
-                                     To="{Binding ElementName=window, Path=ActualWidth}"/>
+                    <DoubleAnimation Storyboard.TargetProperty="MinWidth" To="{Binding ElementName=window, Path=ActualWidth}"/>
                 </Storyboard>
             </BeginStoryboard>
             <BeginStoryboard>
                 <Storyboard Storyboard.TargetName="window">
-                    <DoubleAnimation Storyboard.TargetProperty="MinHeight" 
-                                     To="{Binding ElementName=window, Path=ActualHeight}"/>
+                    <DoubleAnimation Storyboard.TargetProperty="MinHeight" To="{Binding ElementName=window, Path=ActualHeight}"/>
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
     </Window.Triggers>
-    <Window.Resources>
-        <NullableBoolConverter x:Key="NullableBoolConverter"/>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-    </Window.Resources>
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -47,32 +46,11 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
+    <DockPanel LastChildFill="True">
 
-        <Menu Height="30" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" HorizontalAlignment="Stretch"  >
+        <Menu DockPanel.Dock="Top" >
             <MenuItem Header="Commandex">
                 <MenuItem Header="Show search bar" IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" IsCheckable="True"/>
-            </MenuItem>
-            <MenuItem Header="Commands Items" ItemsSource="{Binding CommandItems}">
-                <MenuItem.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}">
-                            <i:Interaction.Triggers>
-                                <i:EventTrigger EventName="MouseLeftButtonUp">
-                                    <i:InvokeCommandAction
-                                        Command="{Binding DataContext.ExecuteActionCommand, RelativeSource={RelativeSource FindAncestor , AncestorType=Window}}" 
-                                        CommandParameter="{Binding}"/>
-                                </i:EventTrigger>
-                            </i:Interaction.Triggers>
-                        </TextBlock>
-                    </DataTemplate>
-                </MenuItem.ItemTemplate>
             </MenuItem>
             <MenuItem Header="Command" IsEnabled="{Binding CanExecuteAction}">
                 <MenuItem Header="Execute" Command="{Binding ExecuteActionCommand}" />
@@ -80,26 +58,37 @@
             </MenuItem>
             <MenuItem Header="About">
                 <MenuItem Header="About Commandex" Command="{Binding ShowAboutCommand}"/>
-                <Separator />
                 <MenuItem Header="Open Commandex Logs" Command="{Binding OpenLogsFolderCommand}"/>
             </MenuItem>
         </Menu>
 
-        <ProgressBar Grid.Column="0" Grid.Row="1"  IsIndeterminate="True" Height="10" VerticalAlignment="Bottom"
-                     Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <ProgressBar  IsIndeterminate="True" DockPanel.Dock="Top" Height="4"
+            Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-        <Grid Grid.Column="0" Grid.Row="2" HorizontalAlignment="Stretch" Margin="4" Visibility="{Binding IsFindEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="Фильтрация" Margin="0,0,4,0"/>
-            <TextBox Grid.Column="1" Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"/>
-        </Grid>
+        
 
-        <ListView ItemsSource="{Binding CommandItems}" SelectedItem="{Binding SelectedCommand, Mode=TwoWay}"
-                  Grid.Column="0" Grid.Row="3" Margin="4"
-                  HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <Border DockPanel.Dock="Bottom">
+            <Grid Margin="4"
+    Visibility="{Binding IsFindEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+      >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Find" Margin="0,0,4,0"/>
+                <TextBox Grid.Column="1" Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+        </Border>
+
+
+
+        <ListView Margin="4"
+            ItemsSource="{Binding CommandItems}" SelectedItem="{Binding SelectedCommand, Mode=TwoWay}" 
+                  DockPanel.Dock="Left"
+            HorizontalContentAlignment="Stretch" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                  MinWidth="200"
+                  MaxWidth="400">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding ExecuteActionCommand}" />
@@ -142,7 +131,7 @@
             </ListView.ItemTemplate>
         </ListView>
 
-
-
-    </Grid>
+        
+        <ContentControl Margin="4" />
+    </DockPanel>
 </Window>

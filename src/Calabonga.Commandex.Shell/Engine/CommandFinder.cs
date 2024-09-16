@@ -1,4 +1,5 @@
 ﻿using Calabonga.Commandex.Engine.Base;
+using Calabonga.Commandex.Engine.Base.Commands;
 using Calabonga.Commandex.Engine.NugetDependencies;
 using Calabonga.Commandex.Shell.Models;
 using Calabonga.OperationResults;

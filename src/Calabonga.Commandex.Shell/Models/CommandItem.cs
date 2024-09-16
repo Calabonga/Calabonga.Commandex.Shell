@@ -1,6 +1,4 @@
-﻿using Calabonga.Commandex.Engine.Base;
-
-namespace Calabonga.Commandex.Shell.Models;
+﻿namespace Calabonga.Commandex.Shell.Models;
 
 /// <summary>
 /// Represents <see cref="ICommandexCommand" /> as the item to show on the UI.

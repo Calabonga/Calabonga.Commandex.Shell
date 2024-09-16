@@ -1,4 +1,5 @@
 ﻿using Calabonga.Commandex.Engine.Base;
+using Calabonga.Commandex.Engine.Base.Commands;
 using Calabonga.Commandex.Engine.Dialogs;
 using Calabonga.Commandex.Shell.Engine;
 using Calabonga.Commandex.Shell.Models;
@@ -37,10 +38,6 @@ public partial class ShellWindowViewModel : ViewModelBase
         _logger = logger;
         _dialogService = dialogService;
         _settingsReader = settingsReader;
-
-        // _commandExecutor.CommandPreparedSuccess += (_, _) => { IsBusy = false; };
-        // _commandExecutor.CommandPrepareStart += (_, _) => { IsBusy = true; };
-        // _commandExecutor.CommandPreparationFailed += (_, _) => { IsBusy = false; };
     }
 
     [ObservableProperty]
