@@ -6,105 +6,111 @@
         xmlns:viewModels="clr-namespace:Calabonga.Commandex.Shell.ViewModels"
         mc:Ignorable="d"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:local="clr-namespace:Calabonga.Commandex.Shell.CustomControls"
         d:DataContext="{d:DesignInstance Type=viewModels:ShellWindowViewModel}"
         WindowStartupLocation="CenterScreen"
         Width="1024"
         Height="768"
         MinWidth="1024"
         MinHeight="768"
-        Title="{Binding Title}" Icon="/logo.png">
+        Icon="/logo.png" UseLayoutRounding="True">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding OpenLogsFolderCommand}" Key="L" Modifiers="Control+Shift"/>
+        <KeyBinding Command="{Binding ToggleSearchBarVisibilityCommand}" Key="F" Modifiers="Control"/>
+        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="Default" Key="F1" Modifiers="Control"/>
+        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="Brief" Key="F2" Modifiers="Control"/>
+        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="Extended" Key="F3" Modifiers="Control"/>
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:ListViewNameConverter x:Key="ListViewNameConverter" />
+    </Window.Resources>
+
+    <Window.Title>
+        <MultiBinding StringFormat="{} {0}: {1} command(s) found">
+            <Binding Path="Title"/>
+            <Binding Path="CommandItems.Count"/>
+        </MultiBinding>
+    </Window.Title>
+
     <Window.Triggers>
         <EventTrigger RoutedEvent="FrameworkElement.Loaded">
             <BeginStoryboard>
                 <Storyboard Storyboard.TargetName="window">
-                    <DoubleAnimation Storyboard.TargetProperty="MinWidth" 
-                                     To="{Binding ElementName=window, Path=ActualWidth}"/>
+                    <DoubleAnimation Storyboard.TargetProperty="MinWidth" To="{Binding ElementName=window, Path=ActualWidth}"/>
                 </Storyboard>
             </BeginStoryboard>
             <BeginStoryboard>
                 <Storyboard Storyboard.TargetName="window">
-                    <DoubleAnimation Storyboard.TargetProperty="MinHeight" 
-                                     To="{Binding ElementName=window, Path=ActualHeight}"/>
+                    <DoubleAnimation Storyboard.TargetProperty="MinHeight" To="{Binding ElementName=window, Path=ActualHeight}"/>
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
     </Window.Triggers>
-    <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-    </Window.Resources>
 
+    <DockPanel LastChildFill="True">
+
+        <Menu DockPanel.Dock="Top" >
+            <MenuItem Header="Command" IsEnabled="{Binding CanExecuteAction}">
+                <MenuItem Header="Execute" Command="{Binding ExecuteActionCommand}" />
+                <MenuItem Header="Settings" Command="{Binding OpenCommandConfigurationCommand}" />
+            </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="Show find input" IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" IsCheckable="True" InputGestureText="Ctrl+F"  />
+                <Separator/>
+                <local:RadioMenuItem Header="Default" 
+                                     GroupName="ViewType" InputGestureText="Ctrl+F1"
+                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter='Default', Converter={StaticResource ListViewNameConverter}}"
+                                     Command="{Binding SwitchViewCommand}" CommandParameter="Default"/>
+                <local:RadioMenuItem Header="Brief"
+                                     GroupName="ViewType" InputGestureText="Ctrl+F2"
+                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter='Brief', Converter={StaticResource ListViewNameConverter}}"
+                                     Command="{Binding SwitchViewCommand}" CommandParameter="Brief"/>
+                <local:RadioMenuItem Header="Extended"
+                                     GroupName="ViewType" InputGestureText="Ctrl+F3"
+                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter='Extended', Converter={StaticResource ListViewNameConverter}}"
+                                     Command="{Binding SwitchViewCommand}" CommandParameter="Extended"/>
+            </MenuItem>
+            <MenuItem Header="About">
+                <MenuItem Header="About Commandex" Command="{Binding ShowAboutCommand}"/>
+                <MenuItem Header="Open Commandex Logs" Command="{Binding OpenLogsFolderCommand}" InputGestureText="Ctrl+Shift+L"/>
+            </MenuItem>
+        </Menu>
+
+        <ProgressBar  IsIndeterminate="True" DockPanel.Dock="Top" Height="4"
+                      Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+        <Border DockPanel.Dock="Top">
+            <Grid Margin="4" Visibility="{Binding IsFindEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Find" Margin="0,0,4,0"/>
+                <TextBox Grid.Column="1" Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+        </Border>
+
+        <ListView ItemTemplate="{Binding CommandItemDataTemplate}"
+                  ItemsSource="{Binding CommandItems}"
+                  SelectedItem="{Binding SelectedCommand, Mode=TwoWay}" 
+                  Margin="4" 
+                  HorizontalContentAlignment="Stretch" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding ExecuteActionCommand}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListView>
+
+        
+    </DockPanel>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding LoadDataCommand, Mode=OneWay}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" Margin="4" Visibility="{Binding IsFindEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="Фильтрация" Margin="0,0,4,0"/>
-            <TextBox Grid.Column="1" Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"/>
-        </Grid>
-        <ListView ItemsSource="{Binding CommandItems}" SelectedItem="{Binding SelectedCommand, Mode=TwoWay}"
-                  Grid.Column="0" Grid.Row="1" Margin="4"
-                  HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDoubleClick">
-                    <i:InvokeCommandAction Command="{Binding ExecuteActionCommand}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Border Style="{StaticResource FancyBorder}">
-                        <StackPanel>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" FontWeight="Bold" FontSize="18" Text="{Binding Name}"/>
-                                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
-                                    <TextBlock FontWeight="Bold" Text="{Binding Version}" HorizontalAlignment="Right"/>
-                                    <TextBlock Text="{Binding Scope}" FontSize="9" HorizontalAlignment="Right"/>
-                                </StackPanel>
-                            </Grid>
-                            <TextBlock Text="{Binding TypeName}" FontSize="15"/>
-                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="11"/>
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" >
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Margin="4">
-                <Button Content="Запуск" Command="{Binding ExecuteActionCommand}" MinWidth="150" />
-                <Button Content="Настройки" Command="{Binding OpenCommandConfigurationCommand}" MinWidth="150" />
-                <TextBlock Text="{Binding CommandItems.Count, StringFormat='Всего команд: {0} шт.'}" TextAlignment="Center"/>
-            </StackPanel>
-            <StackPanel Grid.Row="1" Margin="4">
-                <CheckBox IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" Content="Включить панель поиска"/>
-                <Button Content="About" Command="{Binding ShowAboutCommand}" MinWidth="150" />
-                <Button Content="Logs" Command="{Binding OpenLogsFolderCommand}" MinWidth="150" />
-            </StackPanel>
-        </Grid>
-
-        <ProgressBar Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" IsIndeterminate="True" Height="10" VerticalAlignment="Bottom" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-    </Grid>
 </Window>

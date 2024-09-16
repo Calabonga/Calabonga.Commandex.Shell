@@ -1,5 +1,7 @@
 ﻿using Calabonga.Commandex.Engine.Dialogs;
+using Calabonga.Commandex.Engine.Settings;
 using Calabonga.Commandex.Shell.Engine;
+using Calabonga.Commandex.Shell.Models;
 using Calabonga.Commandex.Shell.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -10,16 +12,18 @@ using System.Windows;
 
 namespace Calabonga.Commandex.Shell.ViewModels.Dialogs;
 
-public partial class AboutDialogResult : DefaultDialogResult
+public partial class AboutViewModel : DefaultViewModel
 {
     private readonly IDialogService _dialogService;
-    private readonly ILogger<AboutDialogResult> _logger;
+    private readonly ILogger<AboutViewModel> _logger;
     private readonly IVersionService _versionService;
     private readonly FileService _fileService;
+    private readonly CurrentAppSettings _currentAppSettings;
 
-    public AboutDialogResult(
+    public AboutViewModel(
+        IAppSettings appSettings,
         IDialogService dialogService,
-        ILogger<AboutDialogResult> logger,
+        ILogger<AboutViewModel> logger,
         IVersionService versionService,
         FileService fileService)
     {
@@ -28,6 +32,9 @@ public partial class AboutDialogResult : DefaultDialogResult
         _versionService = versionService;
         _fileService = fileService;
         Title = "About Commandex";
+        _currentAppSettings = (CurrentAppSettings)appSettings;
+
+        LoadData();
     }
 
     public override WindowStyle WindowStyle => WindowStyle.None;
@@ -61,9 +68,9 @@ public partial class AboutDialogResult : DefaultDialogResult
     {
         var total = ((float)_fileService.GetArtifactsSize() / 1024).ToString("F");
         ArtifactsSize = $"{total} KB";
-        ArtifactsFolder = App.Current.Settings.ArtifactsFolderName;
-        CommandsFolder = App.Current.Settings.CommandsPath;
-        ShowSearchPanelOnStartup = App.Current.Settings.ShowSearchPanelOnStartup ? "Yes" : "No";
+        ArtifactsFolder = _currentAppSettings.ArtifactsFolderName;
+        CommandsFolder = _currentAppSettings.CommandsPath;
+        ShowSearchPanelOnStartup = _currentAppSettings.ShowSearchPanelOnStartup ? "Yes" : "No";
         Version = _versionService.Version;
         Branch = _versionService.Branch;
         Commit = _versionService.Commit;

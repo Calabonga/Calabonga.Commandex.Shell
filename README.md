@@ -20,6 +20,17 @@ It's a complex solution with a few repositories:
 
 * **[Calabonga.Commandex.Engine](https://github.com/Calabonga/Calabonga.Commandex.Engine)** → Engine and contracts library for Calabonga.Commandex. Contracts are using for developing a modules for Commandex Shell.
 
+## Version History
+
+### v1.0.0-rc.16 2024-09-16
+
+* UX refactored
+  * Menu added
+  * Shortcuts added
+  * Three type of the command list view added
+* `IDialogResult` renamed to `IViewModel`
+* New property `Tags` added to `ICommandexCommand` for future commands groups management
+
 ## Known Issues
 
 When your Command need to use `Microsoft.Data.SqlClient` then you should install reference (nuget) in the `Shell` application. [More information](https://stackoverflow.com/questions/78411196/what-data-sqlclient-can-be-used-with-net-8)

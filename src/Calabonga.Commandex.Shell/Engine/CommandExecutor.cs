@@ -1,4 +1,4 @@
-﻿using Calabonga.Commandex.Engine.Commands;
+﻿using Calabonga.Commandex.Engine.Base;
 using Calabonga.Commandex.Engine.Exceptions;
 using Calabonga.Commandex.Shell.Models;
 using Calabonga.Commandex.Shell.Services;

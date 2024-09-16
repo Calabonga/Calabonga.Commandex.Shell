@@ -1,17 +1,17 @@
 ﻿using Calabonga.Commandex.Engine.Base;
-using Calabonga.Commandex.Engine.Commands;
 using Calabonga.Commandex.Engine.Dialogs;
+using Calabonga.Commandex.Engine.Settings;
 using Calabonga.Commandex.Shell.Engine;
 using Calabonga.Commandex.Shell.Models;
 using Calabonga.Commandex.Shell.ViewModels.Dialogs;
 using Calabonga.Commandex.Shell.Views.Dialogs;
-using Calabonga.PredicatesBuilder;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Windows;
 
 namespace Calabonga.Commandex.Shell.ViewModels;
 
@@ -22,25 +22,48 @@ public partial class ShellWindowViewModel : ViewModelBase
     private readonly IEnumerable<ICommandexCommand> _commands;
     private readonly ILogger<ShellWindowViewModel> _logger;
     private readonly IDialogService _dialogService;
+    private readonly ISettingsReaderConfiguration _settingsReader;
 
     public ShellWindowViewModel(
+        IAppSettings appSettings,
         CommandExecutor commandExecutor,
         IConfigurationFinder configurationFinder,
         IEnumerable<ICommandexCommand> commands,
         ILogger<ShellWindowViewModel> logger,
-        IDialogService dialogService)
+        IDialogService dialogService,
+        ISettingsReaderConfiguration settingsReader)
     {
-        Title = "CommandEx - Command Executor";
+        Title = "Command Executor";
         _commandExecutor = commandExecutor;
         _configurationFinder = configurationFinder;
         _commands = commands;
         _logger = logger;
         _dialogService = dialogService;
+        _settingsReader = settingsReader;
+
+        ListViewName = ((CurrentAppSettings)appSettings).DefaultViewName;
+        var result = App.Current.TryFindResource(ListViewName);
+        CommandItemDataTemplate = (DataTemplate)result;
 
         _commandExecutor.CommandPreparedSuccess += (_, _) => { IsBusy = false; };
         _commandExecutor.CommandPrepareStart += (_, _) => { IsBusy = true; };
         _commandExecutor.CommandPreparationFailed += (_, _) => { IsBusy = false; };
     }
+
+    #region Observable Properties
+
+    #region property ListViewName
+
+    /// <summary>
+    /// ListView Selected view
+    /// </summary>
+    [ObservableProperty]
+    private string _listViewName;
+
+    #endregion
+
+    [ObservableProperty]
+    private DataTemplate _commandItemDataTemplate;
 
     [ObservableProperty]
     private string? _searchTerm;
@@ -54,9 +77,19 @@ public partial class ShellWindowViewModel : ViewModelBase
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ExecuteActionCommand))]
     [NotifyCanExecuteChangedFor(nameof(OpenCommandConfigurationCommand))]
+    [NotifyPropertyChangedFor(nameof(CanExecuteAction))]
     private CommandItem? _selectedCommand;
 
-    private bool CanExecuteAction => SelectedCommand is not null;
+    #endregion
+
+    #region Properties
+    public bool CanExecuteAction => SelectedCommand is not null;
+    #endregion
+
+    #region Commands
+
+    [RelayCommand]
+    private void ToggleSearchBarVisibility() => IsFindEnabled = !IsFindEnabled;
 
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
     private async Task ExecuteActionAsync()
@@ -67,25 +100,28 @@ public partial class ShellWindowViewModel : ViewModelBase
         {
             if (!operation.Result.IsPushToShellEnabled)
             {
+                IsBusy = false;
                 return;
             }
 
             var command = operation.Result;
             var message = CommandReport.CreateReport(command);
             _logger.LogInformation("{CommandType} executed with result: {Result}", command.TypeName, message);
+            IsBusy = false;
             _dialogService.ShowNotification(message);
             return;
         }
 
         _logger.LogError(operation.Error, operation.Error.Message);
         _dialogService.ShowError(operation.Error.Message);
+
     }
 
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
     private void OpenCommandConfiguration() => _configurationFinder.CommandConfiguration(SelectedCommand!.Scope);
 
     [RelayCommand]
-    private void ShowAbout() => _dialogService.ShowDialog<AboutDialog, AboutDialogResult>();
+    private void ShowAbout() => _dialogService.ShowDialog<AboutDialog, AboutViewModel>();
 
     [RelayCommand]
     private void OpenLogsFolder()
@@ -111,36 +147,20 @@ public partial class ShellWindowViewModel : ViewModelBase
     {
         IsBusy = true;
 
-        FindCommands();
+        CommandItems = new ObservableCollection<CommandItem>(CommandFinder.ConvertToItems(_commands, _settingsReader, SearchTerm));
 
         IsBusy = false;
     }
 
-    private void FindCommands()
+    [RelayCommand]
+    private void SwitchView(string view)
     {
-        var predicate = PredicateBuilder.True<ICommandexCommand>().And(x => !string.IsNullOrEmpty(x.Version));
-
-        if (!string.IsNullOrEmpty(SearchTerm))
-        {
-            var term = SearchTerm.ToLower();
-            predicate = predicate
-                .And(x => x.DisplayName.ToLower().Contains(term))
-                .Or(x => x.Description.ToLower().Contains(term))
-                .Or(x => x.CopyrightInfo.ToLower().Contains(term))
-                .Or(x => x.TypeName.ToLower().Contains(term))
-                .Or(x => x.Version.ToLower().Contains(term));
-        }
-
-        var actionsList = _commands
-            .Where(predicate.Compile())
-            .Select(x => new CommandItem(x.GetType().Assembly.GetName().Name ?? "Commandex", x.TypeName, x.Version, x.DisplayName, x.Description))
-            .ToList();
-
-        CommandItems = new ObservableCollection<CommandItem>(actionsList);
-
-        _logger.LogInformation("Total commands were found: {ActionCount}", actionsList.Count);
+        ListViewName = view;
+        var result = App.Current.TryFindResource(CurrentAppSettings.GetViewResourceName(ListViewName));
+        CommandItemDataTemplate = (DataTemplate)result;
     }
 
-    partial void OnSearchTermChanged(string? value) => FindCommands();
+    #endregion
 
+    partial void OnSearchTermChanged(string? value) => LoadData();
 }
