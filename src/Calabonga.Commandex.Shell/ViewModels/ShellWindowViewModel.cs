@@ -42,11 +42,22 @@ public partial class ShellWindowViewModel : ViewModelBase
         _dialogService = dialogService;
         _settingsReader = settingsReader;
 
-        var result = App.Current.TryFindResource(((CurrentAppSettings)appSettings).DefaultViewName);
+        ListViewName = ((CurrentAppSettings)appSettings).DefaultViewName;
+        var result = App.Current.TryFindResource(ListViewName);
         CommandItemDataTemplate = (DataTemplate)result;
     }
 
     #region Observable Properties
+
+    #region property ListViewName
+
+    /// <summary>
+    /// ListView Selected view
+    /// </summary>
+    [ObservableProperty]
+    private string _listViewName;
+
+    #endregion
 
     [ObservableProperty]
     private DataTemplate _commandItemDataTemplate;
@@ -141,6 +152,14 @@ public partial class ShellWindowViewModel : ViewModelBase
         CommandItems = new ObservableCollection<CommandItem>(CommandFinder.ConvertToItems(_commands, _settingsReader, SearchTerm));
 
         IsBusy = false;
+    }
+
+    [RelayCommand]
+    private void SwitchView(string view)
+    {
+        ListViewName = view;
+        var result = App.Current.TryFindResource(CurrentAppSettings.GetViewResourceName(ListViewName));
+        CommandItemDataTemplate = (DataTemplate)result;
     }
 
     #endregion

@@ -8,4 +8,6 @@ public class CurrentAppSettings : AppSettings
     /// There are modes available: Default, Brief, Extended
     /// </summary>
     public string DefaultViewName { get; set; } = null!;
+
+    public static string GetViewResourceName(string settingsName) => $"ListView{settingsName}DataTemplate";
 }

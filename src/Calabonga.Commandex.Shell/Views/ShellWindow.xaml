@@ -6,8 +6,7 @@
         xmlns:viewModels="clr-namespace:Calabonga.Commandex.Shell.ViewModels"
         mc:Ignorable="d"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        xmlns:models="clr-namespace:Calabonga.Commandex.Shell.Models"
-        xmlns:customControls="clr-namespace:Calabonga.Commandex.Shell.CustomControls"
+        xmlns:local="clr-namespace:Calabonga.Commandex.Shell.CustomControls"
         d:DataContext="{d:DesignInstance Type=viewModels:ShellWindowViewModel}"
         WindowStartupLocation="CenterScreen"
         Width="1024"
@@ -15,11 +14,9 @@
         MinWidth="1024"
         MinHeight="768"
         Icon="/logo.png" UseLayoutRounding="True">
-
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-
-       
+        <local:ListViewNameConverter x:Key="ListViewNameConverter" />
     </Window.Resources>
 
     <Window.Title>
@@ -55,6 +52,19 @@
         <Menu DockPanel.Dock="Top" >
             <MenuItem Header="Commandex">
                 <MenuItem Header="Show search bar" IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" IsCheckable="True"/>
+                <Separator/>
+                <local:RadioMenuItem Header="Default" 
+                                     GroupName="ViewType"
+                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter='Default', Converter={StaticResource ListViewNameConverter}}"
+                                     Command="{Binding SwitchViewCommand}" CommandParameter="Default"/>
+                <local:RadioMenuItem Header="Brief"
+                                     GroupName="ViewType" 
+                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter='Brief', Converter={StaticResource ListViewNameConverter}}"
+                                     Command="{Binding SwitchViewCommand}" CommandParameter="Brief"/>
+                <local:RadioMenuItem Header="Extended"
+                                     GroupName="ViewType"
+                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter='Extended', Converter={StaticResource ListViewNameConverter}}"
+                                     Command="{Binding SwitchViewCommand}" CommandParameter="Extended"/>
             </MenuItem>
             <MenuItem Header="Command" IsEnabled="{Binding CanExecuteAction}">
                 <MenuItem Header="Execute" Command="{Binding ExecuteActionCommand}" />
@@ -80,11 +90,11 @@
             </Grid>
         </Border>
 
-        <ListView 
-                  ItemTemplate="{Binding CommandItemDataTemplate}"
-                  Margin="4" 
-                  ItemsSource="{Binding CommandItems}" SelectedItem="{Binding SelectedCommand, Mode=TwoWay}" 
+        <ListView ItemTemplate="{Binding CommandItemDataTemplate}"
+                  ItemsSource="{Binding CommandItems}"
+                  SelectedItem="{Binding SelectedCommand, Mode=TwoWay}" 
                   DockPanel.Dock="Left"
+                  Margin="4" 
                   HorizontalContentAlignment="Stretch" 
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                   MinWidth="200"
