@@ -88,6 +88,9 @@ public partial class ShellWindowViewModel : ViewModelBase
 
     #region Commands
 
+    [RelayCommand]
+    private void ToggleSearchBarVisibility() => IsFindEnabled = !IsFindEnabled;
+
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
     private async Task ExecuteActionAsync()
     {

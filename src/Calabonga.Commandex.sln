@@ -5,12 +5,6 @@ VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.Shell", "Calabonga.Commandex.Shell\Calabonga.Commandex.Shell.csproj", "{0F32D75D-930C-4BC4-AD6F-5AAF89DC7E18}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.Engine", "..\..\Calabonga.Commandex.Engine\src\Calabonga.Commandex.Engine\Calabonga.Commandex.Engine.csproj", "{8F19DD32-F910-4096-A449-EFD7F0B2F968}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.ExhibitCommand", "..\..\Calabonga.Commandex.Commands\src\Calabonga.Commandex.ExhibitCommand\Calabonga.Commandex.ExhibitCommand\Calabonga.Commandex.ExhibitCommand.csproj", "{BC3361C2-5C28-47A4-B546-25246014C22B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.QuizCommand", "..\..\Calabonga.Commandex.Commands\src\Calabonga.Commandex.QuizCommand\Calabonga.Commandex.QuizCommand\Calabonga.Commandex.QuizCommand.csproj", "{F0BBAC90-71F4-4E8B-B3E5-1A860EF8430F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,18 +15,6 @@ Global
 		{0F32D75D-930C-4BC4-AD6F-5AAF89DC7E18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F32D75D-930C-4BC4-AD6F-5AAF89DC7E18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F32D75D-930C-4BC4-AD6F-5AAF89DC7E18}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8F19DD32-F910-4096-A449-EFD7F0B2F968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8F19DD32-F910-4096-A449-EFD7F0B2F968}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8F19DD32-F910-4096-A449-EFD7F0B2F968}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8F19DD32-F910-4096-A449-EFD7F0B2F968}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BC3361C2-5C28-47A4-B546-25246014C22B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BC3361C2-5C28-47A4-B546-25246014C22B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BC3361C2-5C28-47A4-B546-25246014C22B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BC3361C2-5C28-47A4-B546-25246014C22B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F0BBAC90-71F4-4E8B-B3E5-1A860EF8430F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F0BBAC90-71F4-4E8B-B3E5-1A860EF8430F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F0BBAC90-71F4-4E8B-B3E5-1A860EF8430F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F0BBAC90-71F4-4E8B-B3E5-1A860EF8430F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -14,6 +14,14 @@
         MinWidth="1024"
         MinHeight="768"
         Icon="/logo.png" UseLayoutRounding="True">
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding OpenLogsFolderCommand}" Key="L" Modifiers="Control+Shift"/>
+        <KeyBinding Command="{Binding ToggleSearchBarVisibilityCommand}" Key="F" Modifiers="Control"/>
+        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="Default" Key="F1" Modifiers="Control"/>
+        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="Brief" Key="F2" Modifiers="Control"/>
+        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="Extended" Key="F3" Modifiers="Control"/>
+    </Window.InputBindings>
+
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:ListViewNameConverter x:Key="ListViewNameConverter" />
@@ -41,45 +49,39 @@
         </EventTrigger>
     </Window.Triggers>
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadDataCommand, Mode=OneWay}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-
     <DockPanel LastChildFill="True">
 
         <Menu DockPanel.Dock="Top" >
-            <MenuItem Header="Commandex">
-                <MenuItem Header="Show search bar" IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" IsCheckable="True"/>
-                <Separator/>
-                <local:RadioMenuItem Header="Default" 
-                                     GroupName="ViewType"
-                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter='Default', Converter={StaticResource ListViewNameConverter}}"
-                                     Command="{Binding SwitchViewCommand}" CommandParameter="Default"/>
-                <local:RadioMenuItem Header="Brief"
-                                     GroupName="ViewType" 
-                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter='Brief', Converter={StaticResource ListViewNameConverter}}"
-                                     Command="{Binding SwitchViewCommand}" CommandParameter="Brief"/>
-                <local:RadioMenuItem Header="Extended"
-                                     GroupName="ViewType"
-                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter='Extended', Converter={StaticResource ListViewNameConverter}}"
-                                     Command="{Binding SwitchViewCommand}" CommandParameter="Extended"/>
-            </MenuItem>
             <MenuItem Header="Command" IsEnabled="{Binding CanExecuteAction}">
                 <MenuItem Header="Execute" Command="{Binding ExecuteActionCommand}" />
                 <MenuItem Header="Settings" Command="{Binding OpenCommandConfigurationCommand}" />
             </MenuItem>
+            <MenuItem Header="View">
+                <MenuItem Header="Show find input" IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" IsCheckable="True" InputGestureText="Ctrl+F"  />
+                <Separator/>
+                <local:RadioMenuItem Header="Default" 
+                                     GroupName="ViewType" InputGestureText="Ctrl+F1"
+                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter='Default', Converter={StaticResource ListViewNameConverter}}"
+                                     Command="{Binding SwitchViewCommand}" CommandParameter="Default"/>
+                <local:RadioMenuItem Header="Brief"
+                                     GroupName="ViewType" InputGestureText="Ctrl+F2"
+                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter='Brief', Converter={StaticResource ListViewNameConverter}}"
+                                     Command="{Binding SwitchViewCommand}" CommandParameter="Brief"/>
+                <local:RadioMenuItem Header="Extended"
+                                     GroupName="ViewType" InputGestureText="Ctrl+F3"
+                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter='Extended', Converter={StaticResource ListViewNameConverter}}"
+                                     Command="{Binding SwitchViewCommand}" CommandParameter="Extended"/>
+            </MenuItem>
             <MenuItem Header="About">
                 <MenuItem Header="About Commandex" Command="{Binding ShowAboutCommand}"/>
-                <MenuItem Header="Open Commandex Logs" Command="{Binding OpenLogsFolderCommand}"/>
+                <MenuItem Header="Open Commandex Logs" Command="{Binding OpenLogsFolderCommand}" InputGestureText="Ctrl+Shift+L"/>
             </MenuItem>
         </Menu>
 
         <ProgressBar  IsIndeterminate="True" DockPanel.Dock="Top" Height="4"
-            Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                      Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-        <Border DockPanel.Dock="Bottom">
+        <Border DockPanel.Dock="Top">
             <Grid Margin="4" Visibility="{Binding IsFindEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -105,4 +107,10 @@
 
         
     </DockPanel>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadDataCommand, Mode=OneWay}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
 </Window>

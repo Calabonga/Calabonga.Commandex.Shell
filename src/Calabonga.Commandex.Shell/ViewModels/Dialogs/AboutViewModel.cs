@@ -1,5 +1,7 @@
 ﻿using Calabonga.Commandex.Engine.Dialogs;
+using Calabonga.Commandex.Engine.Settings;
 using Calabonga.Commandex.Shell.Engine;
+using Calabonga.Commandex.Shell.Models;
 using Calabonga.Commandex.Shell.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -16,8 +18,10 @@ public partial class AboutViewModel : DefaultViewModel
     private readonly ILogger<AboutViewModel> _logger;
     private readonly IVersionService _versionService;
     private readonly FileService _fileService;
+    private readonly CurrentAppSettings _currentAppSettings;
 
     public AboutViewModel(
+        IAppSettings appSettings,
         IDialogService dialogService,
         ILogger<AboutViewModel> logger,
         IVersionService versionService,
@@ -28,6 +32,9 @@ public partial class AboutViewModel : DefaultViewModel
         _versionService = versionService;
         _fileService = fileService;
         Title = "About Commandex";
+        _currentAppSettings = (CurrentAppSettings)appSettings;
+
+        LoadData();
     }
 
     public override WindowStyle WindowStyle => WindowStyle.None;
@@ -61,9 +68,9 @@ public partial class AboutViewModel : DefaultViewModel
     {
         var total = ((float)_fileService.GetArtifactsSize() / 1024).ToString("F");
         ArtifactsSize = $"{total} KB";
-        ArtifactsFolder = App.Current.Settings.ArtifactsFolderName;
-        CommandsFolder = App.Current.Settings.CommandsPath;
-        ShowSearchPanelOnStartup = App.Current.Settings.ShowSearchPanelOnStartup ? "Yes" : "No";
+        ArtifactsFolder = _currentAppSettings.ArtifactsFolderName;
+        CommandsFolder = _currentAppSettings.CommandsPath;
+        ShowSearchPanelOnStartup = _currentAppSettings.ShowSearchPanelOnStartup ? "Yes" : "No";
         Version = _versionService.Version;
         Branch = _versionService.Branch;
         Commit = _versionService.Commit;

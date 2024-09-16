@@ -5,15 +5,15 @@
              Startup="Application_Startup">
     <Application.Resources>
         <Style x:Key="HugeHeader" TargetType="{x:Type TextBlock}">
-            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="FontSize" Value="28"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <Style x:Key="Header" TargetType="{x:Type TextBlock}">
-            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="FontSize" Value="20"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <Style x:Key="SubHeader" TargetType="{x:Type TextBlock}">
-            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <Style x:Key="FancyBorder" TargetType="{x:Type Border}">
@@ -29,6 +29,11 @@
             <Setter Property="CornerRadius" Value="3"/>
         </Style>
 
+        <SolidColorBrush Color="Gray" x:Key="GrayTextColorBrush"/>
+        <Style x:Key="GrayText" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{StaticResource GrayTextColorBrush}" />
+        </Style>
+
         <DataTemplate x:Key="ListViewDefaultDataTemplate" DataType="{x:Type models:CommandItem}">
             <TextBlock FontWeight="Bold" FontSize="12" Text="{Binding Name}" Padding="2" Margin="2"/>
         </DataTemplate>
@@ -36,7 +41,7 @@
             <Border Style="{StaticResource FancyBorder}" Padding="4">
                 <StackPanel>
                     <TextBlock Style="{StaticResource SubHeader}" Text="{Binding Name}"/>
-                    <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="10"/>
+                    <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="12"/>
                 </StackPanel>
             </Border>
         </DataTemplate>
@@ -51,12 +56,7 @@
                         <TextBlock Grid.Column="0" Style="{StaticResource Header}" Text="{Binding Name}"/>
                         <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding Version}" HorizontalAlignment="Right"/>
                     </Grid>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Scope, StringFormat='Scope: {0}'}" FontSize="9" Margin="0,0,4,0" />
-                        <TextBlock Text="→" FontSize="9" Margin="0,0,4,0" />
-                        <TextBlock Text="{Binding TypeName, StringFormat='Type: {0}'}" FontSize="9"/>
-                    </StackPanel>
-                    <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="10"/>
+                    <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="14"/>
                     <ItemsControl ItemsSource="{Binding Tags}" FontSize="0">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -71,6 +71,10 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+                    <StackPanel>
+                        <TextBlock Style="{StaticResource GrayText}" Text="{Binding Scope, StringFormat='Command library (DLL): {0}'}" FontSize="12" />
+                        <TextBlock Style="{StaticResource GrayText}"  Text="{Binding TypeName, StringFormat='Command Type: {0}'}" FontSize="12"/>
+                    </StackPanel>
                 </StackPanel>
             </Border>
         </DataTemplate>

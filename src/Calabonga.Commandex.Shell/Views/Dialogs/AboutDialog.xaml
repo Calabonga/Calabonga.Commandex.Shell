@@ -9,11 +9,7 @@
                         d:DataContext="{d:DesignInstance dialogs:AboutViewModel}"
                         MinHeight="300" Width="700"
                         x:Name="Dialog">
-    <b:Interaction.Triggers>
-        <b:EventTrigger EventName="Loaded">
-            <b:InvokeCommandAction Command="{Binding LoadDataCommand, Mode=OneWay}"/>
-        </b:EventTrigger>
-    </b:Interaction.Triggers>
+    
     <Border Style="{StaticResource FancyBorder}" Background="#f5f5f5">
     
         <Border.Resources>
