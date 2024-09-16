@@ -1,7 +1,6 @@
 ﻿<Application x:Class="Calabonga.Commandex.Shell.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:customControls="clr-namespace:Calabonga.Commandex.Shell.CustomControls"
              xmlns:models="clr-namespace:Calabonga.Commandex.Shell.Models"
              Startup="Application_Startup">
     <Application.Resources>
@@ -36,7 +35,7 @@
 
         </DataTemplate>
         <DataTemplate x:Key="ListViewBriefDataTemplate" DataType="{x:Type models:CommandItem}">
-            <Border Style="{StaticResource FancyBorder}">
+            <Border Style="{StaticResource FancyBorder}" MinHeight="50" Padding="4">
                 <StackPanel>
                     <TextBlock Style="{StaticResource SubHeader}" Text="{Binding Name}"/>
                     <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="10"/>
@@ -44,7 +43,7 @@
             </Border>
         </DataTemplate>
         <DataTemplate x:Key="ListViewExtendedDataTemplate" DataType="{x:Type models:CommandItem}">
-            <Border Style="{StaticResource FancyBorder}">
+            <Border Style="{StaticResource FancyBorder}" MinHeight="100" Padding="4">
                 <StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -77,11 +76,6 @@
                 </StackPanel>
             </Border>
         </DataTemplate>
-
-        <customControls:CommandItemListViewDataTemplateSelector x:Key="CommandItemListViewDataTemplateSelector"
-                                                         DefaultTemplate="{StaticResource ListViewDefaultDataTemplate}"
-                                                         BriefTemplate="{StaticResource ListViewBriefDataTemplate}"
-                                                         ExpandedTemplate="{StaticResource ListViewExtendedDataTemplate}" />
 
     </Application.Resources>
 </Application>
