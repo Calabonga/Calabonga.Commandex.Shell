@@ -6,13 +6,23 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
+		<ApplicationIcon>favicon.ico</ApplicationIcon>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Remove="C:\Users\calab\.nuget\packages\calabonga.predicatesbuilder\2.0.1\contentFiles\any\netstandard2.1\favicon.ico" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <None Remove="Views\logo.png" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Content Include="favicon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Calabonga.Commandex.Engine" Version="1.0.0-rc.15" />
 		<PackageReference Include="Calabonga.PredicatesBuilder" Version="2.0.1" />
 		<PackageReference Include="DotNetEnv" Version="3.1.1" />
 		<PackageReference Include="GitInfo" Version="3.3.5">
