@@ -6,6 +6,8 @@
         xmlns:viewModels="clr-namespace:Calabonga.Commandex.Shell.ViewModels"
         mc:Ignorable="d"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:models="clr-namespace:Calabonga.Commandex.Shell.Models"
+        xmlns:customControls="clr-namespace:Calabonga.Commandex.Shell.CustomControls"
         d:DataContext="{d:DesignInstance Type=viewModels:ShellWindowViewModel}"
         WindowStartupLocation="CenterScreen"
         Width="1024"
@@ -16,6 +18,8 @@
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+       
     </Window.Resources>
 
     <Window.Title>
@@ -65,12 +69,8 @@
         <ProgressBar  IsIndeterminate="True" DockPanel.Dock="Top" Height="4"
             Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-        
-
         <Border DockPanel.Dock="Bottom">
-            <Grid Margin="4"
-    Visibility="{Binding IsFindEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
-      >
+            <Grid Margin="4" Visibility="{Binding IsFindEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -80,58 +80,22 @@
             </Grid>
         </Border>
 
-
-
-        <ListView Margin="4"
-            ItemsSource="{Binding CommandItems}" SelectedItem="{Binding SelectedCommand, Mode=TwoWay}" 
+        <ListView 
+                  ItemTemplate="{Binding CommandItemDataTemplate}"
+                  Margin="4" 
+                  ItemsSource="{Binding CommandItems}" SelectedItem="{Binding SelectedCommand, Mode=TwoWay}" 
                   DockPanel.Dock="Left"
-            HorizontalContentAlignment="Stretch" 
+                  HorizontalContentAlignment="Stretch" 
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                   MinWidth="200"
-                  MaxWidth="400">
+                  MaxWidth="500">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding ExecuteActionCommand}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Border Style="{StaticResource FancyBorder}">
-                        <StackPanel>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" FontWeight="Bold" FontSize="18" Text="{Binding Name}"/>
-                                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
-                                    <TextBlock FontWeight="Bold" Text="{Binding Version}" HorizontalAlignment="Right"/>
-                                    <TextBlock Text="{Binding Scope}" FontSize="9" HorizontalAlignment="Right"/>
-                                </StackPanel>
-                            </Grid>
-                            <TextBlock Text="{Binding TypeName}" FontSize="15"/>
-                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="11"/>
-                            <ItemsControl ItemsSource="{Binding Tags}" FontSize="11">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <StackPanel Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border Style="{StaticResource TagBorder}">
-                                            <TextBlock Text="{Binding}"/>
-                                        </Border>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </ListView.ItemTemplate>
         </ListView>
 
-        
         <ContentControl Margin="4" />
     </DockPanel>
 </Window>

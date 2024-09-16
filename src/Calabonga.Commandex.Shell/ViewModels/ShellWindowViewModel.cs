@@ -1,6 +1,7 @@
 ﻿using Calabonga.Commandex.Engine.Base;
 using Calabonga.Commandex.Engine.Base.Commands;
 using Calabonga.Commandex.Engine.Dialogs;
+using Calabonga.Commandex.Engine.Settings;
 using Calabonga.Commandex.Shell.Engine;
 using Calabonga.Commandex.Shell.Models;
 using Calabonga.Commandex.Shell.ViewModels.Dialogs;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Windows;
 
 namespace Calabonga.Commandex.Shell.ViewModels;
 
@@ -24,6 +26,7 @@ public partial class ShellWindowViewModel : ViewModelBase
     private readonly ISettingsReaderConfiguration _settingsReader;
 
     public ShellWindowViewModel(
+        IAppSettings appSettings,
         CommandExecutor commandExecutor,
         IConfigurationFinder configurationFinder,
         IEnumerable<ICommandexCommand> commands,
@@ -38,7 +41,15 @@ public partial class ShellWindowViewModel : ViewModelBase
         _logger = logger;
         _dialogService = dialogService;
         _settingsReader = settingsReader;
+
+        var result = App.Current.TryFindResource(((CurrentAppSettings)appSettings).DefaultViewName);
+        CommandItemDataTemplate = (DataTemplate)result;
     }
+
+    #region Observable Properties
+
+    [ObservableProperty]
+    private DataTemplate _commandItemDataTemplate;
 
     [ObservableProperty]
     private string? _searchTerm;
@@ -55,7 +66,13 @@ public partial class ShellWindowViewModel : ViewModelBase
     [NotifyPropertyChangedFor(nameof(CanExecuteAction))]
     private CommandItem? _selectedCommand;
 
+    #endregion
+
+    #region Properties
     public bool CanExecuteAction => SelectedCommand is not null;
+    #endregion
+
+    #region Commands
 
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
     private async Task ExecuteActionAsync()
@@ -126,6 +143,7 @@ public partial class ShellWindowViewModel : ViewModelBase
         IsBusy = false;
     }
 
-    partial void OnSearchTermChanged(string? value) => LoadData();
+    #endregion
 
+    partial void OnSearchTermChanged(string? value) => LoadData();
 }

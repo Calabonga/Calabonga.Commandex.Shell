@@ -1,6 +1,6 @@
 ﻿using Calabonga.Commandex.Engine.Dialogs;
-using Calabonga.Commandex.Engine.Settings;
 using Calabonga.Commandex.Shell.Engine;
+using Calabonga.Commandex.Shell.Models;
 using Calabonga.Commandex.Shell.ViewModels;
 using Calabonga.Commandex.Shell.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +34,7 @@ public partial class App : Application
     /// <summary>
     /// Current Application settings from env-file.
     /// </summary>
-    public AppSettings Settings { get; }
+    public CurrentAppSettings Settings { get; }
 
     /// <summary>
     /// Last exception that was occurred in application.
