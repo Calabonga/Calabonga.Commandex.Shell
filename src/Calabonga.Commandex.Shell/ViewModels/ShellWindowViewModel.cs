@@ -1,5 +1,4 @@
 ﻿using Calabonga.Commandex.Engine.Base;
-using Calabonga.Commandex.Engine.Base.Commands;
 using Calabonga.Commandex.Engine.Dialogs;
 using Calabonga.Commandex.Engine.Settings;
 using Calabonga.Commandex.Shell.Engine;
@@ -45,6 +44,10 @@ public partial class ShellWindowViewModel : ViewModelBase
         ListViewName = ((CurrentAppSettings)appSettings).DefaultViewName;
         var result = App.Current.TryFindResource(ListViewName);
         CommandItemDataTemplate = (DataTemplate)result;
+
+        _commandExecutor.CommandPreparedSuccess += (_, _) => { IsBusy = false; };
+        _commandExecutor.CommandPrepareStart += (_, _) => { IsBusy = true; };
+        _commandExecutor.CommandPreparationFailed += (_, _) => { IsBusy = false; };
     }
 
     #region Observable Properties
@@ -88,42 +91,34 @@ public partial class ShellWindowViewModel : ViewModelBase
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
     private async Task ExecuteActionAsync()
     {
-        IsBusy = true;
+        var operation = await _commandExecutor.ExecuteAsync(SelectedCommand!);
 
-        try
+        if (operation.Ok)
         {
-            var operation = await _commandExecutor.ExecuteAsync(SelectedCommand!);
-
-            if (operation.Ok)
+            if (!operation.Result.IsPushToShellEnabled)
             {
-                if (!operation.Result.IsPushToShellEnabled)
-                {
-                    IsBusy = false;
-                    return;
-                }
-
-                var command = operation.Result;
-                var message = CommandReport.CreateReport(command);
-                _logger.LogInformation("{CommandType} executed with result: {Result}", command.TypeName, message);
                 IsBusy = false;
-                _dialogService.ShowNotification(message);
                 return;
             }
 
-            _logger.LogError(operation.Error, operation.Error.Message);
-            _dialogService.ShowError(operation.Error.Message);
-        }
-        finally
-        {
+            var command = operation.Result;
+            var message = CommandReport.CreateReport(command);
+            _logger.LogInformation("{CommandType} executed with result: {Result}", command.TypeName, message);
             IsBusy = false;
+            _dialogService.ShowNotification(message);
+            return;
         }
+
+        _logger.LogError(operation.Error, operation.Error.Message);
+        _dialogService.ShowError(operation.Error.Message);
+
     }
 
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
     private void OpenCommandConfiguration() => _configurationFinder.CommandConfiguration(SelectedCommand!.Scope);
 
     [RelayCommand]
-    private void ShowAbout() => _dialogService.ShowDialog<AboutDialog, AboutDialogResult>();
+    private void ShowAbout() => _dialogService.ShowDialog<AboutDialog, AboutViewModel>();
 
     [RelayCommand]
     private void OpenLogsFolder()

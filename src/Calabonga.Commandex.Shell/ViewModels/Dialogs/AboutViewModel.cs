@@ -10,16 +10,16 @@ using System.Windows;
 
 namespace Calabonga.Commandex.Shell.ViewModels.Dialogs;
 
-public partial class AboutDialogResult : DefaultDialogResult
+public partial class AboutViewModel : DefaultViewModel
 {
     private readonly IDialogService _dialogService;
-    private readonly ILogger<AboutDialogResult> _logger;
+    private readonly ILogger<AboutViewModel> _logger;
     private readonly IVersionService _versionService;
     private readonly FileService _fileService;
 
-    public AboutDialogResult(
+    public AboutViewModel(
         IDialogService dialogService,
-        ILogger<AboutDialogResult> logger,
+        ILogger<AboutViewModel> logger,
         IVersionService versionService,
         FileService fileService)
     {

@@ -34,7 +34,7 @@ internal static class DependencyContainer
         services.AddTransient<ShellWindow>();
         services.AddTransient<ShellWindowViewModel>();
         services.AddTransient<AboutDialog>();
-        services.AddTransient<AboutDialogResult>();
+        services.AddTransient<AboutViewModel>();
         services.AddTransient<DefaultDialogView>();
 
         // engine

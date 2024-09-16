@@ -8,22 +8,13 @@ public class RadioMenuItem : MenuItem
 
     protected override void OnClick()
     {
-        if (Parent is ItemsControl ic)
+        if (Parent is ItemsControl itemsControl)
         {
-            var rmi = ic.Items.OfType<RadioMenuItem>().FirstOrDefault(i => i.GroupName == GroupName && i.IsChecked);
+            var menuItem = itemsControl.Items.OfType<RadioMenuItem>().FirstOrDefault(i => i.GroupName == GroupName && i.IsChecked);
 
-            if (null != rmi)
+            if (null != menuItem)
             {
-                try
-                {
-                    rmi.IsChecked = false;
-
-                }
-                catch (Exception exception)
-                {
-                    Console.WriteLine(exception);
-                    throw;
-                }
+                menuItem.IsChecked = false;
             }
 
             IsChecked = true;

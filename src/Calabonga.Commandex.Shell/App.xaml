@@ -6,11 +6,11 @@
              Startup="Application_Startup">
     <Application.Resources>
         <Style x:Key="HugeHeader" TargetType="{x:Type TextBlock}">
-            <Setter Property="FontSize" Value="32"/>
+            <Setter Property="FontSize" Value="28"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <Style x:Key="Header" TargetType="{x:Type TextBlock}">
-            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontSize" Value="22"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <Style x:Key="SubHeader" TargetType="{x:Type TextBlock}">
@@ -18,14 +18,11 @@
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <Style x:Key="FancyBorder" TargetType="{x:Type Border}">
-            <Setter Property="Margin" Value="2" />
-            <Setter Property="Padding" Value="2" />
             <Setter Property="BorderBrush" Value="#cccccc" />
             <Setter Property="BorderThickness" Value="1" />
         </Style>
 
         <Style x:Key="TagBorder" TargetType="{x:Type Border}">
-            <Setter Property="Margin" Value="0" />
             <Setter Property="Padding" Value="2" />
             <Setter Property="BorderBrush" Value="#cccccc" />
             <Setter Property="Background" Value="#f4f4f4" />
@@ -33,57 +30,58 @@
             <Setter Property="CornerRadius" Value="3"/>
         </Style>
 
-         <DataTemplate x:Key="ListViewDefaultDataTemplate" DataType="{x:Type models:CommandItem}">
-     
-         <TextBlock FontWeight="Bold" FontSize="12" Text="{Binding Name}" Padding="2" Margin="2"/>
-     
- </DataTemplate>
- <DataTemplate x:Key="ListViewBriefDataTemplate" DataType="{x:Type models:CommandItem}">
-     <Border Style="{StaticResource FancyBorder}">
-         <StackPanel>
-             <TextBlock FontWeight="Bold" FontSize="12" Text="{Binding Name}"/>
-             <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="10"/>
-         </StackPanel>
-     </Border>
- </DataTemplate>
- <DataTemplate x:Key="ListViewExtendedDataTemplate" DataType="{x:Type models:CommandItem}">
-     <Border Style="{StaticResource FancyBorder}">
-         <StackPanel>
-             <Grid>
-                 <Grid.ColumnDefinitions>
-                     <ColumnDefinition Width="*"/>
-                     <ColumnDefinition Width="Auto"/>
-                 </Grid.ColumnDefinitions>
-                 <TextBlock Grid.Column="0" FontWeight="Bold" FontSize="14" Text="{Binding Name}"/>
-                 <StackPanel Grid.Column="1" HorizontalAlignment="Right">
-                     <TextBlock FontWeight="Bold" Text="{Binding Version}" HorizontalAlignment="Right"/>
-                     <TextBlock Text="{Binding Scope}" FontSize="9" HorizontalAlignment="Right"/>
-                 </StackPanel>
-             </Grid>
-             <TextBlock Text="{Binding TypeName}" FontSize="12"/>
-             <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="10"/>
-             <ItemsControl ItemsSource="{Binding Tags}" FontSize="0">
-                 <ItemsControl.ItemsPanel>
-                     <ItemsPanelTemplate>
-                         <StackPanel Orientation="Horizontal"/>
-                     </ItemsPanelTemplate>
-                 </ItemsControl.ItemsPanel>
-                 <ItemsControl.ItemTemplate>
-                     <DataTemplate>
-                         <Border Style="{StaticResource TagBorder}">
-                             <TextBlock Text="{Binding}"/>
-                         </Border>
-                     </DataTemplate>
-                 </ItemsControl.ItemTemplate>
-             </ItemsControl>
-         </StackPanel>
-     </Border>
- </DataTemplate>
+        <DataTemplate x:Key="ListViewDefaultDataTemplate" DataType="{x:Type models:CommandItem}">
 
- <customControls:CommandItemListViewDataTemplateSelector x:Key="CommandItemListViewDataTemplateSelector"
+            <TextBlock FontWeight="Bold" FontSize="12" Text="{Binding Name}" Padding="2" Margin="2"/>
+
+        </DataTemplate>
+        <DataTemplate x:Key="ListViewBriefDataTemplate" DataType="{x:Type models:CommandItem}">
+            <Border Style="{StaticResource FancyBorder}">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource SubHeader}" Text="{Binding Name}"/>
+                    <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="10"/>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="ListViewExtendedDataTemplate" DataType="{x:Type models:CommandItem}">
+            <Border Style="{StaticResource FancyBorder}">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Style="{StaticResource Header}" Text="{Binding Name}"/>
+                        <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding Version}" HorizontalAlignment="Right"/>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Scope, StringFormat='Scope: {0}'}" FontSize="9" Margin="0,0,4,0" />
+                        <TextBlock Text="→" FontSize="9" Margin="0,0,4,0" />
+                        <TextBlock Text="{Binding TypeName, StringFormat='Type: {0}'}" FontSize="9"/>
+                    </StackPanel>
+                    <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="10"/>
+                    <ItemsControl ItemsSource="{Binding Tags}" FontSize="0">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource TagBorder}">
+                                    <TextBlock Text="{Binding}"/>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+
+        <customControls:CommandItemListViewDataTemplateSelector x:Key="CommandItemListViewDataTemplateSelector"
                                                          DefaultTemplate="{StaticResource ListViewDefaultDataTemplate}"
                                                          BriefTemplate="{StaticResource ListViewBriefDataTemplate}"
                                                          ExpandedTemplate="{StaticResource ListViewExtendedDataTemplate}" />
 
-</Application.Resources>
+    </Application.Resources>
 </Application>

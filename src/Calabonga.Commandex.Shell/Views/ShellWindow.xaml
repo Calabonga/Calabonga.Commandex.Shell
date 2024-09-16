@@ -98,7 +98,7 @@
                   HorizontalContentAlignment="Stretch" 
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                   MinWidth="200"
-                  MaxWidth="500">
+                  MaxWidth="600">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding ExecuteActionCommand}" />

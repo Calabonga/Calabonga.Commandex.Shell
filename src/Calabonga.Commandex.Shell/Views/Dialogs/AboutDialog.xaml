@@ -6,7 +6,7 @@
                         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
                         xmlns:dialogs="clr-namespace:Calabonga.Commandex.Shell.ViewModels.Dialogs"
                         mc:Ignorable="d" 
-                        d:DataContext="{d:DesignInstance dialogs:AboutDialogResult}"
+                        d:DataContext="{d:DesignInstance dialogs:AboutViewModel}"
                         MinHeight="300" Width="700"
                         x:Name="Dialog">
     <b:Interaction.Triggers>
