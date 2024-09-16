@@ -93,12 +93,9 @@
         <ListView ItemTemplate="{Binding CommandItemDataTemplate}"
                   ItemsSource="{Binding CommandItems}"
                   SelectedItem="{Binding SelectedCommand, Mode=TwoWay}" 
-                  DockPanel.Dock="Left"
                   Margin="4" 
                   HorizontalContentAlignment="Stretch" 
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                  MinWidth="200"
-                  MaxWidth="600">
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding ExecuteActionCommand}" />
@@ -106,6 +103,6 @@
             </i:Interaction.Triggers>
         </ListView>
 
-        <ContentControl Margin="4" />
+        
     </DockPanel>
 </Window>

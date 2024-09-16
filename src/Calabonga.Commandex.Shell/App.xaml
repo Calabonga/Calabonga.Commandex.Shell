@@ -5,11 +5,11 @@
              Startup="Application_Startup">
     <Application.Resources>
         <Style x:Key="HugeHeader" TargetType="{x:Type TextBlock}">
-            <Setter Property="FontSize" Value="28"/>
+            <Setter Property="FontSize" Value="32"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <Style x:Key="Header" TargetType="{x:Type TextBlock}">
-            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="FontSize" Value="26"/>
             <Setter Property="FontWeight" Value="Bold"/>
         </Style>
         <Style x:Key="SubHeader" TargetType="{x:Type TextBlock}">
@@ -30,12 +30,10 @@
         </Style>
 
         <DataTemplate x:Key="ListViewDefaultDataTemplate" DataType="{x:Type models:CommandItem}">
-
             <TextBlock FontWeight="Bold" FontSize="12" Text="{Binding Name}" Padding="2" Margin="2"/>
-
         </DataTemplate>
         <DataTemplate x:Key="ListViewBriefDataTemplate" DataType="{x:Type models:CommandItem}">
-            <Border Style="{StaticResource FancyBorder}" MinHeight="50" Padding="4">
+            <Border Style="{StaticResource FancyBorder}" Padding="4">
                 <StackPanel>
                     <TextBlock Style="{StaticResource SubHeader}" Text="{Binding Name}"/>
                     <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="10"/>
@@ -43,7 +41,7 @@
             </Border>
         </DataTemplate>
         <DataTemplate x:Key="ListViewExtendedDataTemplate" DataType="{x:Type models:CommandItem}">
-            <Border Style="{StaticResource FancyBorder}" MinHeight="100" Padding="4">
+            <Border Style="{StaticResource FancyBorder}" Padding="4">
                 <StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
