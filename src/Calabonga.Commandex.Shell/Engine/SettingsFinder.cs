@@ -18,7 +18,7 @@ internal static class SettingsFinder
             ShowSearchPanelOnStartup = bool.Parse(Environment.GetEnvironmentVariable("SHOW_SEARCH_PANEL_ONSTARTUP") ?? "false"),
             ArtifactsFolderName = Environment.GetEnvironmentVariable("ARTIFACTS_FOLDER_NAME") ?? "Artifacts",
             NugetFeedUrl = Environment.GetEnvironmentVariable("NUGET_FEED_URL") ?? "https://api.nuget.org/v3/index.json",
-            DefaultViewName = CurrentAppSettings.GetViewResourceName(Environment.GetEnvironmentVariable("DEFAULT_VIEW_NAME") ?? "Brief")
+            DefaultViewName = Environment.GetEnvironmentVariable("DEFAULT_VIEW_NAME") ?? "ExtendedList"
         };
 
         return appSettings;

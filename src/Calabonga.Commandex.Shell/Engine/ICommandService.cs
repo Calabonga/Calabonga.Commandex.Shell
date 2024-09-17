@@ -5,7 +5,7 @@ namespace Calabonga.Commandex.Shell.Engine;
 
 public interface ICommandService
 {
-    IEnumerable<CommandItem> GetCommands(string? searchTerm);
+    IEnumerable<CommandItem> GetCommands(CommandViewType viewType, string? searchTerm);
 }
 
 public class CommandService : ICommandService
@@ -19,5 +19,13 @@ public class CommandService : ICommandService
         _commands = commands;
         _settingsReader = settingsReader;
     }
-    public IEnumerable<CommandItem> GetCommands(string? searchTerm) => CommandFinder.ConvertToItems(_commands, _settingsReader, searchTerm);
+    public IEnumerable<CommandItem> GetCommands(CommandViewType viewType, string? searchTerm)
+        => viewType switch
+        {
+            CommandViewType.DefaultList => CommandFinder.ConvertToItems(_commands, _settingsReader, searchTerm),
+            CommandViewType.BriefList => CommandFinder.ConvertToItems(_commands, _settingsReader, searchTerm),
+            CommandViewType.ExtendedList => CommandFinder.ConvertToItems(_commands, _settingsReader, searchTerm),
+            CommandViewType.Hierarchical => CommandFinder.ConvertToItems(_commands, _settingsReader, searchTerm),
+            _ => throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null)
+        };
 }

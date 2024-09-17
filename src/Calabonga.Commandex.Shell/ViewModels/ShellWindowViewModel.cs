@@ -39,7 +39,7 @@ public partial class ShellWindowViewModel : ViewModelBase
         _dialogService = dialogService;
 
         var view = ((CurrentAppSettings)appSettings).DefaultViewName;
-        var result = App.Current.TryFindResource(view);
+        var result = App.Current.TryFindResource(CurrentAppSettings.GetViewResourceName(view));
         ListViewName = view;
         CommandItemDataTemplate = (DataTemplate)result;
 
@@ -144,9 +144,8 @@ public partial class ShellWindowViewModel : ViewModelBase
     private void LoadData()
     {
         IsBusy = true;
-
-        CommandItems = new ObservableCollection<CommandItem>(_commandService.GetCommands(SearchTerm));
-
+        var viewType = Enum.Parse<CommandViewType>(ListViewName);
+        CommandItems = new ObservableCollection<CommandItem>(_commandService.GetCommands(viewType, SearchTerm));
         IsBusy = false;
     }
 

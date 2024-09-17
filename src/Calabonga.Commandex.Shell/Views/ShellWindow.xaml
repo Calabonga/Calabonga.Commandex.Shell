@@ -21,6 +21,7 @@
         <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.DefaultList}" Key="F1" Modifiers="Control"/>
         <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.BriefList}" Key="F2" Modifiers="Control"/>
         <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.ExtendedList}" Key="F3" Modifiers="Control"/>
+        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.Hierarchical}" Key="F4" Modifiers="Control"/>
     </Window.InputBindings>
 
     <Window.Resources>
@@ -71,7 +72,11 @@
                 <local:RadioMenuItem Header="Extended"
                                      GroupName="ViewType" InputGestureText="Ctrl+F3"
                                      IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter={x:Static models:CommandViewType.ExtendedList}, Converter={StaticResource ListViewNameConverter}}"
-                                     Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.ExtendedList}"/>
+                                     Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.ExtendedList}"/> 
+                <local:RadioMenuItem Header="Hierarchical"
+                                     GroupName="ViewType" InputGestureText="Ctrl+F4"
+                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter={x:Static models:CommandViewType.Hierarchical}, Converter={StaticResource ListViewNameConverter}}"
+                                     Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.Hierarchical}"/>
             </MenuItem>
             <MenuItem Header="About">
                 <MenuItem Header="About Commandex" Command="{Binding ShowAboutCommand}"/>
