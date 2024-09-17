@@ -14,7 +14,7 @@ public interface ICommandService
     /// <param name="viewType"></param>
     /// <param name="searchTerm"></param>
     /// <returns></returns>
-    IEnumerable<ICommandItem> GetCommands(CommandViewType viewType, string? searchTerm);
+    IEnumerable<CommandItem> GetCommands(CommandViewType viewType, string? searchTerm);
 }
 
 /// <summary>
@@ -35,7 +35,7 @@ public class CommandService : ICommandService
         _commands = commands;
         _settingsReader = settingsReader;
     }
-    public IEnumerable<ICommandItem> GetCommands(CommandViewType viewType, string? searchTerm)
+    public IEnumerable<CommandItem> GetCommands(CommandViewType viewType, string? searchTerm)
         => viewType switch
         {
             CommandViewType.DefaultList => CommandFinder.ConvertToItems(_commands, _settingsReader, searchTerm),

@@ -118,13 +118,13 @@ internal static class CommandFinder
 
         var actionsList = commands
             .Where(predicate.Compile())
-            .Select(x => new CommandItem(settingsReader.GetEnvironmentFileName(x.GetType()), x.TypeName, x.Version, x.DisplayName, x.Description, x.Tags))
+            .Select(x => new CommandItem(settingsReader.GetEnvironmentFileName(x.GetType()), x.TypeName, x.Version, x.DisplayName, x.Description, x.Tags, null))
             .ToList();
 
         return actionsList.ToImmutableList();
     }
 
-    internal static IEnumerable<CommandGroup> ConvertToGroupedItems(IGroupBuilder groupBuilder, IEnumerable<ICommandexCommand> commands, ISettingsReaderConfiguration settingsReader, string? searchTerm)
+    internal static IEnumerable<CommandItem> ConvertToGroupedItems(IGroupBuilder groupBuilder, IEnumerable<ICommandexCommand> commands, ISettingsReaderConfiguration settingsReader, string? searchTerm)
     {
         var items = ConvertToItems(commands, settingsReader, searchTerm);
 
@@ -155,7 +155,9 @@ internal static class CommandFinder
 
         groups.Insert(0, defaultGroup);
 
-        return groups;
+        var commands1 = groups.Select(x => new CommandItem(x.Name, x.TypeName, "1.0.0", x.Name, x.TypeName, x.Tags.ToArray(), x.Items));
+
+        return commands1;
     }
 
     private static IEnumerable<Type> FindAllAbstractCommandTypes()
