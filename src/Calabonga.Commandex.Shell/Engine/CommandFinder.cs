@@ -1,5 +1,4 @@
 ﻿using Calabonga.Commandex.Engine.Base;
-using Calabonga.Commandex.Engine.Base.Commands;
 using Calabonga.Commandex.Engine.NugetDependencies;
 using Calabonga.Commandex.Shell.Models;
 using Calabonga.OperationResults;
@@ -18,7 +17,7 @@ namespace Calabonga.Commandex.Shell.Engine;
 internal static class CommandFinder
 {
     /// <summary>
-    /// // Calabonga: Summary required (CommandFinder 2024-08-03 08:37)
+    /// Finds all items in all assemblies
     /// </summary>
     /// <param name="commandexFolderPath"></param>
     /// <exception cref="AppDefinitionsNotFoundException"></exception>
@@ -123,6 +122,40 @@ internal static class CommandFinder
             .ToList();
 
         return actionsList.ToImmutableList();
+    }
+
+    internal static IEnumerable<CommandGroup> ConvertToGroupedItems(IGroupBuilder groupBuilder, IEnumerable<ICommandexCommand> commands, ISettingsReaderConfiguration settingsReader, string? searchTerm)
+    {
+        var items = ConvertToItems(commands, settingsReader, searchTerm);
+
+        var groups = groupBuilder.GetGroups();
+        var defaultGroup = groupBuilder.GetDefault();
+
+        foreach (var item in items)
+        {
+            if (item.Tags is null || !item.Tags.Any())
+            {
+                defaultGroup.AddCommand(item);
+                continue;
+            }
+
+            foreach (var tag in item.Tags)
+            {
+                var group = groups.Find(x => x.Tags.Contains(tag));
+
+                if (group is null)
+                {
+                    defaultGroup.AddCommand(item);
+                    continue;
+                }
+
+                group.AddCommand(item);
+            }
+        }
+
+        groups.Insert(0, defaultGroup);
+
+        return groups;
     }
 
     private static IEnumerable<Type> FindAllAbstractCommandTypes()

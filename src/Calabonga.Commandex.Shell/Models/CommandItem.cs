@@ -5,7 +5,7 @@ namespace Calabonga.Commandex.Shell.Models;
 /// <summary>
 /// Represents <see cref="ICommandexCommand" /> as the item to show on the UI.
 /// </summary>
-public sealed class CommandItem : ItemBase
+public sealed class CommandItem : ItemBase, ICommandItem
 {
     public CommandItem(string scope, string type, string version, string name, string description, string[]? tags)
     {

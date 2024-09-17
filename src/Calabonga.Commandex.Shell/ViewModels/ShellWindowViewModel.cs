@@ -70,13 +70,13 @@ public partial class ShellWindowViewModel : ViewModelBase
     private bool _isFindEnabled = App.Current.Settings.ShowSearchPanelOnStartup;
 
     [ObservableProperty]
-    private ObservableCollection<CommandItem> _commandItems = new();
+    private ObservableCollection<ICommandItem> _commandItems = new();
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ExecuteActionCommand))]
     [NotifyCanExecuteChangedFor(nameof(OpenCommandConfigurationCommand))]
     [NotifyPropertyChangedFor(nameof(CanExecuteAction))]
-    private CommandItem? _selectedCommand;
+    private ICommandItem? _selectedCommand;
 
     #endregion
 
@@ -145,15 +145,16 @@ public partial class ShellWindowViewModel : ViewModelBase
     {
         IsBusy = true;
         var viewType = Enum.Parse<CommandViewType>(ListViewName);
-        CommandItems = new ObservableCollection<CommandItem>(_commandService.GetCommands(viewType, SearchTerm));
+        CommandItems = new ObservableCollection<ICommandItem>(_commandService.GetCommands(viewType, SearchTerm));
         IsBusy = false;
     }
 
     [RelayCommand]
-    private void SwitchView(CommandViewType view)
+    private void SwitchView(CommandViewType viewType)
     {
-        ListViewName = view.ToString();
-        var result = App.Current.TryFindResource(CurrentAppSettings.GetViewResourceName(view.ToString()));
+        ListViewName = viewType.ToString();
+        CommandItems = new ObservableCollection<ICommandItem>(_commandService.GetCommands(viewType, SearchTerm));
+        var result = App.Current.TryFindResource(CurrentAppSettings.GetViewResourceName(viewType.ToString()));
         CommandItemDataTemplate = (DataTemplate)result;
     }
 

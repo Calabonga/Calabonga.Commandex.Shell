@@ -42,7 +42,7 @@ public sealed class CommandExecutor
     /// // Calabonga: Summary required (CommandExecutor 2024-08-03 09:54)
     /// </summary>
     /// <param name="commandItem"></param>
-    public async Task<Operation<ICommandexCommand, ExecuteCommandexCommandException>> ExecuteAsync(CommandItem commandItem)
+    public async Task<Operation<ICommandexCommand, ExecuteCommandexCommandException>> ExecuteAsync(ICommandItem commandItem)
     {
         var command = _commands.FirstOrDefault(x => x.TypeName == commandItem.TypeName);
         if (command is null)

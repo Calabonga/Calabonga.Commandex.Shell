@@ -49,8 +49,8 @@
         </Border>
     </DataTemplate>
 
-    <DataTemplate x:Key="ListViewHierarchicalDataTemplate" DataType="{x:Type models:CommandItem}">
-        <TextBlock FontWeight="Bold" FontSize="12" Text="{Binding Name}" Padding="2" Margin="2"/>
+    <DataTemplate x:Key="ListViewHierarchicalDataTemplate" DataType="{x:Type models:CommandGroup}">
+        <TextBlock FontWeight="Bold" Foreground="Green" FontSize="12" Text="{Binding Name}" Padding="2" Margin="2"/>
     </DataTemplate>
 
 </ResourceDictionary>
