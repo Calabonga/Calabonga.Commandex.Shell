@@ -14,14 +14,14 @@ namespace Calabonga.Commandex.Shell.Engine;
 /// <summary>
 /// // Calabonga: Summary required (CommandFinder 2024-07-29 04:06)
 /// </summary>
-internal static class CommandFinder
+public static class CommandFinder
 {
     /// <summary>
     /// Finds all items in all assemblies
     /// </summary>
     /// <param name="commandexFolderPath"></param>
     /// <exception cref="AppDefinitionsNotFoundException"></exception>
-    internal static Operation<Type[], Exception> Find(string commandexFolderPath)
+    public static Operation<Type[], Exception> Find(string commandexFolderPath)
     {
         // Calabonga: Refactoring required (CommandFinder 2024-09-15 08:10)
         var commandBaseTypes = FindAllAbstractCommandTypes().ToList();
@@ -101,7 +101,7 @@ internal static class CommandFinder
     /// <param name="settingsReader"></param>
     /// <param name="searchTerm"></param>
     /// <returns><see cref="IReadOnlyList{T}"/> of the command items for UI</returns>
-    internal static IReadOnlyList<CommandItem> ConvertToItems(IEnumerable<ICommandexCommand> commands, ISettingsReaderConfiguration settingsReader, string? searchTerm)
+    public static IReadOnlyList<CommandItem> ConvertToItems(IEnumerable<ICommandexCommand> commands, ISettingsReaderConfiguration settingsReader, string? searchTerm)
     {
         var predicate = PredicateBuilder.True<ICommandexCommand>().And(x => !string.IsNullOrEmpty(x.Version));
 
@@ -113,6 +113,7 @@ internal static class CommandFinder
                 .Or(x => x.Description.ToLower().Contains(term))
                 .Or(x => x.CopyrightInfo.ToLower().Contains(term))
                 .Or(x => x.TypeName.ToLower().Contains(term))
+                .Or(x => x.Tags != null && x.Tags.Contains(term))
                 .Or(x => x.Version.ToLower().Contains(term));
         }
 
@@ -124,10 +125,9 @@ internal static class CommandFinder
         return actionsList.ToImmutableList();
     }
 
-    internal static IEnumerable<CommandItem> ConvertToGroupedItems(IGroupBuilder groupBuilder, IEnumerable<ICommandexCommand> commands, ISettingsReaderConfiguration settingsReader, string? searchTerm)
+    public static IEnumerable<CommandItem> ConvertToGroupedItems(IGroupBuilder groupBuilder, IEnumerable<ICommandexCommand> commands, ISettingsReaderConfiguration settingsReader, string? searchTerm)
     {
         var commandItems = ConvertToItems(commands, settingsReader, searchTerm);
-
         var groups = groupBuilder.GetGroups();
         var defaultGroup = groupBuilder.GetDefault();
 
@@ -153,7 +153,11 @@ internal static class CommandFinder
             }
         }
 
-        groups.Insert(0, defaultGroup);
+
+        if (defaultGroup.CommandItems.Any())
+        {
+            groups.Insert(0, defaultGroup);
+        }
 
 
         var result = new List<CommandItem>();

@@ -9,9 +9,12 @@
 		<ApplicationIcon>favicon.ico</ApplicationIcon>
 	</PropertyGroup>
 
-	<ItemGroup>
-	  <Content Remove="C:\Users\calab\.nuget\packages\calabonga.predicatesbuilder\2.0.1\contentFiles\any\netstandard2.1\favicon.ico" />
-	</ItemGroup>
+
+	<!--<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>Calabonga.Commandex.Shell.Tests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>-->
 
 	<ItemGroup>
 	  <None Remove="Views\logo.png" />

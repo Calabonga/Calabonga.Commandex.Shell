@@ -26,8 +26,20 @@
                     <TextBlock Grid.Column="0" Style="{DynamicResource Header}" Text="{Binding Name}"/>
                     <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding Version}" HorizontalAlignment="Right"/>
                 </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Style="{DynamicResource GrayText}" Text="module:"  FontSize="12" HorizontalAlignment="Right" Margin="0,0,4,0"/>
+                    <TextBlock Grid.Column="1" Text="{Binding Scope}" FontSize="12" Foreground="{DynamicResource DarkGrayTextColorBrush}" />
+                    <TextBlock Grid.Column="2" Style="{DynamicResource GrayText}" Text="type:" FontSize="12" HorizontalAlignment="Right" Margin="0,0,4,0"/>
+                    <TextBlock Grid.Column="3" Text="{Binding TypeName}" FontSize="12" Foreground="{DynamicResource DarkGrayTextColorBrush}"/>
+                </Grid>
                 <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="14"/>
-                <ItemsControl ItemsSource="{Binding Tags}">
+                <ItemsControl ItemsSource="{Binding Tags}" HorizontalAlignment="Right">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal"/>
@@ -36,15 +48,12 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Border Style="{DynamicResource TagBorder}">
-                                <TextBlock Text="{Binding}"/>
+                                <TextBlock Text="{Binding}" Style="{DynamicResource GrayText}" />
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <StackPanel>
-                    <TextBlock Style="{DynamicResource GrayText}" Text="{Binding Scope, StringFormat='Command library (DLL): {0}'}" FontSize="12" />
-                    <TextBlock Style="{DynamicResource GrayText}"  Text="{Binding TypeName, StringFormat='Command Type: {0}'}" FontSize="12"/>
-                </StackPanel>
+                
             </StackPanel>
         </Border>
     </DataTemplate>
@@ -64,36 +73,45 @@
 
     <HierarchicalDataTemplate x:Key="ListViewExtendedHierarchicalDataTemplate" DataType="{x:Type models:CommandItem}" ItemsSource="{Binding Items}">
         <Border Style="{DynamicResource FancyBorder}">
-            <StackPanel>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Style="{DynamicResource Header}" Text="{Binding Name}"/>
-                    <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding Version}" HorizontalAlignment="Right"/>
-                </Grid>
-                <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="14"/>
-                <ItemsControl ItemsSource="{Binding Tags}">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Style="{DynamicResource TagBorder}">
-                                <TextBlock Text="{Binding}"/>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-                <StackPanel>
-                    <TextBlock Style="{DynamicResource GrayText}" Text="{Binding Scope, StringFormat='Command library (DLL): {0}'}" FontSize="12" />
-                    <TextBlock Style="{DynamicResource GrayText}"  Text="{Binding TypeName, StringFormat='Command Type: {0}'}" FontSize="12"/>
-                </StackPanel>
-            </StackPanel>
-        </Border>
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{DynamicResource Header}" Text="{Binding Name}"/>
+            <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding Version}" HorizontalAlignment="Right"/>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Style="{DynamicResource GrayText}" Text="module:"  FontSize="12" HorizontalAlignment="Right" Margin="0,0,4,0"/>
+            <TextBlock Grid.Column="1" Text="{Binding Scope}" FontSize="12" Foreground="{DynamicResource DarkGrayTextColorBrush}" />
+            <TextBlock Grid.Column="2" Style="{DynamicResource GrayText}" Text="type:" FontSize="12" HorizontalAlignment="Right" Margin="0,0,4,0"/>
+            <TextBlock Grid.Column="3" Text="{Binding TypeName}" FontSize="12" Foreground="{DynamicResource DarkGrayTextColorBrush}"/>
+        </Grid>
+        <TextBlock Text="{Binding Description}" TextWrapping="Wrap" FontSize="14"/>
+        <ItemsControl ItemsSource="{Binding Tags}" HorizontalAlignment="Right">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Style="{DynamicResource TagBorder}">
+                        <TextBlock Text="{Binding}" Style="{DynamicResource GrayText}" />
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        
+    </StackPanel>
+</Border>
     </HierarchicalDataTemplate>
 
 </ResourceDictionary>

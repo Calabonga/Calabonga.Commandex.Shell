@@ -19,5 +19,13 @@ public sealed class CommandGroup
 
     public void AddGroup(IEnumerable<CommandGroup> items) => SubGroups.AddRange(items);
 
-    public void AddCommand(CommandItem item) => _commandItems.Add(item);
+    public void AddCommand(CommandItem item)
+    {
+        if (_commandItems.Contains(item))
+        {
+            return;
+        }
+
+        _commandItems.Add(item);
+    }
 }
