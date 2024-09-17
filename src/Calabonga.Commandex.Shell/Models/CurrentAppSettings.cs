@@ -9,5 +9,10 @@ public class CurrentAppSettings : AppSettings
     /// </summary>
     public string DefaultViewName { get; set; } = null!;
 
-    public static string GetViewResourceName(string settingsName) => $"ListView{settingsName}DataTemplate";
+    public static string GetViewResourceName(string settingsName)
+    {
+        Enum.TryParse<CommandViewType>(settingsName, true, out var defaultList);
+
+        return $"ListView{defaultList}DataTemplate";
+    }
 }

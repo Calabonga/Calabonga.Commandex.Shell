@@ -45,6 +45,8 @@ internal static class DependencyContainer
         services.AddScoped<IConfigurationFinder, ConfigurationFinder>();
         services.AddSingleton<ISettingsReaderConfiguration, DefaultSettingsReaderConfiguration>();
         services.AddTransient<IVersionService, VersionService>();
+        services.AddTransient<IGroupBuilder, DefaultGroupBuilder>();
+        services.AddTransient<ICommandService, CommandService>();
 
         // components
         services.AddDialogComponent();

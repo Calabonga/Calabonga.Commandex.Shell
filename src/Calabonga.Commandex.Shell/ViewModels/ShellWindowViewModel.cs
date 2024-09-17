@@ -17,32 +17,30 @@ namespace Calabonga.Commandex.Shell.ViewModels;
 
 public partial class ShellWindowViewModel : ViewModelBase
 {
+    private readonly ICommandService _commandService;
     private readonly CommandExecutor _commandExecutor;
     private readonly IConfigurationFinder _configurationFinder;
-    private readonly IEnumerable<ICommandexCommand> _commands;
     private readonly ILogger<ShellWindowViewModel> _logger;
     private readonly IDialogService _dialogService;
-    private readonly ISettingsReaderConfiguration _settingsReader;
 
     public ShellWindowViewModel(
+        ICommandService commandService,
         IAppSettings appSettings,
         CommandExecutor commandExecutor,
         IConfigurationFinder configurationFinder,
-        IEnumerable<ICommandexCommand> commands,
         ILogger<ShellWindowViewModel> logger,
-        IDialogService dialogService,
-        ISettingsReaderConfiguration settingsReader)
+        IDialogService dialogService)
     {
         Title = "Command Executor";
+        _commandService = commandService;
         _commandExecutor = commandExecutor;
         _configurationFinder = configurationFinder;
-        _commands = commands;
         _logger = logger;
         _dialogService = dialogService;
-        _settingsReader = settingsReader;
 
-        ListViewName = ((CurrentAppSettings)appSettings).DefaultViewName;
-        var result = App.Current.TryFindResource(ListViewName);
+        var view = ((CurrentAppSettings)appSettings).DefaultViewName;
+        var result = App.Current.TryFindResource(view);
+        ListViewName = view;
         CommandItemDataTemplate = (DataTemplate)result;
 
         _commandExecutor.CommandPreparedSuccess += (_, _) => { IsBusy = false; };
@@ -147,16 +145,16 @@ public partial class ShellWindowViewModel : ViewModelBase
     {
         IsBusy = true;
 
-        CommandItems = new ObservableCollection<CommandItem>(CommandFinder.ConvertToItems(_commands, _settingsReader, SearchTerm));
+        CommandItems = new ObservableCollection<CommandItem>(_commandService.GetCommands(SearchTerm));
 
         IsBusy = false;
     }
 
     [RelayCommand]
-    private void SwitchView(string view)
+    private void SwitchView(CommandViewType view)
     {
-        ListViewName = view;
-        var result = App.Current.TryFindResource(CurrentAppSettings.GetViewResourceName(ListViewName));
+        ListViewName = view.ToString();
+        var result = App.Current.TryFindResource(CurrentAppSettings.GetViewResourceName(view.ToString()));
         CommandItemDataTemplate = (DataTemplate)result;
     }
 
