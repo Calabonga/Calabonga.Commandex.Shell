@@ -26,4 +26,6 @@ public sealed class CommandItem : ItemBase
     void SetItems(List<CommandItem> items) => _items = items;
 
     private List<CommandItem> _items = [];
+
+    public void AddCommand(CommandItem item) => _items.Add(item);
 }

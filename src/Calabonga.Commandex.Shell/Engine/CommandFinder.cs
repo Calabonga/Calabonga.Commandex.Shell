@@ -126,12 +126,12 @@ internal static class CommandFinder
 
     internal static IEnumerable<CommandItem> ConvertToGroupedItems(IGroupBuilder groupBuilder, IEnumerable<ICommandexCommand> commands, ISettingsReaderConfiguration settingsReader, string? searchTerm)
     {
-        var items = ConvertToItems(commands, settingsReader, searchTerm);
+        var commandItems = ConvertToItems(commands, settingsReader, searchTerm);
 
         var groups = groupBuilder.GetGroups();
         var defaultGroup = groupBuilder.GetDefault();
 
-        foreach (var item in items)
+        foreach (var item in commandItems)
         {
             if (item.Tags is null || !item.Tags.Any())
             {
@@ -141,7 +141,7 @@ internal static class CommandFinder
 
             foreach (var tag in item.Tags)
             {
-                var group = groups.Find(x => x.Tags.Contains(tag));
+                var group = GetGroupWithTags(groups, tag);
 
                 if (group is null)
                 {
@@ -155,9 +155,55 @@ internal static class CommandFinder
 
         groups.Insert(0, defaultGroup);
 
-        var commands1 = groups.Select(x => new CommandItem(x.Name, x.TypeName, "1.0.0", x.Name, x.TypeName, x.Tags.ToArray(), x.Items));
 
-        return commands1;
+        var result = new List<CommandItem>();
+
+        foreach (var group in groups)
+        {
+            var commandItem = new CommandItem(group.Name, "TypeName", "1.0.0", group.Name, "Description", group.Tags.ToArray(), group.CommandItems);
+
+            if (group.SubGroups.Any())
+            {
+                Recursion(group.SubGroups, commandItem);
+            }
+
+            result.Add(commandItem);
+        }
+
+
+        return result;
+    }
+
+    private static void Recursion(List<CommandGroup> groups, CommandItem commandItem)
+    {
+        foreach (var group in groups)
+        {
+            var item = new CommandItem(group.Name, "TypeName", "1.0.0", group.Name, "Description", group.Tags.ToArray(), group.CommandItems);
+            commandItem.AddCommand(item);
+
+            if (group.SubGroups.Any())
+            {
+                Recursion(group.SubGroups, commandItem);
+            }
+        }
+    }
+
+    private static CommandGroup? GetGroupWithTags(List<CommandGroup> groups, string tag)
+    {
+        foreach (var commandGroup in groups)
+        {
+            if (commandGroup.Tags.Any() && commandGroup.Tags.Contains(tag))
+            {
+                return commandGroup;
+            }
+
+            if (commandGroup.SubGroups.Any())
+            {
+                return GetGroupWithTags(commandGroup.SubGroups, tag);
+            }
+        }
+
+        return null;
     }
 
     private static IEnumerable<Type> FindAllAbstractCommandTypes()

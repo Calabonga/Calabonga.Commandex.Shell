@@ -38,10 +38,14 @@ public class CommandService : ICommandService
     public IEnumerable<CommandItem> GetCommands(CommandViewType viewType, string? searchTerm)
         => viewType switch
         {
-            CommandViewType.DefaultList => CommandFinder.ConvertToItems(_commands, _settingsReader, searchTerm),
-            CommandViewType.BriefList => CommandFinder.ConvertToItems(_commands, _settingsReader, searchTerm),
-            CommandViewType.ExtendedList => CommandFinder.ConvertToItems(_commands, _settingsReader, searchTerm),
-            CommandViewType.Hierarchical => CommandFinder.ConvertToGroupedItems(_groupBuilder, _commands, _settingsReader, searchTerm),
+            CommandViewType.DefaultList
+                or CommandViewType.BriefList
+                or CommandViewType.ExtendedList => CommandFinder.ConvertToItems(_commands, _settingsReader, searchTerm),
+
+            CommandViewType.DefaultHierarchical
+                or CommandViewType.BriefHierarchical
+                or CommandViewType.ExtendedHierarchical => CommandFinder.ConvertToGroupedItems(_groupBuilder, _commands, _settingsReader, searchTerm),
+
             _ => throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null)
         };
 }

@@ -8,5 +8,7 @@ public enum CommandViewType
     DefaultList,
     BriefList,
     ExtendedList,
-    Hierarchical
+    DefaultHierarchical,
+    BriefHierarchical,
+    ExtendedHierarchical
 }

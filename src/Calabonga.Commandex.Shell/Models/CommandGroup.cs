@@ -1,39 +1,23 @@
 ﻿namespace Calabonga.Commandex.Shell.Models;
 
 /// <summary>
-/// Hierarchical item for command presentation
+/// DefaultHierarchical item for command presentation
 /// </summary>
-public sealed class CommandGroup : ICommandItem
+public sealed class CommandGroup
 {
+    private readonly List<CommandItem> _commandItems = [];
+
     public required string Name { get; set; } = null!;
+
+    public required string Description { get; set; } = null!;
 
     public required List<string> Tags { get; init; } = [];
 
-    public CommandGroup? Parent { get; set; }
+    public List<CommandItem> CommandItems => _commandItems;
 
-    public bool HasItems => _items.Any();
+    public List<CommandGroup> SubGroups { get; set; } = [];
 
-    private List<CommandItem> _items = [];
+    public void AddGroup(IEnumerable<CommandGroup> items) => SubGroups.AddRange(items);
 
-    public List<CommandItem> Items => _items;
-
-    void SetItems(List<CommandItem> items) => _items = items;
-
-    public void AddCommand(CommandItem item)
-    {
-        if (!_items.Contains(item))
-        {
-            _items.Add(item);
-        }
-    }
-
-    public string Scope => Name;
-
-    public string TypeName => Name;
-}
-
-public interface ICommandItem
-{
-    string Scope { get; }
-    string TypeName { get; }
+    public void AddCommand(CommandItem item) => _commandItems.Add(item);
 }
