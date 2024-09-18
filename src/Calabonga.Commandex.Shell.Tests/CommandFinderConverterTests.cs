@@ -56,88 +56,65 @@ public class CommandFinderConverterTests
         Assert.Equal(expected, actual);
     }
 
-    [Fact]
-    public void CommandFinderShould_PutInGroupOne_CommandsTagged_One_Equals_3()
+    [Theory]
+    [InlineData(3, "One")]
+    [InlineData(2, "Two")]
+    [InlineData(1, "Three")]
+    [InlineData(4, "Four")]
+    public void CommandFinderShould_PutInGroup_CommandsTagged_ItemsCount(int expected, string groupName)
     {
-        const int expected = 3;
-
         var commands = GetCommands();
         var reader = new Mock<ISettingsReaderConfiguration>();
         var items = CommandFinder.ConvertToGroupedItems(new TestGroupBuilder(), commands, reader.Object, string.Empty).ToList();
-        var actual = items.Where(x => x.Name == "One").SelectMany(x => x.Items).Count(x => x.Tags!.Contains("one"));
+        var actual = items.Where(x => x.Name == groupName).SelectMany(x => x.Items).Count();
 
         Assert.NotEmpty(items);
         Assert.Equal(expected, actual);
     }
 
-    [Fact]
-    public void CommandFinderShould_PutInGroupOne_CommandsTagged_Two_Equals_2()
+    [Theory]
+    [InlineData(1, "Three")]
+    [InlineData(3, "One")]
+    [InlineData(2, "Two")]
+    [InlineData(0, "Four")]
+    public void CommandFinderShould_PutInGroup_CommandsTagged_Items_WithCorrectTagNames(int expected, string groupName)
     {
-        const int expected = 2;
-
         var commands = GetCommands();
         var reader = new Mock<ISettingsReaderConfiguration>();
         var items = CommandFinder.ConvertToGroupedItems(new TestGroupBuilder(), commands, reader.Object, string.Empty).ToList();
-        var actual = items.Where(x => x.Name == "Two").SelectMany(x => x.Items).Count(x => x.Tags!.Contains("two"));
+        var actual = items.Where(x => x.Name == groupName).SelectMany(x => x.Items).Count(x => x.Tags!.Contains(groupName.ToLower()));
 
         Assert.NotEmpty(items);
         Assert.Equal(expected, actual);
     }
 
-    [Fact]
-    public void CommandFinderShould_PutInGroupOne_CommandsTagged_Three_Equals_1()
+    [Theory]
+    [InlineData("One", "one", 3)]
+    [InlineData("One", "two", 1)]
+    [InlineData("Two", "one", 1)]
+    [InlineData("Two", "two", 2)]
+    [InlineData("Three", "three", 1)]
+    [InlineData("Four", "three", 1)]
+    [InlineData("Four", "one", 3)]
+    public void CommandFinderShould_PutInGroup_CommandsTag_Equals_Expected(string groupName, string tagName, int expected)
     {
-        const int expected = 1;
-
         var commands = GetCommands();
         var reader = new Mock<ISettingsReaderConfiguration>();
         var items = CommandFinder.ConvertToGroupedItems(new TestGroupBuilder(), commands, reader.Object, string.Empty).ToList();
-        var actual = items.Where(x => x.Name == "Three").SelectMany(x => x.Items).Count(x => x.Tags!.Contains("three"));
+        var actual = items.Where(x => x.Name == groupName).SelectMany(x => x.Items).Count(x => x.Tags!.Contains(tagName));
 
         Assert.NotEmpty(items);
         Assert.Equal(expected, actual);
     }
 
-    [Fact]
-    public void CommandFinderShould_PutInGroupFour_CommandsTagged_Three_Equals_1()
-    {
-        const int expected = 1;
 
-        var commands = GetCommands();
-        var reader = new Mock<ISettingsReaderConfiguration>();
-        var items = CommandFinder.ConvertToGroupedItems(new TestGroupBuilder(), commands, reader.Object, string.Empty).ToList();
-        var actual = items.Where(x => x.Name == "Four").SelectMany(x => x.Items).Count(x => x.Tags!.Contains("three"));
 
-        Assert.NotEmpty(items);
-        Assert.Equal(expected, actual);
-    }
-    [Fact]
-    public void CommandFinderShould_PutInGroupFour_CommandsTagged_One_Equals_1()
-    {
-        const int expected = 3;
 
-        var commands = GetCommands();
-        var reader = new Mock<ISettingsReaderConfiguration>();
-        var items = CommandFinder.ConvertToGroupedItems(new TestGroupBuilder(), commands, reader.Object, string.Empty).ToList();
-        var actual = items.Where(x => x.Name == "Four").SelectMany(x => x.Items).Count(x => x.Tags!.Contains("one"));
 
-        Assert.NotEmpty(items);
-        Assert.Equal(expected, actual);
-    }
 
-    [Fact]
-    public void CommandFinderShould_PutInGroupOne_CommandsTagged_Three_Equals()
-    {
-        const int expected = 1;
 
-        var commands = GetCommands();
-        var reader = new Mock<ISettingsReaderConfiguration>();
-        var items = CommandFinder.ConvertToGroupedItems(new TestGroupBuilder(), commands, reader.Object, string.Empty).ToList();
-        var actual = items.Where(x => x.Name == "Three").SelectMany(x => x.Items).Count(x => x.Tags!.Contains("three"));
 
-        Assert.NotEmpty(items);
-        Assert.Equal(expected, actual);
-    }
+
 
     private IEnumerable<ICommandexCommand> GetCommands()
         => new List<ICommandexCommand>
