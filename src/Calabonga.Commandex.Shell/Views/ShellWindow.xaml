@@ -22,6 +22,8 @@
         <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.BriefList}" Key="F2" Modifiers="Control"/>
         <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.ExtendedList}" Key="F3" Modifiers="Control"/>
         <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.DefaultHierarchical}" Key="F4" Modifiers="Control"/>
+        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.BriefHierarchical}" Key="F5" Modifiers="Control"/>
+        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.ExtendedHierarchical}" Key="F6" Modifiers="Control"/>
     </Window.InputBindings>
 
     <Window.Resources>
@@ -59,8 +61,6 @@
                 <MenuItem Header="Settings" Command="{Binding OpenCommandConfigurationCommand}" />
             </MenuItem>
             <MenuItem Header="View">
-                <MenuItem Header="Show find input" IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" IsCheckable="True" InputGestureText="Ctrl+F"  />
-                <Separator/>
                 <local:RadioMenuItem Header="List Default" 
                                      GroupName="ViewType" InputGestureText="Ctrl+F1"
                                      IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter={x:Static models:CommandViewType.DefaultList}, Converter={StaticResource ListViewNameConverter}}"
@@ -86,11 +86,12 @@
                                      GroupName="ViewType" InputGestureText="Ctrl+F6"
                                      IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter={x:Static models:CommandViewType.ExtendedHierarchical}, Converter={StaticResource ListViewNameConverter}}"
                                      Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.ExtendedHierarchical}"/>
-
+                <Separator/>
+                <MenuItem Header="Show search bar" IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" IsCheckable="True" InputGestureText="Ctrl+F"  />
             </MenuItem>
             <MenuItem Header="About">
-                <MenuItem Header="About Commandex" Command="{Binding ShowAboutCommand}"/>
-                <MenuItem Header="Open Commandex Logs" Command="{Binding OpenLogsFolderCommand}" InputGestureText="Ctrl+Shift+L"/>
+                <MenuItem Header="About" Command="{Binding ShowAboutCommand}"/>
+                <MenuItem Header="Open Logs" Command="{Binding OpenLogsFolderCommand}" InputGestureText="Ctrl+Shift+L"/>
             </MenuItem>
         </Menu>
 

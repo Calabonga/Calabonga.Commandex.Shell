@@ -5,25 +5,7 @@ VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.Shell", "Calabonga.Commandex.Shell\Calabonga.Commandex.Shell.csproj", "{0F32D75D-930C-4BC4-AD6F-5AAF89DC7E18}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.HelloWorld", "..\..\Calabonga.Commandex.Commands\src\Calabonga.Commandex.HelloWorld\Calabonga.Commandex.HelloWorld\Calabonga.Commandex.HelloWorld.csproj", "{28E56808-D136-483E-87E3-CF2A10E6DB80}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.DialogCommand", "..\..\Calabonga.Commandex.Commands\src\Calabonga.Commandex.DialogCommand\Calabonga.Commandex.DialogCommand\Calabonga.Commandex.DialogCommand.csproj", "{EBB708EB-4CFC-4D03-A91B-9CDCE2D30C99}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.ExhibitCommand", "..\..\Calabonga.Commandex.Commands\src\Calabonga.Commandex.ExhibitCommand\Calabonga.Commandex.ExhibitCommand\Calabonga.Commandex.ExhibitCommand.csproj", "{51F3628D-B8EF-45FB-8EC2-2E4700DE6B92}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.PersonWizardCommand", "..\..\Calabonga.Commandex.Commands\src\Calabonga.Commandex.PersonWizardCommand\Calabonga.Commandex.PersonWizardCommand\Calabonga.Commandex.PersonWizardCommand.csproj", "{9F27C5DC-D192-4681-A5B8-97B870D1EEC7}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.QuizCommand", "..\..\Calabonga.Commandex.Commands\src\Calabonga.Commandex.QuizCommand\Calabonga.Commandex.QuizCommand\Calabonga.Commandex.QuizCommand.csproj", "{280BB7EE-8716-47D7-8CB9-ECE941A3AC51}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.RelatedResultsCommand", "..\..\Calabonga.Commandex.Commands\src\Calabonga.Commandex.RelatedResultsCommand\Calabonga.Commandex.RelatedResultsCommand\Calabonga.Commandex.RelatedResultsCommand.csproj", "{B55C837F-B1E9-4C10-91E3-C39518B8291D}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.TaxPayerStatusCommand", "..\..\Calabonga.Commandex.Commands\src\Calabonga.Commandex.TaxPayerStatusCommand\Calabonga.Commandex.TaxPayerStatusCommand\Calabonga.Commandex.TaxPayerStatusCommand.csproj", "{208D3466-F083-4A7E-BB7E-DEA57FE1D33C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.ValidateApiCommand", "..\..\Calabonga.Commandex.Commands\src\Calabonga.Commandex.ValidateApiCommand\Calabonga.Commandex.ValidateApiCommand\Calabonga.Commandex.ValidateApiCommand.csproj", "{B18EBA7B-3EC9-478F-A7B2-058D5313DD0C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.WelcomeCommand", "..\..\Calabonga.Commandex.Commands\src\Calabonga.Commandex.WelcomeCommand\Calabonga.Commandex.WelcomeCommand\Calabonga.Commandex.WelcomeCommand.csproj", "{861D778F-5FD8-4C9B-ABB3-81B5280FC43E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calabonga.Commandex.Shell.Tests", "Calabonga.Commandex.Shell.Tests\Calabonga.Commandex.Shell.Tests.csproj", "{8E81231F-3790-4209-9DFB-62440D8EDF1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.Shell.Tests", "Calabonga.Commandex.Shell.Tests\Calabonga.Commandex.Shell.Tests.csproj", "{8E81231F-3790-4209-9DFB-62440D8EDF1D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,42 +17,6 @@ Global
 		{0F32D75D-930C-4BC4-AD6F-5AAF89DC7E18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0F32D75D-930C-4BC4-AD6F-5AAF89DC7E18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0F32D75D-930C-4BC4-AD6F-5AAF89DC7E18}.Release|Any CPU.Build.0 = Release|Any CPU
-		{28E56808-D136-483E-87E3-CF2A10E6DB80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28E56808-D136-483E-87E3-CF2A10E6DB80}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28E56808-D136-483E-87E3-CF2A10E6DB80}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{28E56808-D136-483E-87E3-CF2A10E6DB80}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EBB708EB-4CFC-4D03-A91B-9CDCE2D30C99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EBB708EB-4CFC-4D03-A91B-9CDCE2D30C99}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EBB708EB-4CFC-4D03-A91B-9CDCE2D30C99}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EBB708EB-4CFC-4D03-A91B-9CDCE2D30C99}.Release|Any CPU.Build.0 = Release|Any CPU
-		{51F3628D-B8EF-45FB-8EC2-2E4700DE6B92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{51F3628D-B8EF-45FB-8EC2-2E4700DE6B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{51F3628D-B8EF-45FB-8EC2-2E4700DE6B92}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{51F3628D-B8EF-45FB-8EC2-2E4700DE6B92}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9F27C5DC-D192-4681-A5B8-97B870D1EEC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9F27C5DC-D192-4681-A5B8-97B870D1EEC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9F27C5DC-D192-4681-A5B8-97B870D1EEC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9F27C5DC-D192-4681-A5B8-97B870D1EEC7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{280BB7EE-8716-47D7-8CB9-ECE941A3AC51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{280BB7EE-8716-47D7-8CB9-ECE941A3AC51}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{280BB7EE-8716-47D7-8CB9-ECE941A3AC51}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{280BB7EE-8716-47D7-8CB9-ECE941A3AC51}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B55C837F-B1E9-4C10-91E3-C39518B8291D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B55C837F-B1E9-4C10-91E3-C39518B8291D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B55C837F-B1E9-4C10-91E3-C39518B8291D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B55C837F-B1E9-4C10-91E3-C39518B8291D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{208D3466-F083-4A7E-BB7E-DEA57FE1D33C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{208D3466-F083-4A7E-BB7E-DEA57FE1D33C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{208D3466-F083-4A7E-BB7E-DEA57FE1D33C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{208D3466-F083-4A7E-BB7E-DEA57FE1D33C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B18EBA7B-3EC9-478F-A7B2-058D5313DD0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B18EBA7B-3EC9-478F-A7B2-058D5313DD0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B18EBA7B-3EC9-478F-A7B2-058D5313DD0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B18EBA7B-3EC9-478F-A7B2-058D5313DD0C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{861D778F-5FD8-4C9B-ABB3-81B5280FC43E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{861D778F-5FD8-4C9B-ABB3-81B5280FC43E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{861D778F-5FD8-4C9B-ABB3-81B5280FC43E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{861D778F-5FD8-4C9B-ABB3-81B5280FC43E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8E81231F-3790-4209-9DFB-62440D8EDF1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8E81231F-3790-4209-9DFB-62440D8EDF1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E81231F-3790-4209-9DFB-62440D8EDF1D}.Release|Any CPU.ActiveCfg = Release|Any CPU

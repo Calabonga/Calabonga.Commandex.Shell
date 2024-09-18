@@ -262,5 +262,14 @@ public static class CommandFinder
         return index == -1 ? name : name[..index];
     }
 
-    private static CommandItem CreateGroup(CommandGroup group) => new(group.Name, nameof(CommandGroup), $"Groups: {group.SubGroups.Count}, Commands {group.CommandItems.Count}", group.Name, group.Description, group.Tags.ToArray(), group.CommandItems);
+    private static CommandItem CreateGroup(
+        CommandGroup group)
+        => new(
+            group.Name,
+            nameof(CommandGroup),
+            $"Groups: {group.SubGroups.Count}, Commands {group.CommandItems.Count}",
+            $"{group.Name} ►",
+            group.Description,
+            group.Tags.ToArray(),
+            group.CommandItems);
 }
