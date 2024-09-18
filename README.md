@@ -103,3 +103,5 @@ When your Command need to use `Microsoft.Data.SqlClient` then you should install
 ### 8. Commandex Framework - Модульный монолит. Parameter-команды. [Видео планируется]
 
 ### 9. Commandex Framework - Модульный монолит. Dialog-команды с параметром. [Видео планируется]
+
+### 10. Commandex Framework - Модульный монолит. Новый Shell - новые возможности. [Видео планируется]
