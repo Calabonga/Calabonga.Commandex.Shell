@@ -18,7 +18,7 @@ internal class FakeCommandexCommand1 : ICommandexCommand
 
     public string CopyrightInfo => "";
     public bool IsPushToShellEnabled => false;
-    public string DisplayName => "Three: Three";
+    public string DisplayName => "Three: three";
     public string Description => "";
     public string Version => "1";
     public string[]? Tags => ["three"];

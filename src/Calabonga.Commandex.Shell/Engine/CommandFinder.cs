@@ -146,7 +146,9 @@ public static class CommandFinder
 
             foreach (var tag in item.Tags)
             {
-                var groupWithTags = GetGroupWithTags(groups, tag).ToList();
+                var groupWithTags = new List<CommandGroup>();
+
+                GetGroupWithTags(groups, tag, ref groupWithTags);
 
                 if (!groupWithTags.Any())
                 {
@@ -161,12 +163,10 @@ public static class CommandFinder
             }
         }
 
-
         if (defaultGroup.CommandItems.Any())
         {
             groups.Insert(0, defaultGroup);
         }
-
 
         var result = new List<CommandItem>();
 
@@ -176,17 +176,16 @@ public static class CommandFinder
 
             if (group.SubGroups.Any())
             {
-                Recursion(group.SubGroups, commandItem);
+                FindSubGroupForGroup(group.SubGroups, commandItem);
             }
 
             result.Add(commandItem);
         }
 
-
         return result;
     }
 
-    private static void Recursion(List<CommandGroup> groups, CommandItem commandItem)
+    private static void FindSubGroupForGroup(List<CommandGroup> groups, CommandItem commandItem)
     {
         foreach (var group in groups)
         {
@@ -195,14 +194,13 @@ public static class CommandFinder
 
             if (group.SubGroups.Any())
             {
-                Recursion(group.SubGroups, commandItem);
+                FindSubGroupForGroup(group.SubGroups, commandItem);
             }
         }
     }
 
-    private static IEnumerable<CommandGroup> GetGroupWithTags(List<CommandGroup> groups, string tag)
+    private static void GetGroupWithTags(List<CommandGroup> groups, string tag, ref List<CommandGroup> result)
     {
-        var result = new List<CommandGroup>();
 
         foreach (var commandGroup in groups)
         {
@@ -213,11 +211,9 @@ public static class CommandFinder
 
             if (commandGroup.SubGroups.Any())
             {
-                return GetGroupWithTags(commandGroup.SubGroups, tag);
+                GetGroupWithTags(commandGroup.SubGroups, tag, ref result);
             }
         }
-
-        return result;
     }
 
     private static IEnumerable<Type> FindAllAbstractCommandTypes()

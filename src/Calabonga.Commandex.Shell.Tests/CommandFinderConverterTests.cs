@@ -15,9 +15,61 @@ public class CommandFinderConverterTests
     }
 
     [Fact]
-    public void CommandFinder_CanConvert_ToList()
+    public void CommandFinderShould_Process_Groups()
+    {
+        var groups = new TestGroupBuilder().GetGroups();
+        Assert.NotEmpty(groups);
+    }
+
+
+    [Fact]
+    public void CommandFinderShould_Process_Groups_TotalCount_6()
     {
         const int expected = 6;
+
+        var groups = new TestGroupBuilder().GetGroups();
+        var actual = groups.Count;
+
+        Assert.NotEmpty(groups);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void CommandFinderShould_Process_NestedGroups_TotalCount_1()
+    {
+        const int expected = 1;
+
+        var groups = new TestGroupBuilder().GetGroups();
+        var actual = groups.Count(x => x.SubGroups.Count == 1);
+
+        Assert.NotEmpty(groups);
+        Assert.Equal(expected, actual);
+    }
+
+    [Theory]
+    [InlineData(0, "One")]
+    [InlineData(0, "Two")]
+    [InlineData(0, "Three")]
+    [InlineData(0, "Four")]
+    [InlineData(0, "Five")]
+    [InlineData(1, "Six")]
+    public void CommandFinderShould_Process_GroupsWithNested_AsExpected(int expected, string groupName)
+    {
+        var groups = new TestGroupBuilder().GetGroups();
+        var group = groups.Find(x => x.Name == groupName);
+
+        Assert.NotNull(group);
+
+        var actual = group!.SubGroups.Count;
+
+        Assert.NotEmpty(groups);
+        Assert.Equal(expected, actual);
+    }
+
+    [Fact]
+    public void CommandFinder_CanConvert_ToList()
+    {
+        const int expected = 7;
 
         var commands = GetCommands();
         var reader = new Mock<ISettingsReaderConfiguration>();
@@ -31,7 +83,7 @@ public class CommandFinderConverterTests
     [Fact]
     public void CommandFinder_CanConvert_ToHierarchy_WithTotalItems_5()
     {
-        const int expected = 5;
+        const int expected = 7;
 
         var commands = GetCommands();
         var reader = new Mock<ISettingsReaderConfiguration>();
@@ -61,6 +113,7 @@ public class CommandFinderConverterTests
     [InlineData(2, "Two")]
     [InlineData(1, "Three")]
     [InlineData(4, "Four")]
+    [InlineData(0, "Five")]
     public void CommandFinderShould_PutInGroup_CommandsTagged_ItemsCount(int expected, string groupName)
     {
         var commands = GetCommands();
@@ -77,6 +130,7 @@ public class CommandFinderConverterTests
     [InlineData(3, "One")]
     [InlineData(2, "Two")]
     [InlineData(0, "Four")]
+    [InlineData(0, "Five")]
     public void CommandFinderShould_PutInGroup_CommandsTagged_Items_WithCorrectTagNames(int expected, string groupName)
     {
         var commands = GetCommands();
@@ -125,5 +179,6 @@ public class CommandFinderConverterTests
             new FakeCommandexCommand6(),
             new FakeCommandexCommand2(),
             new FakeCommandexCommand3(),
+            new FakeCommandexCommand7(),
         };
 }
