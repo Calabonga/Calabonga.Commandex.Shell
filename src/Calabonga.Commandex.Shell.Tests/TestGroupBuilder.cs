@@ -19,6 +19,7 @@ public class TestGroupBuilder : IGroupBuilder
     [
         new() { Name = "One", Tags = ["one"], Description = "Description" },
         new() { Name = "Two", Tags = ["two"], Description = "Description" },
-        new() { Name = "Three", Tags = ["three"], Description = "Description" }
+        new() { Name = "Three", Tags = ["three"], Description = "Description" },
+        new() { Name = "Four", Tags = ["one","three"], Description = "Description" }
     ];
 }

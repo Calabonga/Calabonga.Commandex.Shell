@@ -81,7 +81,7 @@ public partial class ShellWindowViewModel : ViewModelBase
     #endregion
 
     #region Properties
-    public bool CanExecuteAction => SelectedCommand is not null;
+    public bool CanExecuteAction => SelectedCommand is not null && SelectedCommand!.TypeName != nameof(CommandGroup);
     #endregion
 
     #region Commands

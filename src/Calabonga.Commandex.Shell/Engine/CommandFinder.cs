@@ -39,6 +39,7 @@ public static class CommandFinder
 
             var modulesDirectory = new DirectoryInfo(commandexFolderPath);
             var files = modulesDirectory.GetFiles("*.dll");
+
             if (!files.Any())
             {
                 Log.Information("No modules were found in folder {FolderName}", commandexFolderPath);
@@ -51,6 +52,7 @@ public static class CommandFinder
 
                 var exportedTypes = assembly.GetExportedTypes();
                 var modulesTypes = exportedTypes.Where(AppDefinitionFindPredicate).ToList();
+
                 if (!modulesTypes.Any())
                 {
                     var error = new AppDefinitionsNotFoundException($"There are no any AppDefinition found in {fileInfo.FullName}");
@@ -58,6 +60,7 @@ public static class CommandFinder
                 }
 
                 var commands = exportedTypes.Where(CommandexPredicate).ToList();
+
                 if (!commands.Any())
                 {
                     var error = new AppDefinitionsNotFoundException($"AppDefinition found in {fileInfo.FullName}, but there are no ICommandexCommand implementation were found");
@@ -67,6 +70,7 @@ public static class CommandFinder
                 foreach (var commandType in commands)
                 {
                     var typeName = "";
+
                     foreach (var type in commandBaseTypes.Where(type => IsAssignableToGenericType(commandType, type)))
                     {
                         typeName = GetNameWithoutGenericArity(type);
@@ -108,6 +112,7 @@ public static class CommandFinder
         if (!string.IsNullOrEmpty(searchTerm))
         {
             var term = searchTerm.ToLower();
+
             predicate = predicate
                 .And(x => x.DisplayName.ToLower().Contains(term))
                 .Or(x => x.Description.ToLower().Contains(term))
@@ -141,15 +146,18 @@ public static class CommandFinder
 
             foreach (var tag in item.Tags)
             {
-                var group = GetGroupWithTags(groups, tag);
+                var groupWithTags = GetGroupWithTags(groups, tag).ToList();
 
-                if (group is null)
+                if (!groupWithTags.Any())
                 {
                     defaultGroup.AddCommand(item);
                     continue;
                 }
 
-                group.AddCommand(item);
+                foreach (var groupWithTag in groupWithTags)
+                {
+                    groupWithTag.AddCommand(item);
+                }
             }
         }
 
@@ -164,7 +172,7 @@ public static class CommandFinder
 
         foreach (var group in groups)
         {
-            var commandItem = new CommandItem(group.Name, "TypeName", "1.0.0", group.Name, "Description", group.Tags.ToArray(), group.CommandItems);
+            var commandItem = CreateGroup(group);
 
             if (group.SubGroups.Any())
             {
@@ -182,7 +190,7 @@ public static class CommandFinder
     {
         foreach (var group in groups)
         {
-            var item = new CommandItem(group.Name, "TypeName", "1.0.0", group.Name, "Description", group.Tags.ToArray(), group.CommandItems);
+            var item = CreateGroup(group);
             commandItem.AddCommand(item);
 
             if (group.SubGroups.Any())
@@ -192,13 +200,15 @@ public static class CommandFinder
         }
     }
 
-    private static CommandGroup? GetGroupWithTags(List<CommandGroup> groups, string tag)
+    private static IEnumerable<CommandGroup> GetGroupWithTags(List<CommandGroup> groups, string tag)
     {
+        var result = new List<CommandGroup>();
+
         foreach (var commandGroup in groups)
         {
             if (commandGroup.Tags.Any() && commandGroup.Tags.Contains(tag))
             {
-                return commandGroup;
+                result.Add(commandGroup);
             }
 
             if (commandGroup.SubGroups.Any())
@@ -207,12 +217,13 @@ public static class CommandFinder
             }
         }
 
-        return null;
+        return result;
     }
 
     private static IEnumerable<Type> FindAllAbstractCommandTypes()
     {
         var typeCommand = typeof(ICommandexCommand);
+
         var types = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
             .Where(x => typeCommand.IsAssignableFrom(x) && x is { IsAbstract: true, IsClass: true });
@@ -254,5 +265,6 @@ public static class CommandFinder
         var index = name.IndexOf('`');
         return index == -1 ? name : name[..index];
     }
-}
 
+    private static CommandItem CreateGroup(CommandGroup group) => new(group.Name, nameof(CommandGroup), $"Groups: {group.SubGroups.Count}, Commands {group.CommandItems.Count}", group.Name, group.Description, group.Tags.ToArray(), group.CommandItems);
+}
