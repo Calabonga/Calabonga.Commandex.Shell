@@ -1,5 +1,4 @@
 ﻿using Calabonga.Commandex.Engine.Base;
-using Calabonga.Commandex.Engine.Base.Commands;
 using Calabonga.Commandex.Engine.NugetDependencies;
 using Calabonga.Commandex.Shell.Models;
 using Calabonga.OperationResults;
@@ -15,14 +14,14 @@ namespace Calabonga.Commandex.Shell.Engine;
 /// <summary>
 /// // Calabonga: Summary required (CommandFinder 2024-07-29 04:06)
 /// </summary>
-internal static class CommandFinder
+public static class CommandFinder
 {
     /// <summary>
-    /// // Calabonga: Summary required (CommandFinder 2024-08-03 08:37)
+    /// Finds all items in all assemblies
     /// </summary>
     /// <param name="commandexFolderPath"></param>
     /// <exception cref="AppDefinitionsNotFoundException"></exception>
-    internal static Operation<Type[], Exception> Find(string commandexFolderPath)
+    public static Operation<Type[], Exception> Find(string commandexFolderPath)
     {
         // Calabonga: Refactoring required (CommandFinder 2024-09-15 08:10)
         var commandBaseTypes = FindAllAbstractCommandTypes().ToList();
@@ -40,6 +39,7 @@ internal static class CommandFinder
 
             var modulesDirectory = new DirectoryInfo(commandexFolderPath);
             var files = modulesDirectory.GetFiles("*.dll");
+
             if (!files.Any())
             {
                 Log.Information("No modules were found in folder {FolderName}", commandexFolderPath);
@@ -52,6 +52,7 @@ internal static class CommandFinder
 
                 var exportedTypes = assembly.GetExportedTypes();
                 var modulesTypes = exportedTypes.Where(AppDefinitionFindPredicate).ToList();
+
                 if (!modulesTypes.Any())
                 {
                     var error = new AppDefinitionsNotFoundException($"There are no any AppDefinition found in {fileInfo.FullName}");
@@ -59,6 +60,7 @@ internal static class CommandFinder
                 }
 
                 var commands = exportedTypes.Where(CommandexPredicate).ToList();
+
                 if (!commands.Any())
                 {
                     var error = new AppDefinitionsNotFoundException($"AppDefinition found in {fileInfo.FullName}, but there are no ICommandexCommand implementation were found");
@@ -68,6 +70,7 @@ internal static class CommandFinder
                 foreach (var commandType in commands)
                 {
                     var typeName = "";
+
                     foreach (var type in commandBaseTypes.Where(type => IsAssignableToGenericType(commandType, type)))
                     {
                         typeName = GetNameWithoutGenericArity(type);
@@ -102,32 +105,121 @@ internal static class CommandFinder
     /// <param name="settingsReader"></param>
     /// <param name="searchTerm"></param>
     /// <returns><see cref="IReadOnlyList{T}"/> of the command items for UI</returns>
-    internal static IReadOnlyList<CommandItem> ConvertToItems(IEnumerable<ICommandexCommand> commands, ISettingsReaderConfiguration settingsReader, string? searchTerm)
+    public static IReadOnlyList<CommandItem> ConvertToItems(IEnumerable<ICommandexCommand> commands, ISettingsReaderConfiguration settingsReader, string? searchTerm)
     {
         var predicate = PredicateBuilder.True<ICommandexCommand>().And(x => !string.IsNullOrEmpty(x.Version));
 
         if (!string.IsNullOrEmpty(searchTerm))
         {
             var term = searchTerm.ToLower();
+
             predicate = predicate
                 .And(x => x.DisplayName.ToLower().Contains(term))
                 .Or(x => x.Description.ToLower().Contains(term))
                 .Or(x => x.CopyrightInfo.ToLower().Contains(term))
                 .Or(x => x.TypeName.ToLower().Contains(term))
+                .Or(x => x.Tags != null && x.Tags.Contains(term))
                 .Or(x => x.Version.ToLower().Contains(term));
         }
 
         var actionsList = commands
             .Where(predicate.Compile())
-            .Select(x => new CommandItem(settingsReader.GetEnvironmentFileName(x.GetType()), x.TypeName, x.Version, x.DisplayName, x.Description, x.Tags))
+            .Select(x => new CommandItem(settingsReader.GetEnvironmentFileName(x.GetType()), x.TypeName, x.Version, x.DisplayName, x.Description, x.Tags, null))
             .ToList();
 
         return actionsList.ToImmutableList();
     }
 
+    public static IEnumerable<CommandItem> ConvertToGroupedItems(IGroupBuilder groupBuilder, IEnumerable<ICommandexCommand> commands, ISettingsReaderConfiguration settingsReader, string? searchTerm)
+    {
+        var commandItems = ConvertToItems(commands, settingsReader, searchTerm);
+        var groups = groupBuilder.GetGroups();
+        var defaultGroup = groupBuilder.GetDefault();
+
+        foreach (var item in commandItems)
+        {
+            if (item.Tags is null || !item.Tags.Any())
+            {
+                defaultGroup.AddCommand(item);
+                continue;
+            }
+
+            foreach (var tag in item.Tags)
+            {
+                var groupWithTags = new List<CommandGroup>();
+
+                GetGroupWithTags(groups, tag, ref groupWithTags);
+
+                if (!groupWithTags.Any())
+                {
+                    defaultGroup.AddCommand(item);
+                    continue;
+                }
+
+                foreach (var groupWithTag in groupWithTags)
+                {
+                    groupWithTag.AddCommand(item);
+                }
+            }
+        }
+
+        if (defaultGroup.CommandItems.Any())
+        {
+            groups.Insert(0, defaultGroup);
+        }
+
+        var result = new List<CommandItem>();
+
+        foreach (var group in groups)
+        {
+            var commandItem = CreateGroup(group);
+
+            if (group.SubGroups.Any())
+            {
+                FindSubGroupForGroup(group.SubGroups, commandItem);
+            }
+
+            result.Add(commandItem);
+        }
+
+        return result;
+    }
+
+    private static void FindSubGroupForGroup(List<CommandGroup> groups, CommandItem commandItem)
+    {
+        foreach (var group in groups)
+        {
+            var item = CreateGroup(group);
+            commandItem.AddCommand(item);
+
+            if (group.SubGroups.Any())
+            {
+                FindSubGroupForGroup(group.SubGroups, commandItem);
+            }
+        }
+    }
+
+    private static void GetGroupWithTags(List<CommandGroup> groups, string tag, ref List<CommandGroup> result)
+    {
+
+        foreach (var commandGroup in groups)
+        {
+            if (commandGroup.Tags.Any() && commandGroup.Tags.Contains(tag))
+            {
+                result.Add(commandGroup);
+            }
+
+            if (commandGroup.SubGroups.Any())
+            {
+                GetGroupWithTags(commandGroup.SubGroups, tag, ref result);
+            }
+        }
+    }
+
     private static IEnumerable<Type> FindAllAbstractCommandTypes()
     {
         var typeCommand = typeof(ICommandexCommand);
+
         var types = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
             .Where(x => typeCommand.IsAssignableFrom(x) && x is { IsAbstract: true, IsClass: true });
@@ -169,5 +261,15 @@ internal static class CommandFinder
         var index = name.IndexOf('`');
         return index == -1 ? name : name[..index];
     }
-}
 
+    private static CommandItem CreateGroup(
+        CommandGroup group)
+        => new(
+            group.Name,
+            nameof(CommandGroup),
+            $"Groups: {group.SubGroups.Count}, Commands {group.CommandItems.Count}",
+            $"{group.Name} ►",
+            group.Description,
+            group.Tags.ToArray(),
+            group.CommandItems);
+}

@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:Calabonga.Commandex.Shell.CustomControls"
+        xmlns:models="clr-namespace:Calabonga.Commandex.Shell.Models"
         d:DataContext="{d:DesignInstance Type=viewModels:ShellWindowViewModel}"
         WindowStartupLocation="CenterScreen"
         Width="1024"
@@ -17,9 +18,12 @@
     <Window.InputBindings>
         <KeyBinding Command="{Binding OpenLogsFolderCommand}" Key="L" Modifiers="Control+Shift"/>
         <KeyBinding Command="{Binding ToggleSearchBarVisibilityCommand}" Key="F" Modifiers="Control"/>
-        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="Default" Key="F1" Modifiers="Control"/>
-        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="Brief" Key="F2" Modifiers="Control"/>
-        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="Extended" Key="F3" Modifiers="Control"/>
+        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.DefaultList}" Key="F1" Modifiers="Control"/>
+        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.BriefList}" Key="F2" Modifiers="Control"/>
+        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.ExtendedList}" Key="F3" Modifiers="Control"/>
+        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.DefaultHierarchical}" Key="F4" Modifiers="Control"/>
+        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.BriefHierarchical}" Key="F5" Modifiers="Control"/>
+        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.ExtendedHierarchical}" Key="F6" Modifiers="Control"/>
     </Window.InputBindings>
 
     <Window.Resources>
@@ -57,24 +61,37 @@
                 <MenuItem Header="Settings" Command="{Binding OpenCommandConfigurationCommand}" />
             </MenuItem>
             <MenuItem Header="View">
-                <MenuItem Header="Show find input" IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" IsCheckable="True" InputGestureText="Ctrl+F"  />
-                <Separator/>
-                <local:RadioMenuItem Header="Default" 
+                <local:RadioMenuItem Header="List Default" 
                                      GroupName="ViewType" InputGestureText="Ctrl+F1"
-                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter='Default', Converter={StaticResource ListViewNameConverter}}"
-                                     Command="{Binding SwitchViewCommand}" CommandParameter="Default"/>
-                <local:RadioMenuItem Header="Brief"
+                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter={x:Static models:CommandViewType.DefaultList}, Converter={StaticResource ListViewNameConverter}}"
+                                     Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.DefaultList}"/>
+                <local:RadioMenuItem Header="List Brief"
                                      GroupName="ViewType" InputGestureText="Ctrl+F2"
-                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter='Brief', Converter={StaticResource ListViewNameConverter}}"
-                                     Command="{Binding SwitchViewCommand}" CommandParameter="Brief"/>
-                <local:RadioMenuItem Header="Extended"
+                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter={x:Static models:CommandViewType.BriefList}, Converter={StaticResource ListViewNameConverter}}"
+                                     Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.BriefList}"/>
+                <local:RadioMenuItem Header="List Extended"
                                      GroupName="ViewType" InputGestureText="Ctrl+F3"
-                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter='Extended', Converter={StaticResource ListViewNameConverter}}"
-                                     Command="{Binding SwitchViewCommand}" CommandParameter="Extended"/>
+                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter={x:Static models:CommandViewType.ExtendedList}, Converter={StaticResource ListViewNameConverter}}"
+                                     Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.ExtendedList}"/>
+                <Separator/>
+                <local:RadioMenuItem Header="Hierarchical Default"
+                                     GroupName="ViewType" InputGestureText="Ctrl+F4"
+                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter={x:Static models:CommandViewType.DefaultHierarchical}, Converter={StaticResource ListViewNameConverter}}"
+                                     Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.DefaultHierarchical}"/>
+                <local:RadioMenuItem Header="Hierarchical Brief"
+                                     GroupName="ViewType" InputGestureText="Ctrl+F5"
+                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter={x:Static models:CommandViewType.BriefHierarchical}, Converter={StaticResource ListViewNameConverter}}"
+                                     Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.BriefHierarchical}"/>
+                <local:RadioMenuItem Header="Hierarchical Extended"
+                                     GroupName="ViewType" InputGestureText="Ctrl+F6"
+                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter={x:Static models:CommandViewType.ExtendedHierarchical}, Converter={StaticResource ListViewNameConverter}}"
+                                     Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.ExtendedHierarchical}"/>
+                <Separator/>
+                <MenuItem Header="Show search bar" IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" IsCheckable="True" InputGestureText="Ctrl+F"  />
             </MenuItem>
             <MenuItem Header="About">
-                <MenuItem Header="About Commandex" Command="{Binding ShowAboutCommand}"/>
-                <MenuItem Header="Open Commandex Logs" Command="{Binding OpenLogsFolderCommand}" InputGestureText="Ctrl+Shift+L"/>
+                <MenuItem Header="About" Command="{Binding ShowAboutCommand}"/>
+                <MenuItem Header="Open Logs" Command="{Binding OpenLogsFolderCommand}" InputGestureText="Ctrl+Shift+L"/>
             </MenuItem>
         </Menu>
 
@@ -92,20 +109,23 @@
             </Grid>
         </Border>
 
-        <ListView ItemTemplate="{Binding CommandItemDataTemplate}"
+        <TreeView ItemTemplate="{Binding CommandItemDataTemplate}"
+                  Margin="4"
+                  HorizontalContentAlignment="Stretch"
+                  ItemContainerStyle="{StaticResource TreeViewItemStyle1}"
                   ItemsSource="{Binding CommandItems}"
-                  SelectedItem="{Binding SelectedCommand, Mode=TwoWay}" 
-                  Margin="4" 
-                  HorizontalContentAlignment="Stretch" 
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction Command="{Binding ExecuteActionCommand}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
-        </ListView>
+            <i:Interaction.Behaviors>
+                <local:BindableSelectedItemBehavior SelectedItem="{Binding SelectedCommand, Mode=TwoWay}" />
+            </i:Interaction.Behaviors>
+        </TreeView>
 
-        
+
     </DockPanel>
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
