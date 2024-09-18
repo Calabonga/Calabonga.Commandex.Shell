@@ -22,6 +22,19 @@ It's a complex solution with a few repositories:
 
 ## Version History
 
+### v1.7.0 2024-09-18
+
+*What's Changed*
+
+* Huge refactoring by @Calabonga in https://github.com/Calabonga/Calabonga.Commandex.Shell/pull/20
+* Wizard windows style fix by @Calabonga in https://github.com/Calabonga/Calabonga.Commandex.Shell/pull/21
+* application icon added by @Calabonga in https://github.com/Calabonga/Calabonga.Commandex.Shell/pull/22
+* RC.16 by @Calabonga in https://github.com/Calabonga/Calabonga.Commandex.Shell/pull/23
+* Hierarchical commands list by @Calabonga in https://github.com/Calabonga/Calabonga.Commandex.Shell/pull/24
+
+
+**Full Changelog**: https://github.com/Calabonga/Calabonga.Commandex.Shell/compa
+
 ### v1.0.0-rc.16 2024-09-16
 
 * UX refactored
