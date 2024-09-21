@@ -9,13 +9,6 @@
 		<ApplicationIcon>favicon.ico</ApplicationIcon>
 	</PropertyGroup>
 
-
-	<!--<ItemGroup>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-			<_Parameter1>Calabonga.Commandex.Shell.Tests</_Parameter1>
-		</AssemblyAttribute>
-	</ItemGroup>-->
-
 	<ItemGroup>
 	  <None Remove="Views\logo.png" />
 	</ItemGroup>
