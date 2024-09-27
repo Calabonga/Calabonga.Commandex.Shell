@@ -17,6 +17,7 @@ public partial class AboutViewModel : DefaultViewModel
     private readonly IDialogService _dialogService;
     private readonly ILogger<AboutViewModel> _logger;
     private readonly IVersionService _versionService;
+    private readonly ArtifactService _artifactService;
     private readonly FileService _fileService;
     private readonly CurrentAppSettings _currentAppSettings;
 
@@ -25,11 +26,13 @@ public partial class AboutViewModel : DefaultViewModel
         IDialogService dialogService,
         ILogger<AboutViewModel> logger,
         IVersionService versionService,
+        ArtifactService artifactService,
         FileService fileService)
     {
         _dialogService = dialogService;
         _logger = logger;
         _versionService = versionService;
+        _artifactService = artifactService;
         _fileService = fileService;
         Title = "About Commandex";
         _currentAppSettings = (CurrentAppSettings)appSettings;
@@ -83,39 +86,16 @@ public partial class AboutViewModel : DefaultViewModel
     private void ClearArtifacts()
     {
         IsBusy = true;
-        var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ArtifactsFolder);
+        var result = _artifactService.CleanArtifactsFolder();
 
-        if (!Path.Exists(path))
+        if (!result.Ok)
         {
-            var message = $"{path} not exists";
-            _logger.LogWarning(message);
-            _dialogService.ShowWarning(message);
+            _dialogService.ShowWarning(result.Error);
             IsBusy = false;
             return;
         }
 
-        try
-        {
-            var directory = new DirectoryInfo(path);
-            directory.Delete(true);
-            LoadData();
-        }
-        catch (Exception exception)
-        {
-            var message = exception.Message;
-            _logger.LogError(exception, message);
-
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = path,
-                UseShellExecute = true,
-                Verb = "open"
-            });
-        }
-        finally
-        {
-            IsBusy = false;
-        }
+        IsBusy = false;
     }
 
     #endregion
