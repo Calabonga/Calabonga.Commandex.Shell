@@ -104,7 +104,7 @@ When your Command need to use `Microsoft.Data.SqlClient` then you should install
 
 Пошаговые окна на MVVM. Тип команды для Commandex - Wizard. В этом видео покажу пример создания команды нового типа. На этот раз будем создавать WizardCommandexComand. То есть команда, которая открывается в диалоговом окне и при этом имеет несколько шагов с переходами Вперед и Назад. На выходе - объект с собранными данными.
 
-[![Commandex-7-framework](https://github.com/user-attachments/assets/f2d26272-b7cc-4b4b-a8cd-3824d7f871bb)](https://github.com/user-attachments/assets/6dc338cb-cccd-4007-9229-9ee1f67c9126)
+[![Commandex-7-framework](https://github.com/user-attachments/assets/f2d26272-b7cc-4b4b-a8cd-3824d7f871bb)](https://boosty.to/calabonga/posts/5b5f8647-ea25-420b-9f97-9c5a5c1a200e)
 
 ### [8. Commandex Framework - Модульный монолит. Shell. Re-design.](https://boosty.to/calabonga/posts/8c50a396-cbfb-4a1b-b32b-60431f09dc43)
 
