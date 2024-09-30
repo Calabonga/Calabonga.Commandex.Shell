@@ -116,7 +116,7 @@ public partial class ShellWindowViewModel : ViewModelBase
     }
 
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
-    private void OpenCommandConfiguration() => _configurationFinder.CommandConfiguration(SelectedCommand!.Scope);
+    private void OpenCommandConfiguration() => _configurationFinder.OpenOrCreateCommandConfigurationFile(SelectedCommand!.Scope);
 
     [RelayCommand]
     private void ShowAbout() => _dialogService.ShowDialog<AboutDialog, AboutViewModel>();
