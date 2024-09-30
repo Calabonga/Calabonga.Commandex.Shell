@@ -3,7 +3,7 @@
 namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
-/// // Calabonga: Summary required (DefaultGroupBuilder 2024-09-17 12:41)
+/// Implementation of the group builder for demo purposes only. This is something like a catalog for commands.
 /// </summary>
 public class DefaultGroupBuilder : IGroupBuilder
 {

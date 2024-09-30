@@ -12,7 +12,7 @@ using System.IO;
 namespace Calabonga.Commandex.Shell.Services;
 
 /// <summary>
-/// // Calabonga: Summary required (ArtifactService 2024-08-04 07:03)
+/// ArtifactService management
 /// </summary>
 public sealed class ArtifactService
 {
@@ -40,7 +40,7 @@ public sealed class ArtifactService
     }
 
     /// <summary>
-    /// // Calabonga: Summary required (ArtifactService 2024-08-04 07:26)
+    /// Finds and loads if exists command dependencies
     /// </summary>
     /// <param name="command"></param>
     /// <returns></returns>
@@ -66,7 +66,7 @@ public sealed class ArtifactService
     }
 
     /// <summary>
-    /// // Calabonga: Summary required (ArtifactService 2024-08-04 07:26)
+    /// Creates a folder for artifacts loading from original feed
     /// </summary>
     private static void CreateArtifactFolderInNotExists()
     {

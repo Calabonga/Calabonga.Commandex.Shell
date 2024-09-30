@@ -8,7 +8,7 @@ using Serilog;
 namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
-/// // Calabonga: Summary required (CommandExecutor 2024-08-03 09:54)
+/// Command Executor helper
 /// </summary>
 public sealed class CommandExecutor
 {
@@ -39,9 +39,11 @@ public sealed class CommandExecutor
     public event EventHandler? CommandPrepareStart;
 
     /// <summary>
-    /// // Calabonga: Summary required (CommandExecutor 2024-08-03 09:54)
+    /// Returns a status of the command executing operation without a result.
+    /// Pipeline: Find command -> Prepare -> Execute -> Return status.
     /// </summary>
     /// <param name="commandItem"></param>
+    /// <returns>Nothing when Success and Error <see cref="ExecuteCommandexCommandException"/> when error occurred.</returns>
     public async Task<Operation<ICommandexCommand, ExecuteCommandexCommandException>> ExecuteAsync(CommandItem commandItem)
     {
         var command = _commands.FirstOrDefault(x => x.TypeName == commandItem.TypeName);

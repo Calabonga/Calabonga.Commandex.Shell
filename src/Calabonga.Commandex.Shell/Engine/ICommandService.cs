@@ -4,21 +4,20 @@ using Calabonga.Commandex.Shell.Models;
 namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
-/// // Calabonga: Summary required (ICommandService 2024-09-17 06:29)
+/// <see cref="CommandItem"/> service
 /// </summary>
 public interface ICommandService
 {
     /// <summary>
-    /// // Calabonga: Summary required (ICommandService 2024-09-17 06:29)
+    /// Returns a collection of the <see cref="CommandItem"/> created from <see cref="ICommandexCommand"/> items.
     /// </summary>
-    /// <param name="viewType"></param>
-    /// <param name="searchTerm"></param>
+    /// <param name="viewType">View type selected</param>
+    /// <param name="searchTerm">filter term</param>
     /// <returns></returns>
     IEnumerable<CommandItem> GetCommands(CommandViewType viewType, string? searchTerm);
 }
-
 /// <summary>
-/// // Calabonga: Summary required (ICommandService 2024-09-17 06:30)
+/// <see cref="CommandItem"/> service
 /// </summary>
 public class CommandService : ICommandService
 {
@@ -35,6 +34,13 @@ public class CommandService : ICommandService
         _commands = commands;
         _settingsReader = settingsReader;
     }
+
+    /// <summary>
+    /// Returns a collection of the <see cref="CommandItem"/> created from <see cref="ICommandexCommand"/> items.
+    /// </summary>
+    /// <param name="viewType">View type selected</param>
+    /// <param name="searchTerm">filter term</param>
+    /// <returns></returns>
     public IEnumerable<CommandItem> GetCommands(CommandViewType viewType, string? searchTerm)
         => viewType switch
         {

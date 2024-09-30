@@ -4,10 +4,14 @@ using System.IO;
 namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
-/// // Calabonga: Summary required (FileService 2024-08-04 06:16)
+/// Artifacts items service
 /// </summary>
 public sealed class FileService
 {
+    /// <summary>
+    /// Returns a size of the Artifacts folder
+    /// </summary>
+    /// <returns></returns>
     public long GetArtifactsSize()
     {
         var folder = new DirectoryInfo(ArtifactService.ArtifactsFolderPath);
