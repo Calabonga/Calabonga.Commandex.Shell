@@ -126,7 +126,12 @@ When your Command need to use `Microsoft.Data.SqlClient` then you should install
 
 [![Commandex-8-framework](https://github.com/user-attachments/assets/9ef53830-12c4-4705-9a1f-3babc111a877)](https://boosty.to/calabonga/posts/8c50a396-cbfb-4a1b-b32b-60431f09dc43)
 
-### 9. Commandex Framework - Модульный монолит. Parameter-команды. [Видео планируется]
+### [9. Commandex Framework - Модульный монолит. Parameter-команды.](https://boosty.to/calabonga/posts/d39c830e-8b99-4f93-8e12-248f10a88f69)
+
+Передача параметров между командами? Легко! Такое тоже возможно при использовании команды специального типа.
+В этом видео покажу пример создания команды типа ParameterCommandexComand. То есть команда, которая может читать параметр и сохранять параметр. Другими словами, две команды типа ParameterCommandexComand могут между собой передавать данные. В этом видео пример таких команд.
+
+[![Commandex-9-framework](https://github.com/user-attachments/assets/15062bf0-98d8-4d72-a011-4799484861e4)](https://boosty.to/calabonga/posts/d39c830e-8b99-4f93-8e12-248f10a88f69)
 
 ### 10. Commandex Framework - Модульный монолит. Dialog-команды с параметром. [Видео планируется]
 
