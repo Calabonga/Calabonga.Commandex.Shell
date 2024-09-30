@@ -12,7 +12,7 @@ using System.Reflection;
 namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
-/// // Calabonga: Summary required (CommandFinder 2024-07-29 04:06)
+/// Command Finder helper
 /// </summary>
 public static class CommandFinder
 {
@@ -23,7 +23,6 @@ public static class CommandFinder
     /// <exception cref="AppDefinitionsNotFoundException"></exception>
     public static Operation<Type[], Exception> Find(string commandexFolderPath)
     {
-        // Calabonga: Refactoring required (CommandFinder 2024-09-15 08:10)
         var commandBaseTypes = FindAllAbstractCommandTypes().ToList();
 
         try

@@ -18,12 +18,12 @@ using System.Reflection;
 namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
-/// // Calabonga: Summary required (NugetLoader 2024-08-04 06:50)
+/// Nuget wrapper from current application
 /// </summary>
 public sealed class NugetLoader
 {
     /// <summary>
-    /// // Calabonga: Summary required (NugetLoader 2024-08-04 07:09)
+    /// Loads dependent nuget-packages from nuget feed.
     /// </summary>
     /// <param name="items"></param>
     /// <param name="sourceType"></param>
@@ -60,7 +60,7 @@ public sealed class NugetLoader
     }
 
     /// <summary>
-    /// // Calabonga: Summary required (NugetLoader 2024-08-04 07:09)
+    /// Returns a nuget-repository depend on <see cref="NuGetSourceType"/>
     /// </summary>
     /// <param name="isRemote"></param>
     /// <param name="artifactsFolderPath"></param>

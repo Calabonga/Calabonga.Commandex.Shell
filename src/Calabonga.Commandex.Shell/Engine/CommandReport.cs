@@ -6,7 +6,7 @@ using System.Text.Json;
 namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
-/// // Calabonga: Summary required (CommandReport 2024-07-30 10:13)
+/// Simple Status Report generator about command execution operation
 /// </summary>
 public static class CommandReport
 {

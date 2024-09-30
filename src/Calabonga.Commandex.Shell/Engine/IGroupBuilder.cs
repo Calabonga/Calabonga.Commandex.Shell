@@ -3,7 +3,7 @@
 namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
-/// // Calabonga: Summary required (IGroupBuilder 2024-09-17 12:58)
+/// Catalog builder interface
 /// </summary>
 public interface IGroupBuilder
 {

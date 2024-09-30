@@ -6,17 +6,20 @@ using System.IO;
 namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
-/// // Calabonga: Summary required (ConfigurationFinder 2024-08-09 07:16)
+/// Configuration for commands finder
 /// </summary>
 public interface IConfigurationFinder
 {
     /// <summary>
-    /// // Calabonga: Summary required (ConfigurationFinder 2024-08-09 07:16)
+    /// Opens or Creates a command configuration file.
     /// </summary>
     /// <param name="scope"></param>
-    void CommandConfiguration(string scope);
+    void OpenOrCreateCommandConfigurationFile(string scope);
 }
 
+/// <summary>
+/// Configuration for commands finder
+/// </summary>
 public class ConfigurationFinder : IConfigurationFinder
 {
     private readonly IAppSettings _shellSettings;
@@ -24,7 +27,11 @@ public class ConfigurationFinder : IConfigurationFinder
 
     public ConfigurationFinder(IAppSettings shellSettings) => _shellSettings = shellSettings;
 
-    public void CommandConfiguration(string scope)
+    /// <summary>
+    /// Opens or Creates a command configuration file.
+    /// </summary>
+    /// <param name="scope"></param>
+    public void OpenOrCreateCommandConfigurationFile(string scope)
     {
         var configurationPath = Path.Combine(_shellSettings.CommandsPath, scope + _configurationFileDefaultExtension);
 

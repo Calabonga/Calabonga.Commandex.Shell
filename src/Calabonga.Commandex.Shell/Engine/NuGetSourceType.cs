@@ -1,10 +1,21 @@
-﻿namespace Calabonga.Commandex.Shell.Engine;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Calabonga.Commandex.Shell.Engine;
 
 /// <summary>
-/// // Calabonga: Summary required (NuGetSourceType 2024-08-04 06:54)
+/// The types of the nuget repositories feed
 /// </summary>
 public enum NuGetSourceType
 {
+    /// <summary>
+    /// Local artifacts folder
+    /// </summary>
+    [Display(Name = "Local artifacts folder")]
     Local,
+
+    /// <summary>
+    /// Remote feed from settings
+    /// </summary>
+    [Display(Name = "Remote feed from settings")]
     Remote
 }
