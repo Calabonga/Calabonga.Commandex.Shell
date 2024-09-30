@@ -22,6 +22,12 @@ It's a complex solution with a few repositories:
 
 ## Version History
 
+### v1.8.0 2024-09-30
+
+* Enigne release update 1.0.0
+* Some summaries added/updated
+* Some methods are renamed for clarity
+
 ### v1.7.0 2024-09-18
 
 *What's Changed*
