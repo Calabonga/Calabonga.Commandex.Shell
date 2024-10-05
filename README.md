@@ -137,6 +137,8 @@ When your Command need to use `Microsoft.Data.SqlClient` then you should install
 
 [![Commandex-9-framework](https://github.com/user-attachments/assets/15062bf0-98d8-4d72-a011-4799484861e4)](https://boosty.to/calabonga/posts/d39c830e-8b99-4f93-8e12-248f10a88f69)
 
-### 10. Commandex Framework - Модульный монолит. Dialog-команды с параметром. [Видео планируется]
+### 10. Commandex Framework - Модульный монолит. OAuth2.0 Аутентификация [Видео планируется]
 
-### 11. Commandex Framework - Модульный монолит. Новый Shell - новые возможности. [Видео планируется]
+### 11. Commandex Framework - Модульный монолит. Dialog-команды с параметром. [Видео планируется]
+
+### 12. Commandex Framework - Модульный монолит. Новый Shell - новые возможности. [Видео планируется]
