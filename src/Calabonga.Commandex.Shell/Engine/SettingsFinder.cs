@@ -18,7 +18,11 @@ internal static class SettingsFinder
             ShowSearchPanelOnStartup = bool.Parse(Environment.GetEnvironmentVariable("SHOW_SEARCH_PANEL_ONSTARTUP") ?? "false"),
             ArtifactsFolderName = Environment.GetEnvironmentVariable("ARTIFACTS_FOLDER_NAME") ?? "Artifacts",
             NugetFeedUrl = Environment.GetEnvironmentVariable("NUGET_FEED_URL") ?? "https://api.nuget.org/v3/index.json",
-            DefaultViewName = Environment.GetEnvironmentVariable("DEFAULT_VIEW_NAME") ?? "DefaultList"
+            DefaultViewName = Environment.GetEnvironmentVariable("DEFAULT_VIEW_NAME") ?? "DefaultList",
+            AuthorizationServerUrl = Environment.GetEnvironmentVariable("AUTHORIZATION_SERVER_URL"),
+            ClientId = Environment.GetEnvironmentVariable("AUTHORIZATION_CLIENT_ID"),
+            ClientSecret = Environment.GetEnvironmentVariable("AUTHORIZATION_CLIENT_SECRET"),
+            GrantType = Environment.GetEnvironmentVariable("AUTHORIZATION_GRANT_TYPE")
         };
 
         return appSettings;
