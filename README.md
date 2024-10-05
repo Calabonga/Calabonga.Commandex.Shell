@@ -24,7 +24,17 @@ It's a complex solution with a few repositories:
 
 ### v1.9.0 2024-10-05
 
-New feature - OAuth2.0 now in the Commandex Command! Authentication OAuth2.0 added (OAuth2.0). Demo service OAuth2.0 provided by https://demo.duendesoftware.com. Some settings already set up. You can test OAuth2.0 in Commandex using login/pass bob/bob or alice/alice. This logins provided by [Duende](https://demo.duendesoftware.com/grants). Thanks to Duende! 
+New feature - OAuth2.0 now in the Commandex Command! Authentication OAuth2.0 added (OAuth2.0). Demo OAuth2.0 server provided by https://demo.duendesoftware.com. Some settings already set up in Commandex. You can test OAuth2.0 in Commandex using login/pass bob/bob or alice/alice. This logins provided by [Duende](https://demo.duendesoftware.com/grants). 
+
+LogIn Screen
+
+<img width="500" alt="login" src="https://github.com/user-attachments/assets/a422c66e-492e-4e82-8cd3-dacde752927c">
+
+Main screen after log in success
+
+<img width="500" alt="login2" src="https://github.com/user-attachments/assets/58ff0de3-2329-4c89-ac16-b9d0c3a71cea">
+
+Thanks to Duende for testing OAuth2.0 server! 
 
 ### v1.8.0 2024-09-30
 
