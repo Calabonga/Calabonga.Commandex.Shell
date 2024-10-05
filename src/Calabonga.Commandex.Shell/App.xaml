@@ -36,6 +36,9 @@
             <Style x:Key="GrayText" TargetType="{x:Type TextBlock}">
                 <Setter Property="Foreground" Value="{StaticResource GrayTextColorBrush}" />
             </Style>
+            <Style TargetType="{x:Type Button}">
+                <Setter Property="MinWidth" Value="100"/>
+            </Style>
 
             <Style x:Key="TreeViewItemFocusVisual">
                 <Setter Property="Control.Template">

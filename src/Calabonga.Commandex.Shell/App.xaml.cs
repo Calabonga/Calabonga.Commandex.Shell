@@ -1,8 +1,12 @@
 ﻿using Calabonga.Commandex.Engine.Dialogs;
 using Calabonga.Commandex.Shell.Engine;
+using Calabonga.Commandex.Shell.Infrastructure.Helpers;
+using Calabonga.Commandex.Shell.Infrastructure.Identity;
+using Calabonga.Commandex.Shell.Infrastructure.Messaging;
 using Calabonga.Commandex.Shell.Models;
 using Calabonga.Commandex.Shell.ViewModels;
 using Calabonga.Commandex.Shell.Views;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using System.Windows;
@@ -45,26 +49,34 @@ public partial class App : Application
     /// <summary>
     /// Gets the <see cref="IServiceProvider"/> instance to resolve application services.
     /// </summary>
-    public IServiceProvider Services { get; }
+    internal IServiceProvider Services { get; }
+
+    /// <summary>
+    /// Current application user 
+    /// </summary>
+    internal ApplicationUser? User { get; private set; }
+
+    internal void SetUser(ApplicationUser user)
+    {
+        User = user;
+        CommandexStorage.SetUser(user, Settings);
+        WeakReferenceMessenger.Default.Send(new LoginSuccessMessage(User.Name));
+    }
 
     /// <summary>Raises the <see cref="E:System.Windows.Application.Startup" /> event.</summary>
     /// <param name="e">A <see cref="T:System.Windows.StartupEventArgs" /> that contains the event data.</param>
     protected override void OnStartup(StartupEventArgs e)
     {
+        Log.Debug("Commandex Executor starting...");
+
         base.OnStartup(e);
 
         SetupExceptionHandling();
 
-        Log.Logger.Information("Application starting...");
 
-        var shell = Services.GetService<ShellWindow>();
-        var shellViewModel = Services.GetService<ShellWindowViewModel>();
-
-        if (shellViewModel is null || shell is null)
-        {
-            return;
-        }
-
+        Log.Debug("Commandex Executor prepare Views & ViewModels...");
+        var shell = Services.GetRequiredService<ShellWindow>();
+        var shellViewModel = Services.GetRequiredService<ShellWindowViewModel>();
         shell.DataContext = shellViewModel;
 
         if (LastException is not null)
@@ -73,9 +85,13 @@ public partial class App : Application
             LastException = null;
         }
 
+        Log.Debug("Commandex Executor checks user authenticated...");
+
+        CommandexStorage.GetUser(Settings);
+
         shell.Show();
 
-        Log.Logger.Information("Application started.");
+        Log.Debug("Commandex Executor started.");
     }
 
     /// <summary>
