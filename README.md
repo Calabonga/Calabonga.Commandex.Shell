@@ -22,6 +22,10 @@ It's a complex solution with a few repositories:
 
 ## Version History
 
+### v1.9.0 2024-10-05
+
+New feature - OAuth2.0 now in the Commandex Command! Authentication OAuth2.0 added (OAuth2.0). Demo service OAuth2.0 provided by https://demo.duendesoftware.com. Some settings already set up. You can test OAuth2.0 in Commandex using login/pass bob/bob or alice/alice. This logins provided by [Duende](https://demo.duendesoftware.com/grants). Thanks to Duende! 
+
 ### v1.8.0 2024-09-30
 
 * Enigne release update 1.0.0
@@ -133,6 +137,8 @@ When your Command need to use `Microsoft.Data.SqlClient` then you should install
 
 [![Commandex-9-framework](https://github.com/user-attachments/assets/15062bf0-98d8-4d72-a011-4799484861e4)](https://boosty.to/calabonga/posts/d39c830e-8b99-4f93-8e12-248f10a88f69)
 
-### 10. Commandex Framework - Модульный монолит. Dialog-команды с параметром. [Видео планируется]
+### 10. Commandex Framework - Модульный монолит. OAuth2.0 Аутентификация [Видео планируется]
 
-### 11. Commandex Framework - Модульный монолит. Новый Shell - новые возможности. [Видео планируется]
+### 11. Commandex Framework - Модульный монолит. Dialog-команды с параметром. [Видео планируется]
+
+### 12. Commandex Framework - Модульный монолит. Новый Shell - новые возможности. [Видео планируется]

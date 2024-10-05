@@ -6,13 +6,11 @@ using Calabonga.Commandex.Shell.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
-using System.IO;
 using System.Windows;
 
 namespace Calabonga.Commandex.Shell.ViewModels.Dialogs;
 
-public partial class AboutViewModel : DefaultViewModel
+public sealed partial class AboutViewModel : DefaultViewModel
 {
     private readonly IDialogService _dialogService;
     private readonly ILogger<AboutViewModel> _logger;

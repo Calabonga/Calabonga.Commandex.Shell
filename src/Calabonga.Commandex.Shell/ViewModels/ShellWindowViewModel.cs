@@ -2,11 +2,13 @@
 using Calabonga.Commandex.Engine.Dialogs;
 using Calabonga.Commandex.Engine.Settings;
 using Calabonga.Commandex.Shell.Engine;
+using Calabonga.Commandex.Shell.Infrastructure.Messaging;
 using Calabonga.Commandex.Shell.Models;
 using Calabonga.Commandex.Shell.ViewModels.Dialogs;
 using Calabonga.Commandex.Shell.Views.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.Logging;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -15,7 +17,7 @@ using System.Windows;
 
 namespace Calabonga.Commandex.Shell.ViewModels;
 
-public partial class ShellWindowViewModel : ViewModelBase
+public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSuccessMessage>
 {
     private readonly ICommandService _commandService;
     private readonly CommandExecutor _commandExecutor;
@@ -38,17 +40,22 @@ public partial class ShellWindowViewModel : ViewModelBase
         _logger = logger;
         _dialogService = dialogService;
 
-        var view = ((CurrentAppSettings)appSettings).DefaultViewName;
-        var result = App.Current.TryFindResource(CurrentAppSettings.GetViewResourceName(view));
-        ListViewName = view;
-        CommandItemDataTemplate = (DataTemplate)result;
+        ApplyViewTemplate(appSettings);
 
-        _commandExecutor.CommandPreparedSuccess += (_, _) => { IsBusy = false; };
-        _commandExecutor.CommandPrepareStart += (_, _) => { IsBusy = true; };
-        _commandExecutor.CommandPreparationFailed += (_, _) => { IsBusy = false; };
+        Subscriptions();
     }
 
     #region Observable Properties
+
+    #region property Username
+
+    /// <summary>
+    /// UserName logged in
+    /// </summary>
+    [ObservableProperty]
+    private string _username;
+
+    #endregion
 
     #region property ListViewName
 
@@ -60,17 +67,40 @@ public partial class ShellWindowViewModel : ViewModelBase
 
     #endregion
 
+    #region property IsAuthenticated
+
+    /// <summary>
+    /// Indicated that user login into OAuth2.0 successful
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsNotAuthenticated))]
+    private bool _isAuthenticated;
+
+    #endregion
+
+    #region property CommandItemDataTemplate
+
     [ObservableProperty]
     private DataTemplate _commandItemDataTemplate;
+    #endregion
 
+    #region property SearchTerm
     [ObservableProperty]
     private string? _searchTerm;
+    #endregion
 
+    #region property IsFindEnabled
     [ObservableProperty]
     private bool _isFindEnabled = App.Current.Settings.ShowSearchPanelOnStartup;
+    #endregion
+
+    #region property CommandItems
 
     [ObservableProperty]
     private ObservableCollection<CommandItem> _commandItems = new();
+    #endregion
+
+    #region property SelectedCommand
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(ExecuteActionCommand))]
@@ -80,14 +110,28 @@ public partial class ShellWindowViewModel : ViewModelBase
 
     #endregion
 
+    #endregion
+
     #region Properties
+
+    public bool IsNotAuthenticated => !IsAuthenticated;
+
     public bool CanExecuteAction => SelectedCommand is not null && SelectedCommand!.TypeName != nameof(CommandGroup);
+
     #endregion
 
     #region Commands
 
+    #region command ToggleSearchBarVisibilityCommand
     [RelayCommand]
-    private void ToggleSearchBarVisibility() => IsFindEnabled = !IsFindEnabled;
+    private void ToggleSearchBarVisibility()
+    {
+        IsFindEnabled = !IsFindEnabled;
+        IsAuthenticated = !IsAuthenticated;
+    }
+    #endregion
+
+    #region command ExecuteActionCommand
 
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
     private async Task ExecuteActionAsync()
@@ -114,12 +158,21 @@ public partial class ShellWindowViewModel : ViewModelBase
         _dialogService.ShowError(operation.Error.Message);
 
     }
+    #endregion
 
+    #region command OpenCommandConfigurationCommand
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
     private void OpenCommandConfiguration() => _configurationFinder.OpenOrCreateCommandConfigurationFile(SelectedCommand!.Scope);
 
+    #endregion
+
+    #region command ShowAboutCommand
+
     [RelayCommand]
     private void ShowAbout() => _dialogService.ShowDialog<AboutDialog, AboutViewModel>();
+    #endregion
+
+    #region command OpenLogsFolderCommand
 
     [RelayCommand]
     private void OpenLogsFolder()
@@ -139,15 +192,9 @@ public partial class ShellWindowViewModel : ViewModelBase
             Verb = "open"
         });
     }
+    #endregion
 
-    [RelayCommand]
-    private void LoadData()
-    {
-        IsBusy = true;
-        var viewType = Enum.Parse<CommandViewType>(ListViewName);
-        CommandItems = new ObservableCollection<CommandItem>(_commandService.GetCommands(viewType, SearchTerm));
-        IsBusy = false;
-    }
+    #region command SwitchViewCommand
 
     [RelayCommand]
     private void SwitchView(CommandViewType viewType)
@@ -157,8 +204,47 @@ public partial class ShellWindowViewModel : ViewModelBase
         var result = App.Current.TryFindResource(CurrentAppSettings.GetViewResourceName(viewType.ToString()));
         CommandItemDataTemplate = (DataTemplate)result;
     }
+    #endregion
 
     #endregion
 
+    private void ApplyViewTemplate(IAppSettings appSettings)
+    {
+        var view = ((CurrentAppSettings)appSettings).DefaultViewName;
+        var result = App.Current.TryFindResource(CurrentAppSettings.GetViewResourceName(view));
+        ListViewName = view;
+        CommandItemDataTemplate = (DataTemplate)result;
+    }
+
+    private void Subscriptions()
+    {
+        _commandExecutor.CommandPreparedSuccess += (_, _) => { IsBusy = false; };
+        _commandExecutor.CommandPrepareStart += (_, _) => { IsBusy = true; };
+        _commandExecutor.CommandPreparationFailed += (_, _) => { IsBusy = false; };
+
+        WeakReferenceMessenger.Default.Register(this);
+    }
+
     partial void OnSearchTermChanged(string? value) => LoadData();
+    public void Receive(LoginSuccessMessage message)
+    {
+        IsAuthenticated = true;
+        Username = $"({message.Username})";
+        OnPropertyChanged(nameof(IsAuthenticated));
+        OnPropertyChanged(nameof(Title));
+        LoadData();
+    }
+
+    private void LoadData()
+    {
+        if (!IsAuthenticated)
+        {
+            return;
+        }
+
+        IsBusy = true;
+        var viewType = Enum.Parse<CommandViewType>(ListViewName);
+        CommandItems = new ObservableCollection<CommandItem>(_commandService.GetCommands(viewType, SearchTerm));
+        IsBusy = false;
+    }
 }
