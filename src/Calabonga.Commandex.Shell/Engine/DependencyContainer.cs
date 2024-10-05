@@ -6,6 +6,7 @@ using Calabonga.Commandex.Shell.Extensions;
 using Calabonga.Commandex.Shell.Services;
 using Calabonga.Commandex.Shell.ViewModels;
 using Calabonga.Commandex.Shell.ViewModels.Dialogs;
+using Calabonga.Commandex.Shell.ViewModels.UserControls;
 using Calabonga.Commandex.Shell.Views;
 using Calabonga.Commandex.Shell.Views.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,8 +34,12 @@ internal static class DependencyContainer
         // views and models for views
         services.AddTransient<ShellWindow>();
         services.AddTransient<ShellWindowViewModel>();
+        services.AddTransient<LoginControlViewModel>();
+
         services.AddTransient<AboutDialog>();
         services.AddTransient<AboutViewModel>();
+
+        // defaults views for notifications
         services.AddTransient<DefaultDialogView>();
 
         // engine
@@ -47,6 +52,8 @@ internal static class DependencyContainer
         services.AddTransient<IVersionService, VersionService>();
         services.AddTransient<IGroupBuilder, DefaultGroupBuilder>();
         services.AddTransient<ICommandService, CommandService>();
+        services.AddTransient<IAuthenticationService, AuthenticationService>();
+        services.AddHttpClient(nameof(IAuthenticationService));
 
         // components
         services.AddDialogComponent();
