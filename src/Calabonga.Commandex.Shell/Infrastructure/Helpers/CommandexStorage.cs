@@ -18,6 +18,7 @@ public static class CommandexStorage
             if (CheckTokenIsValid(data.Data.AccessToken!))
             {
                 App.Current.SetUser(new ApplicationUser(data.Username, data.Data));
+                return;
             }
             FileHelper.ClearData<CommandexData>(settings.CommandsPath);
         }

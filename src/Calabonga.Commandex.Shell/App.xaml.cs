@@ -73,7 +73,6 @@ public partial class App : Application
 
         SetupExceptionHandling();
 
-
         Log.Debug("Commandex Executor prepare Views & ViewModels...");
         var shell = Services.GetRequiredService<ShellWindow>();
         var shellViewModel = Services.GetRequiredService<ShellWindowViewModel>();
