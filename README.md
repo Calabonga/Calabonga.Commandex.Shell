@@ -28,11 +28,12 @@ New feature - OAuth2.0 now in the Commandex Command! Authentication OAuth2.0 add
 
 LogIn Screen
 
-<img width="500" alt="login" src="https://github.com/user-attachments/assets/a422c66e-492e-4e82-8cd3-dacde752927c">
+
+![](https://github.com/user-attachments/assets/a422c66e-492e-4e82-8cd3-dacde752927c)
 
 Main screen after log in success
 
-<img width="500" alt="login2" src="https://github.com/user-attachments/assets/58ff0de3-2329-4c89-ac16-b9d0c3a71cea">
+![](https://github.com/user-attachments/assets/58ff0de3-2329-4c89-ac16-b9d0c3a71cea)
 
 Thanks to Duende for testing OAuth2.0 server! 
 
