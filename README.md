@@ -147,8 +147,21 @@ When your Command need to use `Microsoft.Data.SqlClient` then you should install
 
 [![Commandex-9-framework](https://github.com/user-attachments/assets/15062bf0-98d8-4d72-a011-4799484861e4)](https://boosty.to/calabonga/posts/d39c830e-8b99-4f93-8e12-248f10a88f69)
 
-### 10. Commandex Framework - Модульный монолит. OAuth2.0 Аутентификация [Видео планируется]
+### [10. Commandex Framework - Модульный монолит. Вопросы и ответы.](https://boosty.to/calabonga/posts/d67a3232-1aae-46d0-8286-42f0d6b6e3b0)
 
-### 11. Commandex Framework - Модульный монолит. Dialog-команды с параметром. [Видео планируется]
+Вот список пришедших вопросов (по разным каналам связи):
+* Commandex Framework — это все четыре репозитория?
+* Commandex Framework — это законченный проект, он готов для production?
+* Shell можно сделать на ASP.NET Core?
+* Commandex Framework имеет "дорожную карту"? Что планируется?
+Команды для Commandex Framework можно загружать как zip-файлы и запускать?
+* Нельзя поставить некоторые nuget-пакеты, вернее поставишь один пакет, а говорит, что не хватает совершенного другого. Как это?
+* Можно загружать nuget-пакеты не с nuget.org?
 
-### 12. Commandex Framework - Модульный монолит. Новый Shell - новые возможности. [Видео планируется]
+[![commandEx-faq-1](https://github.com/user-attachments/assets/7ba3f008-7851-4c25-ba3d-88b6ba5e5192)](https://boosty.to/calabonga/posts/d67a3232-1aae-46d0-8286-42f0d6b6e3b0)
+
+### 11. Commandex Framework - Модульный монолит. OAuth2.0 Аутентификация [Видео планируется]
+
+### 12. Commandex Framework - Модульный монолит. Dialog-команды с параметром. [Видео планируется]
+
+### 13. Commandex Framework - Модульный монолит. Новый Shell - новые возможности. [Видео планируется]
