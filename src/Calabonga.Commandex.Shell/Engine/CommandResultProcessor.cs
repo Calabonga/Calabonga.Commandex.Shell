@@ -8,7 +8,7 @@ namespace Calabonga.Commandex.Shell.Engine;
 /// <summary>
 /// Simple Status Report generator about command execution operation
 /// </summary>
-public static class CommandResultProcessor
+public static class CommandReportBuilder
 {
     public static string CreateReport(ICommandexCommand command)
     {

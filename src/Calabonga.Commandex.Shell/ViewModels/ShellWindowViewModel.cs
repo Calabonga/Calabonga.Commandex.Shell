@@ -147,7 +147,7 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
             }
 
             var command = operation.Result;
-            var message = CommandResultProcessor.CreateReport(command);
+            var message = CommandReportBuilder.CreateReport(command);
             _logger.LogInformation("{CommandType} executed with result: {Result}", command.TypeName, message);
             IsBusy = false;
             _dialogService.ShowNotification(message);
