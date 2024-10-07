@@ -166,7 +166,3 @@ When your Command need to use `Microsoft.Data.SqlClient` then you should install
 В этом видео покажу, как работает custom OAuth2.0 на WPF + MVVM. А также покажу, как и из чего состоит система, а также напомню (кратко) про то, что такое OAuth2.0.
 
 [![Commandex-11-shell-oauth](https://github.com/user-attachments/assets/f2c0ffba-564f-4ce5-91bb-8563348d0892)](https://boosty.to/calabonga/posts/d67a3232-1aae-46d0-8286-42f0d6b6e3b0)
-
-### 12. Commandex Framework - Модульный монолит. Dialog-команды с параметром. [Видео планируется]
-
-### 13. Commandex Framework - Модульный монолит. Новый Shell - новые возможности. [Видео планируется]
