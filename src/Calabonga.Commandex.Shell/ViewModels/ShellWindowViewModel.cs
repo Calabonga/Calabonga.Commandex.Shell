@@ -225,7 +225,8 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
         WeakReferenceMessenger.Default.Register(this);
     }
 
-    partial void OnSearchTermChanged(string? value) => LoadData();
+    partial void OnSearchTermChanged(string? _) => LoadData();
+
     public void Receive(LoginSuccessMessage message)
     {
         IsAuthenticated = true;
