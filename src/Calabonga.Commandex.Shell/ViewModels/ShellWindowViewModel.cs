@@ -19,6 +19,7 @@ namespace Calabonga.Commandex.Shell.ViewModels;
 
 public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSuccessMessage>
 {
+    private readonly IResultProcessor _resultProcessor;
     private readonly ICommandService _commandService;
     private readonly CommandExecutor _commandExecutor;
     private readonly IConfigurationFinder _configurationFinder;
@@ -26,6 +27,7 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
     private readonly IDialogService _dialogService;
 
     public ShellWindowViewModel(
+        IResultProcessor resultProcessor,
         ICommandService commandService,
         IAppSettings appSettings,
         CommandExecutor commandExecutor,
@@ -34,6 +36,7 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
         IDialogService dialogService)
     {
         Title = "Command Executor";
+        _resultProcessor = resultProcessor;
         _commandService = commandService;
         _commandExecutor = commandExecutor;
         _configurationFinder = configurationFinder;
@@ -137,20 +140,15 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
     private async Task ExecuteActionAsync()
     {
         var operation = await _commandExecutor.ExecuteAsync(SelectedCommand!);
-
         if (operation.Ok)
         {
             if (!operation.Result.IsPushToShellEnabled)
             {
-                IsBusy = false;
                 return;
             }
 
-            var command = operation.Result;
-            var message = CommandReportBuilder.CreateReport(command);
-            _logger.LogInformation("{CommandType} executed with result: {Result}", command.TypeName, message);
-            IsBusy = false;
-            _dialogService.ShowNotification(message);
+            _resultProcessor.ProcessCommand(operation.Result);
+
             return;
         }
 

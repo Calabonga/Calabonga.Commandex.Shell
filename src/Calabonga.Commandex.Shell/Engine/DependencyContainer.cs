@@ -1,6 +1,7 @@
 ﻿using Calabonga.Commandex.Engine.Base;
 using Calabonga.Commandex.Engine.Dialogs;
 using Calabonga.Commandex.Engine.Extensions;
+using Calabonga.Commandex.Engine.Processors.Extensions;
 using Calabonga.Commandex.Engine.Settings;
 using Calabonga.Commandex.Shell.Extensions;
 using Calabonga.Commandex.Shell.Services;
@@ -54,6 +55,12 @@ internal static class DependencyContainer
         services.AddTransient<ICommandService, CommandService>();
         services.AddTransient<IAuthenticationService, AuthenticationService>();
         services.AddHttpClient(nameof(IAuthenticationService));
+
+        // processor: to select default uncomment line below
+        // services.AddResultProcessor<DefaultResultProcessor>();
+
+        // processor: advanced result
+        services.AddAdvancedResultProcessor();
 
         // components
         services.AddDialogComponent();

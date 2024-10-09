@@ -3,7 +3,7 @@
 namespace Calabonga.Commandex.Shell.Models;
 
 /// <summary>
-/// Commandex Storage Data
+/// Commandex Storage ClipboardData
 /// </summary>
 public class CommandexData
 {

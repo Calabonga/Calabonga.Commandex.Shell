@@ -7,10 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.Shell",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.Shell.Tests", "Calabonga.Commandex.Shell.Tests\Calabonga.Commandex.Shell.Tests.csproj", "{8E81231F-3790-4209-9DFB-62440D8EDF1D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.Engine", "..\..\Calabonga.Commandex.Engine\src\Calabonga.Commandex.Engine\Calabonga.Commandex.Engine.csproj", "{27CEC29A-7089-4EA1-922D-C65C39EDBF02}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calabonga.Commandex.WelcomeCommand", "..\..\Calabonga.Commandex.Commands\src\Calabonga.Commandex.WelcomeCommand\Calabonga.Commandex.WelcomeCommand\Calabonga.Commandex.WelcomeCommand.csproj", "{9E8B79C7-D63C-42E0-B728-029F85AD424B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,14 +21,6 @@ Global
 		{8E81231F-3790-4209-9DFB-62440D8EDF1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E81231F-3790-4209-9DFB-62440D8EDF1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E81231F-3790-4209-9DFB-62440D8EDF1D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{27CEC29A-7089-4EA1-922D-C65C39EDBF02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{27CEC29A-7089-4EA1-922D-C65C39EDBF02}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{27CEC29A-7089-4EA1-922D-C65C39EDBF02}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{27CEC29A-7089-4EA1-922D-C65C39EDBF02}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9E8B79C7-D63C-42E0-B728-029F85AD424B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E8B79C7-D63C-42E0-B728-029F85AD424B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E8B79C7-D63C-42E0-B728-029F85AD424B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E8B79C7-D63C-42E0-B728-029F85AD424B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
