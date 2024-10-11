@@ -57,7 +57,7 @@ internal static class DependencyContainer
         services.AddHttpClient(nameof(IAuthenticationService));
 
         // processor: to select default uncomment line below
-        // services.AddResultProcessor<DefaultResultProcessor>();
+        //services.AddResultProcessor<DefaultResultProcessor>();
 
         // processor: advanced result
         services.AddAdvancedResultProcessor();
