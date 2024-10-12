@@ -56,10 +56,10 @@ internal static class DependencyContainer
         services.AddTransient<IAuthenticationService, AuthenticationService>();
         services.AddHttpClient(nameof(IAuthenticationService));
 
-        // processor: to select default uncomment line below
-        //services.AddResultProcessor<DefaultResultProcessor>();
+        // processor: to select default uncomment line below (nuget: Calabonga.Commandex.Engine) 
+        // services.AddResultProcessor<DefaultResultProcessor>();
 
-        // processor: advanced result
+        // processor: advanced result (nuget: Calabonga.Commandex.Engine.Processors) 
         services.AddAdvancedResultProcessor();
 
         // components

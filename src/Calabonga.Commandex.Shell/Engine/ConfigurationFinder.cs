@@ -33,7 +33,7 @@ public class ConfigurationFinder : IConfigurationFinder
     /// <param name="scope"></param>
     public void OpenOrCreateCommandConfigurationFile(string scope)
     {
-        var configurationPath = Path.Combine(_shellSettings.CommandsPath, scope + _configurationFileDefaultExtension);
+        var configurationPath = Path.Combine(_shellSettings.SettingsPath, scope + _configurationFileDefaultExtension);
 
         if (!TryGetRegisteredApplication(".env", out var defaultApp))
         {
