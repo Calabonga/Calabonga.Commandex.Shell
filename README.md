@@ -27,6 +27,13 @@ It's a complex solution with a few repositories:
 
 ## History of changes
 
+### v1.10.0 2024-10-12
+
+* New parameter created globally - `SettingsPath`. It appends possibility store commands settings files separately from commands. If it not set then command settings env-files will store in the commands folder.
+* Enigne release update 1.3.0
+* Some summaries added/updated
+* AboutWindow information extended
+
 ### v1.9.0 2024-10-05
 
 New feature - OAuth2.0 now in the Commandex Command! Authentication OAuth2.0 added (OAuth2.0). Demo OAuth2.0 server provided by https://demo.duendesoftware.com. Some settings already set up in Commandex. You can test OAuth2.0 in Commandex using login/pass bob/bob or alice/alice. This logins provided by [Duende](https://demo.duendesoftware.com/grants). 
