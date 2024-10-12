@@ -4,6 +4,9 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace Calabonga.Commandex.Shell.Infrastructure.Helpers;
 
+/// <summary>
+/// Commandex can save to file and load data from file
+/// </summary>
 public static class CommandexStorage
 {
     /// <summary>
@@ -12,7 +15,7 @@ public static class CommandexStorage
     /// <param name="settings"></param>
     public static void GetUser(CurrentAppSettings settings)
     {
-        var data = FileHelper.GetData<CommandexData>(settings.CommandsPath);
+        var data = FileHelper.GetData<CommandexData>(settings.SettingsPath);
         if (data is not null)
         {
             if (CheckTokenIsValid(data.Data.AccessToken!))
@@ -20,9 +23,10 @@ public static class CommandexStorage
                 App.Current.SetUser(new ApplicationUser(data.Username, data.Data));
                 return;
             }
-            FileHelper.ClearData<CommandexData>(settings.CommandsPath);
+            FileHelper.ClearData<CommandexData>(settings.SettingsPath);
         }
     }
+
     /// <summary>
     /// Save user to storage
     /// </summary>
@@ -35,8 +39,14 @@ public static class CommandexStorage
             Username = user.Name,
             Data = user.SecureData
         };
-        FileHelper.SetData(data, settings.CommandsPath);
+        FileHelper.SetData(data, settings.SettingsPath);
     }
+
+    /// <summary>
+    /// Validate token
+    /// </summary>
+    /// <param name="token"></param>
+    /// <returns></returns>
     private static bool CheckTokenIsValid(string token)
     {
         var tokenTicks = GetTokenExpirationTime(token);
@@ -45,6 +55,12 @@ public static class CommandexStorage
         var valid = tokenDate >= now;
         return valid;
     }
+
+    /// <summary>
+    /// Returns datetime token expiration
+    /// </summary>
+    /// <param name="token"></param>
+    /// <returns></returns>
     private static long GetTokenExpirationTime(string token)
     {
         var handler = new JwtSecurityTokenHandler();
