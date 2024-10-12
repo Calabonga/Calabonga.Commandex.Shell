@@ -65,6 +65,7 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -79,11 +80,13 @@
                         </TextBlock>
                         <TextBlock Grid.Row="1" Margin="2" Grid.Column="0" TextAlignment="Right" Text="Artifacts folder path:"/>
                         <TextBlock Grid.Row="2" Margin="2" Grid.Column="0" TextAlignment="Right" Text="Command folder path:"/>
-                        <TextBlock Grid.Row="3" Margin="2" Grid.Column="0" TextAlignment="Right" Text="Show search panel on startup:"/>
+                        <TextBlock Grid.Row="3" Margin="2" Grid.Column="0" TextAlignment="Right" Text="Settings folder path:"/>
+                        <TextBlock Grid.Row="4" Margin="2" Grid.Column="0" TextAlignment="Right" Text="Show search panel on startup:"/>
                         <TextBlock Grid.Row="0" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding ArtifactsSize}" />
                         <TextBlock Grid.Row="1" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding ArtifactsFolder}"/>
                         <TextBlock Grid.Row="2" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding CommandsFolder}" TextWrapping="Wrap"/>
-                        <TextBlock Grid.Row="3" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding ShowSearchPanelOnStartup}" />
+                        <TextBlock Grid.Row="3" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding SettingsFolder}" TextWrapping="Wrap"/>
+                        <TextBlock Grid.Row="4" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding ShowSearchPanelOnStartup}" />
                     </Grid>
                 </ScrollViewer>
                 <ProgressBar Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" IsIndeterminate="True" Height="10"

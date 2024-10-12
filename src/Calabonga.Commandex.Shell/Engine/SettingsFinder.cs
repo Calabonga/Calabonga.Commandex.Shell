@@ -8,13 +8,21 @@ namespace Calabonga.Commandex.Shell.Engine;
 /// </summary>
 internal static class SettingsFinder
 {
+    /// <summary>
+    /// Loads settings from ENV-file
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"></exception>
     internal static CurrentAppSettings Configure()
     {
         Env.Load("commandex.env", LoadOptions.TraversePath());
 
+        var commandPath = Environment.GetEnvironmentVariable("COMMANDS_FOLDER") ?? throw new ArgumentNullException($"COMMANDS_FOLDER");
+
         var appSettings = new CurrentAppSettings
         {
-            CommandsPath = Environment.GetEnvironmentVariable("COMMANDS_FOLDER") ?? throw new ArgumentNullException($"COMMANDS_FOLDER"),
+            CommandsPath = commandPath,
+            SettingsPath = Environment.GetEnvironmentVariable("SETTINGS_FOLDER") ?? commandPath,
             ShowSearchPanelOnStartup = bool.Parse(Environment.GetEnvironmentVariable("SHOW_SEARCH_PANEL_ONSTARTUP") ?? "false"),
             ArtifactsFolderName = Environment.GetEnvironmentVariable("ARTIFACTS_FOLDER_NAME") ?? "Artifacts",
             NugetFeedUrl = Environment.GetEnvironmentVariable("NUGET_FEED_URL") ?? "https://api.nuget.org/v3/index.json",
@@ -27,6 +35,4 @@ internal static class SettingsFinder
 
         return appSettings;
     }
-
-
 }

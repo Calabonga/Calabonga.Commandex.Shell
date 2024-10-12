@@ -59,6 +59,9 @@ public sealed partial class AboutViewModel : DefaultViewModel
     private string _commandsFolder = "";
 
     [ObservableProperty]
+    private string _settingsFolder = "";
+
+    [ObservableProperty]
     private string _showSearchPanelOnStartup;
 
     [RelayCommand]
@@ -71,6 +74,7 @@ public sealed partial class AboutViewModel : DefaultViewModel
         ArtifactsSize = $"{total} KB";
         ArtifactsFolder = _currentAppSettings.ArtifactsFolderName;
         CommandsFolder = _currentAppSettings.CommandsPath;
+        SettingsFolder = _currentAppSettings.SettingsPath;
         ShowSearchPanelOnStartup = _currentAppSettings.ShowSearchPanelOnStartup ? "Yes" : "No";
         Version = _versionService.Version;
         Branch = _versionService.Branch;
