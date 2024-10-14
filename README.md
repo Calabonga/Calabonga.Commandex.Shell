@@ -14,8 +14,8 @@ The `Calabonga.Commandex` - This is an application on WPF-platform built with Co
 
 What is the `Calabonga.Commandex` can:
 * Find a modules `.dll` (plugins) in the folder you set up.
-* Launch or execute modules `.dll` (plughis) from GUI.
-* Get the results of the module's (plugis) work after they completed.
+* Launch or execute modules `.dll` (plugins) from GUI.
+* Get the results of the module's (plugins) work after they completed.
 
 It's a complex solution with a few repositories:
 
