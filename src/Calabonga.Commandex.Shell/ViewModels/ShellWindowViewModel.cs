@@ -203,6 +203,37 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
 
     #endregion
 
+    #region Subscriptions
+
+    public void Receive(LoginSuccessMessage message)
+    {
+        IsAuthenticated = true;
+        Username = $"({message.Username})";
+        OnPropertyChanged(nameof(IsAuthenticated));
+        OnPropertyChanged(nameof(Title));
+        LoadData();
+    }
+    #endregion
+
+    #region Privates
+
+    partial void OnSearchTermChanged(string? _) => LoadData();
+
+    private void LoadData()
+    {
+        if (!IsAuthenticated)
+        {
+            return;
+        }
+
+        IsBusy = true;
+        var viewType = Enum.Parse<CommandViewType>(ListViewName);
+        CommandItems = new ObservableCollection<CommandItem>(_commandService.GetCommands(viewType, SearchTerm));
+        IsBusy = false;
+    }
+
+    #region Initializations
+
     private void ApplyViewTemplate(IAppSettings appSettings)
     {
         var view = ((CurrentAppSettings)appSettings).DefaultViewName;
@@ -220,27 +251,7 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
         WeakReferenceMessenger.Default.Register(this);
     }
 
-    partial void OnSearchTermChanged(string? _) => LoadData();
+    #endregion
 
-    public void Receive(LoginSuccessMessage message)
-    {
-        IsAuthenticated = true;
-        Username = $"({message.Username})";
-        OnPropertyChanged(nameof(IsAuthenticated));
-        OnPropertyChanged(nameof(Title));
-        LoadData();
-    }
-
-    private void LoadData()
-    {
-        if (!IsAuthenticated)
-        {
-            return;
-        }
-
-        IsBusy = true;
-        var viewType = Enum.Parse<CommandViewType>(ListViewName);
-        CommandItems = new ObservableCollection<CommandItem>(_commandService.GetCommands(viewType, SearchTerm));
-        IsBusy = false;
-    }
+    #endregion
 }
