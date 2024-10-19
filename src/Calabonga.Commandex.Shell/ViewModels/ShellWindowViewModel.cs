@@ -127,11 +127,8 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
 
     #region command ToggleSearchBarVisibilityCommand
     [RelayCommand]
-    private void ToggleSearchBarVisibility()
-    {
-        IsFindEnabled = !IsFindEnabled;
-        IsAuthenticated = !IsAuthenticated;
-    }
+    private void ToggleSearchBarVisibility() => IsFindEnabled = !IsFindEnabled;
+
     #endregion
 
     #region command ExecuteActionCommand
