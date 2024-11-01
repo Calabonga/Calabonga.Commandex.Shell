@@ -171,22 +171,29 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
 
     [RelayCommand]
     private void OpenLogsFolder()
-    {
-        var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
-
-        if (!Path.Exists(path))
+        => _dialogService.ShowConfirmation("Open logs folder?", result =>
         {
-            _dialogService.ShowNotification($"Folder not found: {path}");
-            return;
-        }
+            if (result.ConfirmResult != ConfirmationType.Ok)
+            {
+                return;
+            }
 
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = path,
-            UseShellExecute = true,
-            Verb = "open"
-        });
-    }
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+
+            if (!Path.Exists(path))
+            {
+                _dialogService.ShowNotification($"Folder not found: {path}");
+                return;
+            }
+
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = path,
+                UseShellExecute = true,
+                Verb = "open"
+            });
+        }, ConfirmationTypes.OkCancel);
+
     #endregion
 
     #region command SwitchViewCommand
