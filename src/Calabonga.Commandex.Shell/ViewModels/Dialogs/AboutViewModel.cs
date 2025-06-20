@@ -5,7 +5,6 @@ using Calabonga.Commandex.Shell.Models;
 using Calabonga.Commandex.Shell.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.Logging;
 using System.Windows;
 
 namespace Calabonga.Commandex.Shell.ViewModels.Dialogs;
@@ -13,7 +12,6 @@ namespace Calabonga.Commandex.Shell.ViewModels.Dialogs;
 public sealed partial class AboutViewModel : DefaultDialogResult
 {
     private readonly IDialogService _dialogService;
-    private readonly ILogger<AboutViewModel> _logger;
     private readonly IVersionService _versionService;
     private readonly ArtifactService _artifactService;
     private readonly FileService _fileService;
@@ -22,13 +20,11 @@ public sealed partial class AboutViewModel : DefaultDialogResult
     public AboutViewModel(
         IAppSettings appSettings,
         IDialogService dialogService,
-        ILogger<AboutViewModel> logger,
         IVersionService versionService,
         ArtifactService artifactService,
         FileService fileService)
     {
         _dialogService = dialogService;
-        _logger = logger;
         _versionService = versionService;
         _artifactService = artifactService;
         _fileService = fileService;
