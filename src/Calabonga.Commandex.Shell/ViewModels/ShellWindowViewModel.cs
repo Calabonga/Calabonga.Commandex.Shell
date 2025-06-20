@@ -17,7 +17,7 @@ using System.Windows;
 
 namespace Calabonga.Commandex.Shell.ViewModels;
 
-public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSuccessMessage>
+public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSuccessMessage>, IRecipient<SearchTermChangedMessage>
 {
     private readonly IResultProcessor _resultProcessor;
     private readonly ICommandService _commandService;
@@ -60,6 +60,16 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
 
     #endregion
 
+    #region property SearchTerm
+    [ObservableProperty]
+    private string? _searchTerm;
+    #endregion
+
+    #region property IsFindEnabled
+    [ObservableProperty]
+    private bool _isFindEnabled = App.Current.Settings.ShowSearchPanelOnStartup;
+    #endregion
+
     #region property ListViewName
 
     /// <summary>
@@ -85,16 +95,6 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
 
     [ObservableProperty]
     private DataTemplate _commandItemDataTemplate;
-    #endregion
-
-    #region property SearchTerm
-    [ObservableProperty]
-    private string? _searchTerm;
-    #endregion
-
-    #region property IsFindEnabled
-    [ObservableProperty]
-    private bool _isFindEnabled = App.Current.Settings.ShowSearchPanelOnStartup;
     #endregion
 
     #region property CommandItems
@@ -127,7 +127,10 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
 
     #region command ToggleSearchBarVisibilityCommand
     [RelayCommand]
-    private void ToggleSearchBarVisibility() => IsFindEnabled = !IsFindEnabled;
+    private void ToggleSearchBarVisibility()
+    {
+        IsFindEnabled = !IsFindEnabled;
+    }
 
     #endregion
 
@@ -224,8 +227,6 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
 
     #region Privates
 
-    partial void OnSearchTermChanged(string? _) => LoadData();
-
     private void LoadData()
     {
         if (!IsAuthenticated)
@@ -255,10 +256,21 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
         _commandExecutor.CommandPrepareStart += (_, _) => { IsBusy = true; };
         _commandExecutor.CommandPreparationFailed += (_, _) => { IsBusy = false; };
 
-        WeakReferenceMessenger.Default.Register(this);
+        WeakReferenceMessenger.Default.RegisterAll(this);
     }
 
     #endregion
 
     #endregion
+
+    partial void OnIsFindEnabledChanged(bool value)
+    {
+        WeakReferenceMessenger.Default.Send(new ToggleFindVisibilityMessage());
+    }
+
+    public void Receive(SearchTermChangedMessage message)
+    {
+        SearchTerm = message.SearchTerm;
+        LoadData();
+    }
 }

@@ -3,6 +3,7 @@ using Calabonga.Commandex.Engine.Dialogs;
 using Calabonga.Commandex.Engine.Extensions;
 using Calabonga.Commandex.Engine.Processors.Extensions;
 using Calabonga.Commandex.Engine.Settings;
+using Calabonga.Commandex.Engine.ViewModelLocator;
 using Calabonga.Commandex.Shell.Extensions;
 using Calabonga.Commandex.Shell.Services;
 using Calabonga.Commandex.Shell.ViewModels;
@@ -35,6 +36,7 @@ internal static class DependencyContainer
         // views and models for views
         services.AddTransient<ShellWindow>();
         services.AddTransient<ShellWindowViewModel>();
+        services.AddTransient<SearchModuleViewModel>();
         services.AddTransient<LoginControlViewModel>();
 
         services.AddTransient<AboutDialog>();
@@ -44,16 +46,16 @@ internal static class DependencyContainer
         services.AddTransient<DefaultDialogView>();
 
         // engine
-        services.AddTransient<CommandExecutor>();
-        services.AddTransient<ArtifactService>();
-        services.AddTransient<FileService>();
-        services.AddTransient<NugetLoader>();
+        services.AddScoped<CommandExecutor>();
+        services.AddScoped<ArtifactService>();
+        services.AddScoped<FileService>();
+        services.AddScoped<NugetLoader>();
         services.AddScoped<IConfigurationFinder, ConfigurationFinder>();
         services.AddSingleton<ISettingsReaderConfiguration, DefaultSettingsReaderConfiguration>();
-        services.AddTransient<IVersionService, VersionService>();
-        services.AddTransient<IGroupBuilder, DefaultGroupBuilder>();
-        services.AddTransient<ICommandService, CommandService>();
-        services.AddTransient<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IVersionService, VersionService>();
+        services.AddScoped<IGroupBuilder, DefaultGroupBuilder>();
+        services.AddScoped<ICommandService, CommandService>();
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddHttpClient(nameof(IAuthenticationService));
 
         // processor: to select default uncomment line below (nuget: Calabonga.Commandex.Engine) 
@@ -72,6 +74,8 @@ internal static class DependencyContainer
         // definitions
         services.AddModulesDefinitions();
 
-        return services.BuildServiceProvider();
+        var buildServiceProvider = services.BuildServiceProvider();
+        ViewModelLocationProvider.SetDefaultViewModelFactory(type => buildServiceProvider.GetRequiredService(type));
+        return buildServiceProvider;
     }
 }
