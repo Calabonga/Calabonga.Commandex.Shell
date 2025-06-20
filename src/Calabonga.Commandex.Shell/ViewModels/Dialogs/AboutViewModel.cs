@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace Calabonga.Commandex.Shell.ViewModels.Dialogs;
 
-public sealed partial class AboutViewModel : DefaultViewModel
+public sealed partial class AboutViewModel : DefaultDialogResult
 {
     private readonly IDialogService _dialogService;
     private readonly ILogger<AboutViewModel> _logger;
