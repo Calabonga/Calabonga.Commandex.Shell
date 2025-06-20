@@ -9,6 +9,7 @@
         xmlns:local="clr-namespace:Calabonga.Commandex.Shell.CustomControls"
         xmlns:models="clr-namespace:Calabonga.Commandex.Shell.Models"
         xmlns:userControls="clr-namespace:Calabonga.Commandex.Shell.Views.UserControls"
+        xmlns:views="clr-namespace:Calabonga.Commandex.Shell.Views"
         d:DataContext="{d:DesignInstance Type=viewModels:ShellWindowViewModel}"
         WindowStartupLocation="CenterScreen"
         Width="1024"
@@ -130,14 +131,15 @@
                       Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
             <Border DockPanel.Dock="Top">
-                <Grid Margin="4" Visibility="{Binding IsFindEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <views:SearchModuleView />
+                <!--<Grid Margin="4" Visibility="{Binding IsFindEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" Text="Find" Margin="0,0,4,0"/>
                     <TextBox Grid.Column="1" Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"/>
-                </Grid>
+                </Grid>-->
             </Border>
 
             <TreeView ItemTemplate="{Binding CommandItemDataTemplate}"
