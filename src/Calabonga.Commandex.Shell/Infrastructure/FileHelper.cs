@@ -38,7 +38,7 @@ internal static class FileHelper
         var file = typeof(T).Name.PascalToKebabCase() + ".prm";
         if (!Path.Exists(folderPath))
         {
-            return;
+            Directory.CreateDirectory(folderPath);
         }
         var path = Path.Combine(folderPath, file);
         var data = JsonSerializer.SerializeToUtf8Bytes(parameter);
