@@ -27,6 +27,18 @@ It's a complex solution with a few repositories:
 
 ## History of changes
 
+### v2.5.0 2025-06-29
+
+* Nuget-packages dependencies updates installed
+* All commands updated to 2.5.0 engine use
+* `IVersionService` removed. Version now taken from `Assembly`
+* Menu `About` some helpful links added.
+
+### v2.0.0 2025-06-20
+
+* ` viewModelLocator:ViewModelLocator.AutoBindingViewModel="True"` for some views implemented.
+* Nuget-packages dependencies updates installed
+
 ### v1.10.0 2024-10-12
 
 * New parameter created globally - `SettingsPath`. It appends possibility store commands settings files separately from commands. If it not set then command settings env-files will store in the commands folder.
