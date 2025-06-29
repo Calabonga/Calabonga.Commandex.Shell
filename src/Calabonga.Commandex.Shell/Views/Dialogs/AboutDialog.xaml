@@ -41,19 +41,13 @@
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Row="0" Margin="2" Grid.Column="0" Style="{StaticResource SubHeader}" TextAlignment="Right" Text="Version:"/>
-                    <TextBlock Grid.Row="1" Margin="2" Grid.Column="0" Style="{StaticResource SubHeader}" TextAlignment="Right" Text="Branch:"/>
-                    <TextBlock Grid.Row="2" Margin="2" Grid.Column="0" Style="{StaticResource SubHeader}" TextAlignment="Right" Text="Commit:"/>
                     <TextBlock Grid.Row="0" Margin="2" Grid.Column="1" Style="{StaticResource SubHeader}" TextAlignment="Left" FontWeight="Light" Text="{Binding Version}"/>
-                    <TextBlock Grid.Row="1" Margin="2" Grid.Column="1" Style="{StaticResource SubHeader}" TextAlignment="Left" FontWeight="Light" Text="{Binding Branch}"/>
-                    <TextBlock Grid.Row="2" Margin="2" Grid.Column="1" Style="{StaticResource SubHeader}" TextAlignment="Left" FontWeight="Light" Text="{Binding Commit}"/>
                 </Grid>
                 <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="20,20,20,20"
                        TextAlignment="Center" Style="{StaticResource SubHeader}" FontWeight="Thin"

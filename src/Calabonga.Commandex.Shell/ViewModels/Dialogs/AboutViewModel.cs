@@ -5,6 +5,7 @@ using Calabonga.Commandex.Shell.Models;
 using Calabonga.Commandex.Shell.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Reflection;
 using System.Windows;
 
 namespace Calabonga.Commandex.Shell.ViewModels.Dialogs;
@@ -12,7 +13,6 @@ namespace Calabonga.Commandex.Shell.ViewModels.Dialogs;
 public sealed partial class AboutViewModel : DefaultDialogResult
 {
     private readonly IDialogService _dialogService;
-    private readonly IVersionService _versionService;
     private readonly ArtifactService _artifactService;
     private readonly FileService _fileService;
     private readonly CurrentAppSettings _currentAppSettings;
@@ -20,12 +20,10 @@ public sealed partial class AboutViewModel : DefaultDialogResult
     public AboutViewModel(
         IAppSettings appSettings,
         IDialogService dialogService,
-        IVersionService versionService,
         ArtifactService artifactService,
         FileService fileService)
     {
         _dialogService = dialogService;
-        _versionService = versionService;
         _artifactService = artifactService;
         _fileService = fileService;
         Title = "About Commandex";
@@ -38,12 +36,6 @@ public sealed partial class AboutViewModel : DefaultDialogResult
 
     [ObservableProperty]
     private string _version;
-
-    [ObservableProperty]
-    private string _branch;
-
-    [ObservableProperty]
-    private string _commit;
 
     [ObservableProperty]
     private string _artifactsSize = "0.0 KB";
@@ -72,9 +64,7 @@ public sealed partial class AboutViewModel : DefaultDialogResult
         CommandsFolder = _currentAppSettings.CommandsPath;
         SettingsFolder = _currentAppSettings.SettingsPath;
         ShowSearchPanelOnStartup = _currentAppSettings.ShowSearchPanelOnStartup ? "Yes" : "No";
-        Version = _versionService.Version;
-        Branch = _versionService.Branch;
-        Commit = _versionService.Commit;
+        Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0";
     }
 
     #region command ClearArtifacts

@@ -70,7 +70,7 @@
             <VisualStateGroup x:Name="VisualStateGroup">
                 <VisualState x:Name="Authenticated">
                     <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoginControl1" Storyboard.TargetProperty="(UIElement.Visibility)">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoginControl" Storyboard.TargetProperty="(UIElement.Visibility)">
                             <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Collapsed}"/>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
@@ -122,8 +122,15 @@
                     <MenuItem Header="Show search bar" IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" IsCheckable="True" InputGestureText="Ctrl+F"  />
                 </MenuItem>
                 <MenuItem Header="About">
-                    <MenuItem Header="About" Command="{Binding ShowAboutCommand}"/>
+                    <MenuItem Header="Open Developer Blog" Command="{Binding OpenSiteCommand}" CommandParameter="blog"/>
+                    <MenuItem Header="Open Engine repository" Command="{Binding OpenSiteCommand}" CommandParameter="repo_engine"/>
+                    <MenuItem Header="Open Commands repository" Command="{Binding OpenSiteCommand}" CommandParameter="repo_commands"/>
+                    <MenuItem Header="Open Shell repository" Command="{Binding OpenSiteCommand}" CommandParameter="repo_devshell"/>
+                    <MenuItem Header="Open Shell for Developer repository" Command="{Binding OpenSiteCommand}" CommandParameter="repo_shell"/>
+                    <Separator/>
                     <MenuItem Header="Open Logs" Command="{Binding OpenLogsFolderCommand}" InputGestureText="Ctrl+Shift+L"/>
+                    <Separator/>
+                    <MenuItem Header="About" Command="{Binding ShowAboutCommand}"/>
                 </MenuItem>
             </Menu>
 
@@ -132,14 +139,6 @@
 
             <Border DockPanel.Dock="Top">
                 <views:SearchModuleView />
-                <!--<Grid Margin="4" Visibility="{Binding IsFindEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Find" Margin="0,0,4,0"/>
-                    <TextBox Grid.Column="1" Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"/>
-                </Grid>-->
             </Border>
 
             <TreeView ItemTemplate="{Binding CommandItemDataTemplate}"
@@ -161,7 +160,7 @@
 
         </DockPanel>
 
-        <userControls:LoginControl x:Name="LoginControl1" />
+        <userControls:LoginControl x:Name="LoginControl" />
 
     </Grid>
 

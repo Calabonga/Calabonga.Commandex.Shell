@@ -1,6 +1,7 @@
 ﻿using Calabonga.Commandex.Engine.Base;
 using Calabonga.Commandex.Engine.Dialogs;
 using Calabonga.Commandex.Engine.Settings;
+using Calabonga.Commandex.Engine.ToastNotifications;
 using Calabonga.Commandex.Shell.Engine;
 using Calabonga.Commandex.Shell.Infrastructure.Messaging;
 using Calabonga.Commandex.Shell.Models;
@@ -19,6 +20,7 @@ namespace Calabonga.Commandex.Shell.ViewModels;
 
 public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSuccessMessage>, IRecipient<SearchTermChangedMessage>
 {
+    private readonly INotificationManager _notificationManager;
     private readonly IResultProcessor _resultProcessor;
     private readonly ICommandService _commandService;
     private readonly CommandExecutor _commandExecutor;
@@ -27,6 +29,7 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
     private readonly IDialogService _dialogService;
 
     public ShellWindowViewModel(
+        INotificationManager notificationManager,
         IResultProcessor resultProcessor,
         ICommandService commandService,
         IAppSettings appSettings,
@@ -36,6 +39,7 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
         IDialogService dialogService)
     {
         Title = "Command Executor";
+        _notificationManager = notificationManager;
         _resultProcessor = resultProcessor;
         _commandService = commandService;
         _commandExecutor = commandExecutor;
@@ -160,7 +164,10 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
 
     #region command OpenCommandConfigurationCommand
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
-    private void OpenCommandConfiguration() => _configurationFinder.OpenOrCreateCommandConfigurationFile(SelectedCommand!.Scope);
+    private void OpenCommandConfiguration()
+    {
+        _configurationFinder.OpenOrCreateCommandConfigurationFile(SelectedCommand!.Scope);
+    }
 
     #endregion
 
@@ -211,9 +218,19 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
     }
     #endregion
 
+    #region command OpenSiteCommand
+
+    [RelayCommand]
+    private void OpenSite(string linkName)
+    {
+        OpenWebLink(linkName);
+    }
+
     #endregion
 
-    #region Subscriptions
+    #endregion
+
+    #region handlers
 
     public void Receive(LoginSuccessMessage message)
     {
@@ -223,9 +240,25 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
         OnPropertyChanged(nameof(Title));
         LoadData();
     }
+
+    public void Receive(SearchTermChangedMessage message)
+    {
+        SearchTerm = message.SearchTerm;
+        LoadData();
+    }
+
     #endregion
 
-    #region Privates
+    #region partials
+
+    partial void OnIsFindEnabledChanged(bool value)
+    {
+        WeakReferenceMessenger.Default.Send(new ToggleFindVisibilityMessage());
+    }
+
+    #endregion
+
+    #region privates
 
     private void LoadData()
     {
@@ -259,18 +292,22 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
         WeakReferenceMessenger.Default.RegisterAll(this);
     }
 
+    private void OpenWebLink(string link)
+    {
+        var linkUrl = link switch
+        {
+            "repo_engine" => "https://github.com/Calabonga/Calabonga.Commandex.Engine",
+            "repo_commands" => "https://github.com/Calabonga/Calabonga.Commandex.Commands",
+            "repo_devshell" => "https://github.com/Calabonga/Calabonga.Commandex.Shell.Develop.Template",
+            "repo_shell" => "https://github.com/Calabonga/Calabonga.Commandex.Shell",
+            _ or "blog" => "https://www.calabonga.net"
+        };
+
+        var processStartInfo = new ProcessStartInfo(linkUrl) { UseShellExecute = true, Verb = "open" };
+        Process.Start(processStartInfo);
+    }
+
     #endregion
 
     #endregion
-
-    partial void OnIsFindEnabledChanged(bool value)
-    {
-        WeakReferenceMessenger.Default.Send(new ToggleFindVisibilityMessage());
-    }
-
-    public void Receive(SearchTermChangedMessage message)
-    {
-        SearchTerm = message.SearchTerm;
-        LoadData();
-    }
 }
