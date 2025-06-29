@@ -3,6 +3,7 @@ using Calabonga.Commandex.Engine.Dialogs;
 using Calabonga.Commandex.Engine.Extensions;
 using Calabonga.Commandex.Engine.Processors.Extensions;
 using Calabonga.Commandex.Engine.Settings;
+using Calabonga.Commandex.Engine.ToastNotifications;
 using Calabonga.Commandex.Engine.ViewModelLocator;
 using Calabonga.Commandex.Shell.Extensions;
 using Calabonga.Commandex.Shell.Services;
@@ -45,6 +46,9 @@ internal static class DependencyContainer
         // defaults views for notifications
         services.AddTransient<DefaultDialogView>();
 
+        // toasts notifications
+        services.AddScoped<INotificationManager, NotificationManager>();
+
         // engine
         services.AddScoped<CommandExecutor>();
         services.AddScoped<ArtifactService>();
@@ -52,7 +56,6 @@ internal static class DependencyContainer
         services.AddScoped<NugetLoader>();
         services.AddScoped<IConfigurationFinder, ConfigurationFinder>();
         services.AddSingleton<ISettingsReaderConfiguration, DefaultSettingsReaderConfiguration>();
-        services.AddScoped<IVersionService, VersionService>();
         services.AddScoped<IGroupBuilder, DefaultGroupBuilder>();
         services.AddScoped<ICommandService, CommandService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
