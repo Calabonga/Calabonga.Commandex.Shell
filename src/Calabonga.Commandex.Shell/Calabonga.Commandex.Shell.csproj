@@ -7,7 +7,6 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
 		<ApplicationIcon>favicon.ico</ApplicationIcon>
-		<Version>2.5.0</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -20,7 +19,7 @@
 
 	<ItemGroup>
 
-		<PackageReference Include="Calabonga.Commandex.Engine.Processors" Version="2.5.0" />
+		<PackageReference Include="Calabonga.Commandex.Engine.Processors" Version="2.6.0" />
 
 		<PackageReference Include="Calabonga.PredicatesBuilder" Version="2.0.1" />
 		<PackageReference Include="DotNetEnv" Version="3.1.1" />

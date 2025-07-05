@@ -1,7 +1,6 @@
 ﻿using Calabonga.Commandex.Engine.Base;
 using Calabonga.Commandex.Engine.Dialogs;
 using Calabonga.Commandex.Engine.Settings;
-using Calabonga.Commandex.Engine.ToastNotifications;
 using Calabonga.Commandex.Shell.Engine;
 using Calabonga.Commandex.Shell.Infrastructure.Messaging;
 using Calabonga.Commandex.Shell.Models;
@@ -20,7 +19,6 @@ namespace Calabonga.Commandex.Shell.ViewModels;
 
 public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSuccessMessage>, IRecipient<SearchTermChangedMessage>
 {
-    private readonly INotificationManager _notificationManager;
     private readonly IResultProcessor _resultProcessor;
     private readonly ICommandService _commandService;
     private readonly CommandExecutor _commandExecutor;
@@ -29,7 +27,6 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
     private readonly IDialogService _dialogService;
 
     public ShellWindowViewModel(
-        INotificationManager notificationManager,
         IResultProcessor resultProcessor,
         ICommandService commandService,
         IAppSettings appSettings,
@@ -39,7 +36,6 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
         IDialogService dialogService)
     {
         Title = "Command Executor";
-        _notificationManager = notificationManager;
         _resultProcessor = resultProcessor;
         _commandService = commandService;
         _commandExecutor = commandExecutor;
@@ -163,6 +159,7 @@ public partial class ShellWindowViewModel : ViewModelBase, IRecipient<LoginSucce
     #endregion
 
     #region command OpenCommandConfigurationCommand
+
     [RelayCommand(CanExecute = nameof(CanExecuteAction))]
     private void OpenCommandConfiguration()
     {

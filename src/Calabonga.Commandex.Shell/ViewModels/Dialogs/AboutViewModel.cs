@@ -5,7 +5,6 @@ using Calabonga.Commandex.Shell.Models;
 using Calabonga.Commandex.Shell.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Reflection;
 using System.Windows;
 
 namespace Calabonga.Commandex.Shell.ViewModels.Dialogs;
@@ -32,6 +31,8 @@ public sealed partial class AboutViewModel : DefaultDialogResult
         LoadData();
     }
 
+    #region properties
+
     public override WindowStyle WindowStyle => WindowStyle.None;
 
     [ObservableProperty]
@@ -52,22 +53,20 @@ public sealed partial class AboutViewModel : DefaultDialogResult
     [ObservableProperty]
     private string _showSearchPanelOnStartup;
 
-    [RelayCommand]
-    private void CloseDialog() => ((Window)Owner!).Close();
+    #endregion
+
+    #region commands
+
+    #region command CloseDialogCommand
 
     [RelayCommand]
-    private void LoadData()
+    private void CloseDialog()
     {
-        var total = ((float)_fileService.GetArtifactsSize() / 1024).ToString("F");
-        ArtifactsSize = $"{total} KB";
-        ArtifactsFolder = _currentAppSettings.ArtifactsFolderName;
-        CommandsFolder = _currentAppSettings.CommandsPath;
-        SettingsFolder = _currentAppSettings.SettingsPath;
-        ShowSearchPanelOnStartup = _currentAppSettings.ShowSearchPanelOnStartup ? "Yes" : "No";
-        Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "0.0.0";
+        ((Window)Owner!).Close();
     }
+    #endregion
 
-    #region command ClearArtifacts
+    #region command ClearArtifactsCommand
 
     private bool CanClearArtifacts => !string.IsNullOrEmpty(ArtifactsFolder);
     [RelayCommand(CanExecute = nameof(CanClearArtifacts))]
@@ -84,6 +83,41 @@ public sealed partial class AboutViewModel : DefaultDialogResult
         }
 
         IsBusy = false;
+    }
+
+    #endregion
+
+    #endregion
+
+    #region privates
+
+    private void LoadData()
+    {
+        var total = ((float)_fileService.GetArtifactsSize() / 1024).ToString("F");
+        ArtifactsSize = $"{total} KB";
+        ArtifactsFolder = _currentAppSettings.ArtifactsFolderName;
+        CommandsFolder = _currentAppSettings.CommandsPath;
+        SettingsFolder = _currentAppSettings.SettingsPath;
+        ShowSearchPanelOnStartup = _currentAppSettings.ShowSearchPanelOnStartup ? "Yes" : "No";
+        Version = GetEngineVersion();
+    }
+
+    /// <summary>
+    /// Extracts Engine version
+    /// </summary>
+    /// <returns></returns>
+    private string GetEngineVersion()
+    {
+        var dll = AppDomain.CurrentDomain
+            .GetAssemblies()
+            .FirstOrDefault(x => x.GetName().Name?.Contains("Calabonga.Commandex.Engine") == true);
+
+        if (dll is not null)
+        {
+            return dll.GetName().Version?.ToString() ?? "0.0.0.0";
+        }
+
+        return "0.0.0.0";
     }
 
     #endregion
