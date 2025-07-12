@@ -1,9 +1,13 @@
 ﻿using Calabonga.Commandex.Engine.Base;
 using Calabonga.Commandex.Engine.Exceptions;
+using Calabonga.Commandex.Engine.Extensions;
+using Calabonga.Commandex.Engine.ToastNotifications;
+using Calabonga.Commandex.Engine.ToastNotifications.Controls;
 using Calabonga.Commandex.Shell.Models;
 using Calabonga.Commandex.Shell.Services;
 using Calabonga.OperationResults;
 using Serilog;
+using System.Text.Json;
 
 namespace Calabonga.Commandex.Shell.Engine;
 
@@ -12,13 +16,16 @@ namespace Calabonga.Commandex.Shell.Engine;
 /// </summary>
 public sealed class CommandExecutor
 {
+    private readonly INotificationManager _notificationManager;
     private readonly IEnumerable<ICommandexCommand> _commands;
     private readonly ArtifactService _artifactService;
 
     public CommandExecutor(
+        INotificationManager notificationManager,
         IEnumerable<ICommandexCommand> commands,
         ArtifactService artifactService)
     {
+        _notificationManager = notificationManager;
         _commands = commands;
         _artifactService = artifactService;
     }
@@ -69,6 +76,17 @@ public sealed class CommandExecutor
 
         var operation = await command.ExecuteCommandAsync();
 
+        var result = command.GetResult();
+        if (result is null)
+        {
+            _notificationManager.Show(NotificationManager.CreateSuccessToast("Command executed but Result is NULL"), nameof(NotificationZone));
+        }
+        else
+        {
+            var data = JsonSerializer.Serialize(result, JsonSerializerOptionsExt.Cyrillic);
+            _notificationManager.Show(NotificationManager.CreateSuccessToast($"Command executed and the Result is {data}"), nameof(NotificationZone));
+        }
+
         command.Dispose();
 
         return operation.Ok
@@ -76,9 +94,18 @@ public sealed class CommandExecutor
             : Operation.Error(new ExecuteCommandexCommandException(operation.Error.Message, operation.Error));
     }
 
-    private void OnCommandPrepared() => CommandPreparedSuccess?.Invoke(this, EventArgs.Empty);
+    private void OnCommandPrepared()
+    {
+        CommandPreparedSuccess?.Invoke(this, EventArgs.Empty);
+    }
 
-    private void OnCommandPreparing() => CommandPrepareStart?.Invoke(this, EventArgs.Empty);
+    private void OnCommandPreparing()
+    {
+        CommandPrepareStart?.Invoke(this, EventArgs.Empty);
+    }
 
-    private void OnCommandPreparationFailed() => CommandPreparationFailed?.Invoke(this, EventArgs.Empty);
+    private void OnCommandPreparationFailed()
+    {
+        CommandPreparationFailed?.Invoke(this, EventArgs.Empty);
+    }
 }

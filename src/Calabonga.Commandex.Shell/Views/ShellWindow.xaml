@@ -10,6 +10,7 @@
         xmlns:models="clr-namespace:Calabonga.Commandex.Shell.Models"
         xmlns:userControls="clr-namespace:Calabonga.Commandex.Shell.Views.UserControls"
         xmlns:views="clr-namespace:Calabonga.Commandex.Shell.Views"
+        xmlns:controls="clr-namespace:Calabonga.Commandex.Engine.ToastNotifications.Controls;assembly=Calabonga.Commandex.Engine"
         d:DataContext="{d:DesignInstance Type=viewModels:ShellWindowViewModel}"
         WindowStartupLocation="CenterScreen"
         Width="1024"
@@ -161,6 +162,8 @@
         </DockPanel>
 
         <userControls:LoginControl x:Name="LoginControl" />
+
+        <controls:NotificationZone x:Name="NotificationZone" Position="BottomLeft" ItemsCountMax="4" />
 
     </Grid>
 

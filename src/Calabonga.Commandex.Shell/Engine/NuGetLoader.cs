@@ -67,12 +67,14 @@ public sealed class NugetLoader
     /// <returns></returns>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     private SourceRepository GetRepository(NuGetSourceType isRemote, string artifactsFolderPath)
-        => isRemote switch
+    {
+        return isRemote switch
         {
             NuGetSourceType.Local => Repository.Factory.GetCoreV3(new PackageSource(artifactsFolderPath, "AppDefinitionsRepository", true, false, false)),
             NuGetSourceType.Remote => Repository.Factory.GetCoreV3("https://api.nuget.org/v3/index.json"),
             _ => throw new ArgumentOutOfRangeException(nameof(isRemote), isRemote, null)
         };
+    }
 
     /// <summary>
     /// Loads from nuget package local storage (artifacts)

@@ -25,7 +25,10 @@ public class ConfigurationFinder : IConfigurationFinder
     private readonly IAppSettings _shellSettings;
     private const string _configurationFileDefaultExtension = ".env";
 
-    public ConfigurationFinder(IAppSettings shellSettings) => _shellSettings = shellSettings;
+    public ConfigurationFinder(IAppSettings shellSettings)
+    {
+        _shellSettings = shellSettings;
+    }
 
     /// <summary>
     /// Opens or Creates a command configuration file.
