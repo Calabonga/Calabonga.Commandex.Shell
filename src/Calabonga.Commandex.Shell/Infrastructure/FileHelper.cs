@@ -18,15 +18,23 @@ internal static class FileHelper
     /// <returns></returns>
     internal static T? GetData<T>(string folderPath) where T : class
     {
-        var file = typeof(T).Name.PascalToKebabCase() + ".prm";
-        var path = Path.Combine(folderPath, file);
-        if (!File.Exists(path))
+        try
         {
-            return default;
+
+            var file = typeof(T).Name.PascalToKebabCase() + ".prm";
+            var path = Path.Combine(folderPath, file);
+            if (!File.Exists(path))
+            {
+                return null;
+            }
+            var parameter = File.ReadAllText(path);
+            var fromBase64String = Convert.FromBase64String(parameter);
+            return JsonSerializer.Deserialize<T>(fromBase64String);
         }
-        var parameter = File.ReadAllText(path);
-        var fromBase64String = Convert.FromBase64String(parameter);
-        return JsonSerializer.Deserialize<T>(fromBase64String);
+        catch (Exception exception)
+        {
+            throw;
+        }
     }
     /// <summary>
     /// Saves data to storage

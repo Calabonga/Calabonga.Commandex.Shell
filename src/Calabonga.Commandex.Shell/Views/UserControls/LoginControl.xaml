@@ -39,14 +39,14 @@
            Width="150" Height="150"
            Margin="0,0,0,30"/>
 
-            <TextBlock Grid.Row="3" Text="Login"/>
+            <TextBlock Grid.Row="3" Text="Login (bob)"/>
 
             <TextBox Grid.Row="4"
              Text="{Binding Username, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
              VerticalAlignment="Top"
              HorizontalAlignment="Stretch"/>
 
-            <TextBlock Grid.Row="5" Text="Password" />
+            <TextBlock Grid.Row="5" Text="Password (bob)" />
 
             <components:BindablePasswordBox Grid.Row="6" 
                                     Password="{Binding Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" VerticalAlignment="Top"/>

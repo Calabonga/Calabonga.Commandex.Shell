@@ -9,9 +9,9 @@
                         d:DataContext="{d:DesignInstance dialogs:AboutViewModel}"
                         MinHeight="300" Width="700"
                         x:Name="Dialog">
-    
+
     <Border Style="{StaticResource FancyBorder}" Background="#f5f5f5">
-    
+
         <Border.Resources>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         </Border.Resources>
@@ -33,7 +33,7 @@
                 </Grid.RowDefinitions>
                 <Image Source="/logo.png" Stretch="Fill" Grid.Row="1" Margin="109,32,109,0" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2" Width="100" Height="100"/>
                 <TextBlock Text="NET9.0" Grid.Row="0" Grid.Column="0" Foreground="Gray" FontSize="10"/>
-                <Button Grid.Row="0" Grid.Column="2" Content="x" MinHeight="20" MinWidth="20" Command="{Binding CloseDialogCommand}"/>
+                <Button Grid.Row="0" Grid.Column="2" Content="x" MinHeight="20" MinWidth="20" Command="{Binding Path=CloseDialogCommand}"/>
                 <TextBlock Grid.Row="1" Grid.Column="0"
                        TextAlignment="Center"
                        Text="Commandex" Style="{StaticResource HugeHeader}" VerticalAlignment="Top" Grid.ColumnSpan="2" HorizontalAlignment="Center"/>
@@ -46,8 +46,14 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0" Margin="2" Grid.Column="0" Style="{StaticResource SubHeader}" TextAlignment="Right" Text="Engine Version:"/>
-                    <TextBlock Grid.Row="0" Margin="2" Grid.Column="1" Style="{StaticResource SubHeader}" TextAlignment="Left" FontWeight="Light" Text="{Binding Path=Version}"/>
+                    <TextBlock Grid.Row="0" Margin="2" Grid.Column="0" Style="{StaticResource SubHeader}" TextAlignment="Right" Text="Engine:"/>
+                    <TextBlock Grid.Row="0" Margin="2" Grid.Column="1" Style="{StaticResource SubHeader}"
+                               TextAlignment="Left" FontWeight="Light" Text="{Binding Path=Version}" />
+
+                    <TextBlock Grid.Row="1" Margin="2" Grid.Column="0" Style="{StaticResource SubHeader}" TextAlignment="Right" Text="SHA:"/>
+                    <TextBlock Grid.Row="1" Margin="2" Grid.Column="1"
+                               VerticalAlignment="Center" Style="{StaticResource SubHeader}"
+                               TextAlignment="Left" FontWeight="Light" Text="{Binding Path=Sha}" />
                 </Grid>
                 <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="20,20,20,20"
                        TextAlignment="Center" Style="{StaticResource SubHeader}" FontWeight="Thin"
@@ -69,7 +75,7 @@
                         <TextBlock Grid.Row="0" Margin="2" Grid.Column="0" TextAlignment="Right" Text="Artifacts folder size:">
                             <b:Interaction.Triggers>
                                 <b:EventTrigger EventName="MouseLeftButtonUp">
-                                    <b:InvokeCommandAction Command="{Binding ClearArtifactsCommand, Mode=OneWay}"/>
+                                    <b:InvokeCommandAction Command="{Binding Path=ClearArtifactsCommand, Mode=OneWay}"/>
                                 </b:EventTrigger>
                             </b:Interaction.Triggers>
                         </TextBlock>
@@ -77,15 +83,15 @@
                         <TextBlock Grid.Row="2" Margin="2" Grid.Column="0" TextAlignment="Right" Text="Command folder path:"/>
                         <TextBlock Grid.Row="3" Margin="2" Grid.Column="0" TextAlignment="Right" Text="Settings folder path:"/>
                         <TextBlock Grid.Row="4" Margin="2" Grid.Column="0" TextAlignment="Right" Text="Show search panel on startup:"/>
-                        <TextBlock Grid.Row="0" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding ArtifactsSize}" />
-                        <TextBlock Grid.Row="1" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding ArtifactsFolder}"/>
-                        <TextBlock Grid.Row="2" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding CommandsFolder}" TextWrapping="Wrap"/>
-                        <TextBlock Grid.Row="3" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding SettingsFolder}" TextWrapping="Wrap"/>
-                        <TextBlock Grid.Row="4" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding ShowSearchPanelOnStartup}" />
+                        <TextBlock Grid.Row="0" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding Path=ArtifactsSize}" />
+                        <TextBlock Grid.Row="1" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding Path=ArtifactsFolder}"/>
+                        <TextBlock Grid.Row="2" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding Path=CommandsFolder}" TextWrapping="Wrap"/>
+                        <TextBlock Grid.Row="3" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding Path=SettingsFolder}" TextWrapping="Wrap"/>
+                        <TextBlock Grid.Row="4" Margin="2" Grid.Column="1" FontWeight="Light" Text="{Binding Path=ShowSearchPanelOnStartup}" />
                     </Grid>
                 </ScrollViewer>
                 <ProgressBar Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" IsIndeterminate="True" Height="10"
-                             VerticalAlignment="Bottom" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                             VerticalAlignment="Bottom" Visibility="{Binding Path=IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
         </Border>
     </Border>

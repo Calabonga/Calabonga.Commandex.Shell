@@ -23,6 +23,7 @@ public sealed partial class LoginControlViewModel : ViewModelWithValidatorBase, 
         _authenticationService = authenticationService;
         Title = "Log in";
     }
+
     #region properties
 
     #region property ErrorList
@@ -61,7 +62,8 @@ public sealed partial class LoginControlViewModel : ViewModelWithValidatorBase, 
     /// <summary>
     /// Can login flag
     /// </summary>
-    public bool CanUserLogin => ErrorList is null || !ErrorList.Any();
+    public bool CanUserLogin => (!string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(Username))
+                                && (ErrorList is null || !ErrorList.Any());
     #endregion
 
     #endregion
@@ -86,6 +88,7 @@ public sealed partial class LoginControlViewModel : ViewModelWithValidatorBase, 
     #endregion
 
     #endregion
+
     private void OnErrorsChanged(object? sender, DataErrorsChangedEventArgs e)
     {
         var errors = GetErrors().Select(x => x.ErrorMessage).ToList();
@@ -95,5 +98,8 @@ public sealed partial class LoginControlViewModel : ViewModelWithValidatorBase, 
     /// <summary>
     /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
     /// </summary>
-    public void Dispose() => ErrorsChanged -= OnErrorsChanged;
+    public void Dispose()
+    {
+        ErrorsChanged -= OnErrorsChanged;
+    }
 }
