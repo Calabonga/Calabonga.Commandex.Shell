@@ -42,7 +42,8 @@ public class CommandService : ICommandService
     /// <param name="searchTerm">filter term</param>
     /// <returns></returns>
     public IEnumerable<CommandItem> GetCommands(CommandViewType viewType, string? searchTerm)
-        => viewType switch
+    {
+        return viewType switch
         {
             CommandViewType.DefaultList
                 or CommandViewType.BriefList
@@ -54,4 +55,5 @@ public class CommandService : ICommandService
 
             _ => throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null)
         };
+    }
 }

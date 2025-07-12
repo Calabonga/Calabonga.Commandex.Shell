@@ -3,6 +3,7 @@ using Calabonga.Commandex.Engine.Settings;
 using Calabonga.Commandex.Shell.Engine;
 using Calabonga.Commandex.Shell.Models;
 using Calabonga.Commandex.Shell.Services;
+using Calabonga.Utils.Extensions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows;
@@ -35,8 +36,23 @@ public sealed partial class AboutViewModel : DefaultDialogResult
 
     public override WindowStyle WindowStyle => WindowStyle.None;
 
-    [ObservableProperty]
-    private string _version;
+    #region property Version
+
+    /// <summary>
+    /// Property Version
+    /// </summary>
+    [ObservableProperty] private string _version;
+
+    #endregion
+
+    #region property Sha
+
+    /// <summary>
+    /// Property Sha
+    /// </summary>
+    [ObservableProperty] private string _sha;
+
+    #endregion
 
     [ObservableProperty]
     private string _artifactsSize = "0.0 KB";
@@ -99,25 +115,25 @@ public sealed partial class AboutViewModel : DefaultDialogResult
         CommandsFolder = _currentAppSettings.CommandsPath;
         SettingsFolder = _currentAppSettings.SettingsPath;
         ShowSearchPanelOnStartup = _currentAppSettings.ShowSearchPanelOnStartup ? "Yes" : "No";
-        Version = GetEngineVersion();
+        ExtractEngineVersion();
     }
 
     /// <summary>
     /// Extracts Engine version
     /// </summary>
     /// <returns></returns>
-    private string GetEngineVersion()
+    private void ExtractEngineVersion()
     {
-        var dll = AppDomain.CurrentDomain
-            .GetAssemblies()
-            .FirstOrDefault(x => x.GetName().Name?.Contains("Calabonga.Commandex.Engine") == true);
+        var dll = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.GetName().Name?.Contains("Calabonga.Commandex.Engine") == true);
 
-        if (dll is not null)
+        if (dll is null)
         {
-            return dll.GetName().Version?.ToString() ?? "0.0.0.0";
+            return;
         }
 
-        return "0.0.0.0";
+        var semVer = dll.GetSemanticVersion();
+        Version = $"{semVer?.Major}.{semVer?.Minor}.{semVer?.Patch}";
+        Sha = semVer?.Metadata?[..7] ?? string.Empty;
     }
 
     #endregion

@@ -35,7 +35,6 @@ public static class CommandFinder
             }
 
             var types = new List<Type>();
-
             var modulesDirectory = new DirectoryInfo(commandexFolderPath);
             var files = modulesDirectory.GetFiles("*.dll");
 
@@ -248,11 +247,20 @@ public static class CommandFinder
         return baseType != null && IsAssignableToGenericType(baseType, genericType);
     }
 
-    private static bool AppDefinitionFindPredicate(Type type) => type is { IsAbstract: false, IsInterface: false } && typeof(AppDefinition).IsAssignableFrom(type);
+    private static bool AppDefinitionFindPredicate(Type type)
+    {
+        return type is { IsAbstract: false, IsInterface: false } && typeof(AppDefinition).IsAssignableFrom(type);
+    }
 
-    private static bool NugetDependencyFindPredicate(Type type) => type is { IsAbstract: false, IsInterface: false } && typeof(INugetDependency).IsAssignableFrom(type);
+    private static bool NugetDependencyFindPredicate(Type type)
+    {
+        return type is { IsAbstract: false, IsInterface: false } && typeof(INugetDependency).IsAssignableFrom(type);
+    }
 
-    private static bool CommandexPredicate(Type type) => type is { IsAbstract: false, IsInterface: false } && typeof(ICommandexCommand).IsAssignableFrom(type);
+    private static bool CommandexPredicate(Type type)
+    {
+        return type is { IsAbstract: false, IsInterface: false } && typeof(ICommandexCommand).IsAssignableFrom(type);
+    }
 
     private static string GetNameWithoutGenericArity(this Type t)
     {
@@ -263,7 +271,8 @@ public static class CommandFinder
 
     private static CommandItem CreateGroup(
         CommandGroup group)
-        => new(
+    {
+        return new CommandItem(
             group.Name,
             nameof(CommandGroup),
             $"Groups: {group.SubGroups.Count}, Commands {group.CommandItems.Count}",
@@ -271,4 +280,5 @@ public static class CommandFinder
             group.Description,
             group.Tags.ToArray(),
             group.CommandItems);
+    }
 }
