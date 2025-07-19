@@ -1,6 +1,7 @@
 ﻿using Calabonga.Commandex.Shell.ViewModels.UserControls;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Calabonga.Commandex.Shell.Views.UserControls
 {
@@ -13,6 +14,8 @@ namespace Calabonga.Commandex.Shell.Views.UserControls
         {
             InitializeComponent();
             DataContext = App.Current.Services.GetService<LoginControlViewModel>();
+            Focusable = true;
+            Loaded += (_, _) => Keyboard.Focus(this);
         }
     }
 }

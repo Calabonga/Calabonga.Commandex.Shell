@@ -5,6 +5,7 @@ using Calabonga.Commandex.Engine.Processors.Extensions;
 using Calabonga.Commandex.Engine.Settings;
 using Calabonga.Commandex.Engine.ToastNotifications;
 using Calabonga.Commandex.Engine.ViewModelLocator;
+using Calabonga.Commandex.Engine.Zones;
 using Calabonga.Commandex.Shell.Extensions;
 using Calabonga.Commandex.Shell.Services;
 using Calabonga.Commandex.Shell.ViewModels;
@@ -60,6 +61,13 @@ internal static class DependencyContainer
         services.AddScoped<ICommandService, CommandService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddHttpClient(nameof(IAuthenticationService));
+
+        // Zones
+        services.AddZones();
+
+        // Auto wired ViewModels
+        services.AddScoped<CommandListView>();
+        services.AddScoped<CommandListViewModel>();
 
         // processor: to select default uncomment line below (nuget: Calabonga.Commandex.Engine) 
         // services.AddResultProcessor<DefaultResultProcessor>();

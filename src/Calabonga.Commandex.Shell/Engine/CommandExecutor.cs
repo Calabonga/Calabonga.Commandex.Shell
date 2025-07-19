@@ -1,13 +1,10 @@
 ﻿using Calabonga.Commandex.Engine.Base;
 using Calabonga.Commandex.Engine.Exceptions;
-using Calabonga.Commandex.Engine.Extensions;
 using Calabonga.Commandex.Engine.ToastNotifications;
-using Calabonga.Commandex.Engine.ToastNotifications.Controls;
 using Calabonga.Commandex.Shell.Models;
 using Calabonga.Commandex.Shell.Services;
 using Calabonga.OperationResults;
 using Serilog;
-using System.Text.Json;
 
 namespace Calabonga.Commandex.Shell.Engine;
 
@@ -75,23 +72,14 @@ public sealed class CommandExecutor
         OnCommandPrepared();
 
         var operation = await command.ExecuteCommandAsync();
-
-        var result = command.GetResult();
-        if (result is null)
+        if (operation.Ok)
         {
-            _notificationManager.Show(NotificationManager.CreateSuccessToast("Command executed but Result is NULL"), nameof(NotificationZone));
-        }
-        else
-        {
-            var data = JsonSerializer.Serialize(result, JsonSerializerOptionsExt.Cyrillic);
-            _notificationManager.Show(NotificationManager.CreateSuccessToast($"Command executed and the Result is {data}"), nameof(NotificationZone));
+            command.Dispose();
+            return Operation.Result(command);
         }
 
         command.Dispose();
-
-        return operation.Ok
-            ? Operation.Result(command)
-            : Operation.Error(new ExecuteCommandexCommandException(operation.Error.Message, operation.Error));
+        return Operation.Error(new ExecuteCommandexCommandException(operation.Error.Message, operation.Error));
     }
 
     private void OnCommandPrepared()

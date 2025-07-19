@@ -7,41 +7,23 @@
         mc:Ignorable="d"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:local="clr-namespace:Calabonga.Commandex.Shell.CustomControls"
-        xmlns:models="clr-namespace:Calabonga.Commandex.Shell.Models"
         xmlns:userControls="clr-namespace:Calabonga.Commandex.Shell.Views.UserControls"
-        xmlns:views="clr-namespace:Calabonga.Commandex.Shell.Views"
         xmlns:controls="clr-namespace:Calabonga.Commandex.Engine.ToastNotifications.Controls;assembly=Calabonga.Commandex.Engine"
+        xmlns:zones="clr-namespace:Calabonga.Commandex.Engine.Zones;assembly=Calabonga.Commandex.Engine"
         d:DataContext="{d:DesignInstance Type=viewModels:ShellWindowViewModel}"
         WindowStartupLocation="CenterScreen"
-        Width="1024"
-        Height="768"
-        MinWidth="1024"
-        MinHeight="768"
+        ResizeMode="CanResize"
+        SizeToContent="Manual"
+        Width="1280"
+        Height="720"
+        MinWidth="1280"
+        MinHeight="720"
         Icon="/logo.png" UseLayoutRounding="True">
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:ListViewNameConverter x:Key="ListViewNameConverter" />
     </Window.Resources>
-
-    <Window.InputBindings>
-        <KeyBinding Command="{Binding OpenLogsFolderCommand}" Key="L" Modifiers="Control+Shift"/>
-        <KeyBinding Command="{Binding ToggleSearchBarVisibilityCommand}" Key="F" Modifiers="Control"/>
-        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.DefaultList}" Key="F1" Modifiers="Control"/>
-        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.BriefList}" Key="F2" Modifiers="Control"/>
-        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.ExtendedList}" Key="F3" Modifiers="Control"/>
-        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.DefaultHierarchical}" Key="F4" Modifiers="Control"/>
-        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.BriefHierarchical}" Key="F5" Modifiers="Control"/>
-        <KeyBinding Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.ExtendedHierarchical}" Key="F6" Modifiers="Control"/>
-    </Window.InputBindings>
-
-    <Window.Title>
-        <MultiBinding StringFormat="{} Total commands {0} | {1} {2}">
-            <Binding Path="CommandItems.Count"/>
-            <Binding Path="Title"/>
-            <Binding Path="Username"/>
-        </MultiBinding>
-    </Window.Title>
 
     <Window.Triggers>
         <EventTrigger RoutedEvent="FrameworkElement.Loaded">
@@ -58,6 +40,13 @@
         </EventTrigger>
     </Window.Triggers>
 
+    <Window.Title>
+        <MultiBinding StringFormat="{}Commandex {0} | {1}">
+            <Binding Path="Title"/>
+            <Binding Path="Username"/>
+        </MultiBinding>
+    </Window.Title>
+
     <Grid>
 
         <i:Interaction.Behaviors>
@@ -71,14 +60,14 @@
             <VisualStateGroup x:Name="VisualStateGroup">
                 <VisualState x:Name="Authenticated">
                     <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LoginControl" Storyboard.TargetProperty="(UIElement.Visibility)">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainLoginControl" Storyboard.TargetProperty="(UIElement.Visibility)">
                             <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Collapsed}"/>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>
                 <VisualState x:Name="Anonymous">
                     <Storyboard>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DockPanel1" Storyboard.TargetProperty="(UIElement.Visibility)">
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainCommandListView" Storyboard.TargetProperty="(UIElement.Visibility)">
                             <DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Collapsed}"/>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
@@ -86,84 +75,11 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <DockPanel LastChildFill="True" x:Name="DockPanel1" >
+        <ContentControl x:Name="MainCommandListView" zones:Zones.ZoneName="MainZone"/>
 
-            <Menu DockPanel.Dock="Top" >
-                <MenuItem Header="Command" IsEnabled="{Binding CanExecuteAction}">
-                    <MenuItem Header="Execute" Command="{Binding ExecuteActionCommand}" />
-                    <MenuItem Header="Settings" Command="{Binding OpenCommandConfigurationCommand}" />
-                </MenuItem>
-                <MenuItem Header="View">
-                    <local:RadioMenuItem Header="List Default" 
-                                     GroupName="ViewType" InputGestureText="Ctrl+F1"
-                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter={x:Static models:CommandViewType.DefaultList}, Converter={StaticResource ListViewNameConverter}}"
-                                     Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.DefaultList}"/>
-                    <local:RadioMenuItem Header="List Brief"
-                                     GroupName="ViewType" InputGestureText="Ctrl+F2"
-                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter={x:Static models:CommandViewType.BriefList}, Converter={StaticResource ListViewNameConverter}}"
-                                     Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.BriefList}"/>
-                    <local:RadioMenuItem Header="List Extended"
-                                     GroupName="ViewType" InputGestureText="Ctrl+F3"
-                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter={x:Static models:CommandViewType.ExtendedList}, Converter={StaticResource ListViewNameConverter}}"
-                                     Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.ExtendedList}"/>
-                    <Separator/>
-                    <local:RadioMenuItem Header="Hierarchical Default"
-                                     GroupName="ViewType" InputGestureText="Ctrl+F4"
-                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter={x:Static models:CommandViewType.DefaultHierarchical}, Converter={StaticResource ListViewNameConverter}}"
-                                     Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.DefaultHierarchical}"/>
-                    <local:RadioMenuItem Header="Hierarchical Brief"
-                                     GroupName="ViewType" InputGestureText="Ctrl+F5"
-                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter={x:Static models:CommandViewType.BriefHierarchical}, Converter={StaticResource ListViewNameConverter}}"
-                                     Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.BriefHierarchical}"/>
-                    <local:RadioMenuItem Header="Hierarchical Extended"
-                                     GroupName="ViewType" InputGestureText="Ctrl+F6"
-                                     IsChecked="{Binding ListViewName, Mode=TwoWay, ConverterParameter={x:Static models:CommandViewType.ExtendedHierarchical}, Converter={StaticResource ListViewNameConverter}}"
-                                     Command="{Binding SwitchViewCommand}" CommandParameter="{x:Static models:CommandViewType.ExtendedHierarchical}"/>
-                    <Separator/>
-                    <MenuItem Header="Show search bar" IsChecked="{Binding IsFindEnabled, Mode=TwoWay}" IsCheckable="True" InputGestureText="Ctrl+F"  />
-                </MenuItem>
-                <MenuItem Header="About">
-                    <MenuItem Header="Open Developer Blog" Command="{Binding OpenSiteCommand}" CommandParameter="blog"/>
-                    <MenuItem Header="Open Engine repository" Command="{Binding OpenSiteCommand}" CommandParameter="repo_engine"/>
-                    <MenuItem Header="Open Commands repository" Command="{Binding OpenSiteCommand}" CommandParameter="repo_commands"/>
-                    <MenuItem Header="Open Shell repository" Command="{Binding OpenSiteCommand}" CommandParameter="repo_devshell"/>
-                    <MenuItem Header="Open Shell for Developer repository" Command="{Binding OpenSiteCommand}" CommandParameter="repo_shell"/>
-                    <Separator/>
-                    <MenuItem Header="Open Logs" Command="{Binding OpenLogsFolderCommand}" InputGestureText="Ctrl+Shift+L"/>
-                    <Separator/>
-                    <MenuItem Header="About" Command="{Binding ShowAboutCommand}"/>
-                </MenuItem>
-            </Menu>
+        <userControls:LoginControl x:Name="MainLoginControl" />
 
-            <ProgressBar  IsIndeterminate="True" DockPanel.Dock="Top" Height="4"
-                      Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
-
-            <Border DockPanel.Dock="Top">
-                <views:SearchModuleView />
-            </Border>
-
-            <TreeView ItemTemplate="{Binding CommandItemDataTemplate}"
-                  Margin="4"
-                  HorizontalContentAlignment="Stretch"
-                  ItemContainerStyle="{StaticResource TreeViewItemStyle1}"
-                  ItemsSource="{Binding CommandItems}"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <i:InvokeCommandAction Command="{Binding ExecuteActionCommand}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <i:Interaction.Behaviors>
-                    <local:BindableSelectedItemBehavior SelectedItem="{Binding SelectedCommand, Mode=TwoWay}" />
-                </i:Interaction.Behaviors>
-            </TreeView>
-
-
-        </DockPanel>
-
-        <userControls:LoginControl x:Name="LoginControl" />
-
-        <controls:NotificationZone x:Name="NotificationZone" Position="BottomLeft" ItemsCountMax="4" />
+        <controls:NotificationZone x:Name="NotificationZone" Position="TopRight" ItemsCountMax="4" />
 
     </Grid>
 
