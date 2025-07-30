@@ -28,6 +28,12 @@ It's a complex solution with a few repositories:
 
 ## History of changes
 
+### v3.0.0 2025-07-30
+
+Engine package update brings a new type of the Commandex command - ZoneCommandexCommand<TView, TViewModel>. It's like a dialog but shown in shell (built-in).
+
+**Full Changelog**: https://github.com/Calabonga/Calabonga.Commandex.Shell/compare/2.8.1...3.0.0
+
 ### v2.5.0 2025-06-29
 
 * Nuget-packages dependencies updates installed
